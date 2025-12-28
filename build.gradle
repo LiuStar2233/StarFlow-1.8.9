@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.s hadow' version '8.1.1'
+}
+
+group = 'dev.starflow.client'
+version = '1.8.9'
+
+repositories {
+    maven { url = 'https://libraries.minecraft.net/' }
+    maven { url = 'https://maven.aliyun.com/repository/public/' }
+    maven { url = "https://mvnrepository.com/artifact" }
+    maven { url = 'https://repo.marcloud.net/' }
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.lwjgl.lwjgl:lwjgl:2.9.4-nightly-20150209"
+    implementation "org.lwjgl.lwjgl:lwjgl_util:2.9.4-nightly-20150209"
+    implementation "org.lwjgl.lwjgl:lwjgl-platform:2.9.4-nightly-20150209"
+    implementation "org.lwjgl.lwjgl:lwjgl:2.9.2-nightly-20140822"
+    implementation "org.lwjgl.lwjgl:lwjgl_util:2.9.2-nightly-20140822"
+    implementation "org.lwjgl.lwjgl:lwjgl-platform:2.9.2-nightly-20140822"
+    implementation "com.mojang:netty:1.7.7"
+    implementation "oshi-project:oshi-core:1.1"
+    implementation "net.java.dev.jna:jna:3.4.0"
+    implementation "net.java.dev.jna:jna-platform:3.4.0"
+    implementation "com.ibm.icu:icu4j-core-mojang:51.2"
+    implementation "net.sf.jopt-simple:jopt-simple:4.6"
+    implementation "com.paulscode:codecjorbis:20101023"
+    implementation "com.paulscode:codecwav:20101023"
+    implementation "com.paulscode:libraryjavasound:20101123"
+    implementation "com.paulscode:librarylwjglopenal:20100824"
+    implementation "com.paulscode:soundsystem:20120107"
+    implementation "io.netty:netty-all:4.0.23.Final"
+    implementation "com.google.guava:guava:17.0"
+    implementation "org.apache.commons:commons-lang3:3.3.2"
+    implementation "commons-io:commons-io:2.4"
+    implementation "commons-codec:commons-codec:1.9"
+    implementation "net.java.jinput:jinput:2.0.5"
+    implementation "net.java.jutils:jutils:1.0.0"
+    implementation "com.google.code.gson:gson:2.2.4"
+    implementation "com.mojang:authlib:1.5.21"
+    implementation "com.mojang:realms:1.7.59"
+    implementation "tv.twitch:twitch:6.5"
+    implementation "net.java.jinput:jinput-platform:2.0.5"
+    implementation "tv.twitch:twitch-platform:6.5"
+    implementation "tv.twitch:twitch-external-platform:4.5"
+}
+
+shadowJar {
+    archiveBaseName.set('TEST')
+    mergeServiceFiles()
+    manifest {
+        attributes(
+                'Main-Class': 'net.minecraft.client.main.Main'
+        )
+    }
+}
+
+tasks.register('Run', JavaExec) {
+    group = "application"
+    description = "Run the application"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "Start"
+    workingDir = file("run")
+}
