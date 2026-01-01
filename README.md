@@ -1,199 +1,214 @@
-# StarFlow Client README
-
-- **Version**: v2.3.1
-- **Last Updated**: 2025-12-28
-- **Description**: This document serves as the development guideline.
-- **Author**: LiuStar2233
+# StarFlow Client README  
+**Version**: v1.0.2 Final  
+**Last Updated**: 2026/1/1  
+**Note**: This document serves as a development guide.  
+**Author**: LiuStar2233  
 
 ---
 
 ## 1. Development Plan
 
-### 1.1 Development Tech Stack
+### 1.1 Technology Stack
+We are developing the client using:  
+`MCP919 + LWJGL3 + SpongePowered Mixin + ShadowJar` and `Azul Zulu JDK 8`.
 
-- We use `MCP919 + LWJGL3 + SpongePowered Mixin + ShadowJar` and `Azul Zulu JDK 8` to develop the client.
+### 1.2 Feature List
 
-### 1.2 Features
+**Optimization References / Targets**:  
+- `Sodium` (rendering optimization)  
+- `Lithium` (game logic optimization)  
+- `FerrireCore` (memory optimization)  
+- `Iris` (shader optimization)
 
-- **Optimization Reference/Goal**: **`Sodium`** (Rendering Optimization), **`Lithium`** (Logical Optimization), *
-  *`FerrireCore`** (Memory Optimization), **`Iris`** (Shader Optimization).
-- [ ] `OverwriteRender`: Rewrite game rendering classes (highest priority; initially implemented via direct source
-  modification, later migrated to Mixin `@Overwrite`).
-- [ ] `GUIInGame`: Rewrite in-game GUI classes.
-- [ ] `BackgroundImage`: Custom main menu background (with dedicated GUI manager).
-- [ ] `Sprint`: Force sprinting anywhere without interruption.
-- [ ] `KeepDay`: Force client-side daylight rendering (does not affect actual game time).
-- [ ] `Crosshairs`: Crosshair customization and enhancement.
-- [ ] `FPS`: Frame rate display.
-- [ ] `CPS`: Clicks-per-second display.
-- [ ] `Ping`: Network latency display.
-- [ ] `Reach`: Attack reach display.
-- [ ] `Footprint`: Footstep visualization.
-- [ ] `BlockOutline`: Highlight block outlines.
-- [ ] `KeyDisplay`: On-screen key press display.
-- [ ] `Logo`: Client logo rendering.
-- [ ] `AutoLight`: Automatic brightness adjustment (via in-game slider).
-- [ ] `Skin/Capes`: Custom skin and cape import/display (dedicated GUI).
-- [ ] `AutoGG`: Automatically send “GG” upon game end.
-- [ ] `JsonConfig`: Use JSON for configuration storage.
-- [ ] `Zoom`: Camera zoom functionality.
-- [ ] `Freelook`: Free-look camera mode.
-- [ ] `NoHurtCamera`: Disable camera shake on damage.
-- [ ] `NowTime`: Display local system time.
-- [ ] `TNTTime`: TNT explosion countdown.
-- [ ] `EatTime`: Item consumption countdown (optional).
-- [ ] `GameTime`: In-game time display (optional).
-- [ ] `PotionEffect`: Potion effect duration display.
-- [ ] `InventorySort`: Inventory sorting (similar to JRE).
-- [ ] `EquipmentDisplay`: Show currently equipped armor.
-- [ ] `MiniMap`: Minimap implementation.
-- [ ] `EasyInventory`: Simplified inventory interaction (e.g., quick-buy blocks in BedWars to specific slots).
-- [ ] `Animation`: Custom animation support.
-- [ ] `ChineseInput`: Chinese input method support.
-- [ ] `LockEnglish`: Automatically lock input to English during gameplay (except during active typing).
-- [ ] `VisualMod`: Enhanced visual effects (e.g., particles, shadows, ambient lighting).
-- [ ] `AutoTask`: Automated task execution via client-side commands.
-- [ ] `AutoFucking`: Auto-send preset offensive messages [doge] (command-based).
-- [ ] `InGameRecord/Replay`: In-game video recording and replay.
-- [ ] `GUI-Adaptive`: Adaptive layout for all GUIs based on window size.
-- [ ] `Music`: In-game background music playback with custom track support (dedicated GUI).
+**Planned Features (To Be Implemented)**  
+- [ ] `OverwriteRender`: Rewrite Minecraft’s rendering classes.  
+  *(Implemented first; initially via direct source modification, later migrated to Mixin’s `@Overwrite`.)*  
+- [ ] `GUIInGame`: Rewrite in-game GUI classes.  
+  *(Implemented early; initially via direct source modification, later migrated to Mixin’s `@Overwrite`.)*  
+- [ ] `BackgroundImage`: Custom main menu background (with dedicated GUI manager)  
+- [ ] `Sprint`: Unconditional forced sprint (ignoring normal restrictions)  
+- [ ] `KeepDay`: Force client to always display daytime (does not affect actual in-game time)  
+- [ ] `Crosshairs`: Customizable crosshair styles and enhancements  
+- [ ] `FPS`: Display frames per second  
+- [ ] `CPS`: Display clicks per second  
+- [ ] `Ping`: Display network latency  
+- [ ] `Reach`: Display attack reach distance  
+- [ ] `Footprint`: Visualize player footprints  
+- [ ] `BlockOutline`: Highlight block outlines  
+- [ ] `KeyDisplay`: On-screen key press display  
+- [ ] `Logo`: Render client logo  
+- [ ] `AutoLight`: Automatic brightness adjustment (optional)  
+- [ ] `Skin/Capes`: Import and display custom skins and capes (with dedicated GUI)  
+- [ ] `AutoGG`: Automatically send "GG" when a game ends  
+- [ ] `JsonConfig`: Store configuration using JSON  
+- [ ] `Zoom`: Camera zoom functionality  
+- [ ] `Freelook`: Free-look camera mode  
+- [ ] `NoHurtCamera`: Disable camera shake when taking damage  
+- [ ] `NowTime`: Display local system time  
+- [ ] `TNTTime`: Countdown timer for TNT explosions  
+- [ ] `EatTime`: Countdown timer for item consumption (optional)  
+- [ ] `GameTime`: Display in-game time (optional)  
+- [ ] `PotionEffect`: Display remaining duration of potion effects  
+- [ ] `InventorySort`: Auto-sort inventory (similar to JEI)  
+- [ ] `EquipmentDisplay`: Display currently equipped armor  
+- [ ] `MiniMap`: Mini-map implementation  
+- [ ] `EasyInventory`: Simplified inventory interaction (e.g., quick purchase to specific slots in BedWars)  
+- [ ] `Animation`: Support for custom animations  
+- [ ] `UTF-8Input`: Support UTF-8 character input  
+- [ ] `LockEnglish`: Automatically lock keyboard input to English during gameplay (except during free typing)  
+- [ ] `VisualMod`: Enhanced visual effects (e.g., particles, shadows, ambient lighting)  
+- [ ] `AutoTask`: Automatically execute client-side tasks (based on `ClientCommand`)  
+- [ ] `AutoTalk`: Automatically send pre-defined messages (based on `ClientCommand`; can be grouped under `AutoTask`)  
+- [ ] `InGameRecord/Replay`: In-game recording and replay functionality  
+- [ ] `GUI-Adaptive`: All GUIs adapt layout based on window size  
+- [ ] `Music`: In-game background music player with support for custom tracks (with dedicated GUI)
 
-#### Features Not Currently Planned for Implementation
+**Features Not Planned for Implementation**  
+- `ClientCommand`: Client-side commands require a prefix (e.g., `|sfcc`). Implemented locally via Mixin, no server support needed.  
+- `TabMod`: Only displays local mod status (e.g., a status indicator in the top-left corner), does not modify the server-sent tab list.  
+- `Scoreboard`: Provided natively by the server; client only enhances visual appearance.  
+- `Blur`: If retained, must be implemented via shaders (optional).  
+- `Physical`: Item-drop physics simulation; likely abandoned due to high complexity and existing solutions.  
+- `Multi-Thread`: Multi-threaded execution; high implementation difficulty.  
+- `NetworkOptimize`: Network optimization (without modifying packets), but still carries risk of false bans.  
+- `InClash`: Clash proxy support; works out-of-the-box, no extra implementation needed.
 
-- **`Command`**: Client-side commands require a prefix (e.g., `|sfcc`). Implemented locally via Mixin without server
-  dependency.
-- **`TabMod`**: Only displays local mod status (e.g., top-left indicator); does not alter server-sent tab data.
-- **`Scoreboard`**: Provided natively by the server; client only enhances visual presentation.
-- **`Blur`**: If retained, must be implemented via shaders (optional).
-- **`Physical`**: Item drop physics simulation; likely removed due to complexity and existing solutions.
-- **`Multi-Thread`**: Multi-threaded execution; high implementation difficulty.
-- **`NetworkOptimize`**: Network optimization (no packet modification), but still risks false bans.
-- **`InClash`**: Clash proxy support; already compatible out-of-the-box, no extra handling needed.
+### 1.3 Current Development Workflow / Stage
+- Use `gradle.build` as the base build file (contains vanilla dependencies). Attempt to launch the client via the Gradle task: `runClient`.  
+- **If successful**: Replace with `gradle.build.1` (our optimized dependency configuration) for development. This requires rewriting core classes such as `OverwriteRender`, `GUIInGame`, etc.  
+- **If failed**: Modify `gradle.build` until `runClient` successfully launches the client.
 
 ---
 
-## 2. Functional Requirements Classification and Safety Guidelines
+## 2. Feature Classification & Safety Guidelines
 
-All features are categorized into two security levels:
+All features are classified into two categories based on safety:
 
-### ✅ Safe
+### ✅ Safe Features  
+These features **only affect the local client**—they **do not modify network communication** or **simulate player actions**, and **will not trigger anti-cheat detection**:
 
-> Only affects local rendering, UI, configuration, or input. **Does not send unconventional network packets**, **does
-not simulate player behavior**, and **will not be flagged by anti-cheat systems**.
-
-- `OverwriteRender`
-- `GUIInGame`
-- `BackgroundImage`
-- `KeepDay`
-- `Crosshairs`
-- `FPS` / `CPS` / `Ping` / `Reach`
-- `Footprint` / `BlockOutline`
-- `KeyDisplay`
-- `Logo`
-- `AutoLight`
-- `Skin/Capes`
-- `JsonConfig`
-- `Zoom` / `Freelook`
-- `NoHurtCamera`
-- `NowTime` / `GameTime` / `PotionEffect` / `TNTTime` / `EatTime`
-- `EquipmentDisplay`
-- `MiniMap` (based on local chunks only)
-- `EasyInventory` (UI preview only, no auto-clicking)
-- `Animation`
-- `ChineseInput` / `LockEnglish`
-- `VisualMod`
-- `Music`
-- `GUI-Adaptive`
-- `TabMod` (local display only)
-- `Blur` (shader-based)
+- `OverwriteRender`  
+- `GUIInGame`  
+- `BackgroundImage`  
+- `KeepDay`  
+- `Crosshairs`  
+- `FPS`  
+- `CPS`  
+- `Ping`  
+- `Reach`  
+- `Footprint`  
+- `BlockOutline`  
+- `KeyDisplay`  
+- `Logo`  
+- `AutoLight`  
+- `Skin/Capes`  
+- `JsonConfig`  
+- `Zoom`  
+- `Freelook`  
+- `NoHurtCamera`  
+- `NowTime`  
+- `GameTime`  
+- `PotionEffect`  
+- `TNTTime`  
+- `EatTime`  
+- `EquipmentDisplay`  
+- `MiniMap`  
+- `EasyInventory`  
+- `Animation`  
+- `UTF-8Input`  
+- `LockEnglish`  
+- `VisualMod`  
+- `Music`  
+- `GUI-Adaptive`  
+- `TabMod`  
+- `Blur`  
 - `InClash`
 
-### ⚠️ Risky
+### ⚠️ High-Risk Features  
+These features **may be flagged by anti-cheat systems** as violations, **default disabled**, and **require explicit user opt-in**:
 
-> May be falsely flagged by anti-cheat systems, violate server rules, or involve sensitive behavior.
+- `Sprint`  
+- `AutoGG`  
+- `AutoTask`  
+- `AutoTalk`  
+- `InventorySort`  
+- `InGameRecord/Replay`  
+- `Physical`  
+- `NetworkOptimize`  
+- `Multi-Thread`
 
-- `Sprint` (abnormal movement)
-- `AutoGG` (auto-chat)
-- `AutoTask` (auto-command execution)
-- `AutoFucking` (auto-toxic messages)
-- `InventorySort` (if implemented with auto-clicking)
-- `InGameRecord/Replay` (frame/memory capture may trigger detection)
-- `Physical` (predictive behavior)
-- `NetworkOptimize` (unusual connection patterns)
-- `Multi-Thread` (may break anti-cheat sandbox)
-
-> **Policy**: All high-risk features are **disabled by default** and must be explicitly enabled via configuration. A
-> “high-risk” warning must be displayed in the UI when activated.
+> **Policy**: All high-risk features are **disabled by default**. Users must **explicitly enable them via config**, and the UI **must display a prominent “High Risk” warning** when enabled.
 
 ---
 
-## 3. Development and Release Standards
+## 3. Development & Release Guidelines
 
-### 3.1 Environment
+### 3.1 Development Environment Setup
+- **JDK**: Azul Zulu JDK 8 (preview or higher versions prohibited)  
+- **Mixin Framework**: SpongePowered Mixin 0.7.11  
+- **Graphics Library**:  
+  - **Phase 1**: Use `LWJGL3ify` bridge for LWJGL3 compatibility  
+  - **Phase 2**: Remove bridge and integrate native LWJGL3 directly  
+- **Packaging Tool**: ShadowJar  
 
-- **JDK**: Azul Zulu JDK 8 (**no preview versions**)
-- **Mixin**: `SpongePowered Mixin 0.7.11`
-- **LWJGL**: Initially bridged via `LWJGL3ify`, later directly replaced with `LWJGL3`
-- **Packaging**: `ShadowJar`
+> All development must occur in this environment to ensure compatibility and build consistency.
 
-### 3.2 Build and Release
+### 3.2 Code Quality & Architecture Principles
+- **Modularity**: Achieve **100% modular design**—each feature must be an independent, pluggable module.  
+- **Implementation**:  
+  - All features **must be implemented via Mixin**  
+  - **Only exceptions**: `OverwriteRender` and `GUIInGame` may initially use direct source edits, but must be migrated to Mixin’s `@Overwrite` later  
+- **Code Style**:  
+  - Class names: `PascalCase` (e.g., `JsonConfigManager`)  
+  - Method/variable names: `camelCase` (e.g., `loadConfigFromFile`)  
+  - Mixin classes: Prefix with `Mixin*` (e.g., `MixinEntityRenderer`)  
+- **No junk code**: Maintain high readability and maintainability; prohibit redundancy, hardcoded values, or magic numbers.
 
-#### Build Command
+### 3.3 Configuration System Specification
+- **Format**: `Gson + JSON`  
+- **Path**: `./starflow/config.json`  
+- **Requirements**:  
+  - Support **hot-reloading** (changes apply without game restart)  
+  - All configurable options must have **sensible defaults**  
+  - Config file must be **auto-generated on first launch**
 
-```bash
-./gradlew shadowJar
-```
+### 3.4 Build & Release Process
+- **Build Command**:  
+  ```bash
+  ./gradlew shadowJar
+  ```
+- **Output Filename Format**:  
+  `StarFlow-[VERSION]-[YYYYMMDD].jar`  
+  Example: `StarFlow-v2.1.0-20251227.jar`  
+- **Versioning Semantics (MAJOR.PATCH)**:  
+  - `MAJOR`: New feature added (e.g., `MiniMap`)  
+  - `PATCH`: Bug fix or security improvement  
+> Version numbers must strictly reflect actual changes—no skipping or semantic abuse.
 
-#### Output Filename Format
+### 3.5 Project Collaboration Guidelines
+- **Code Hosting**: GitHub ([StarFlow-1.8.9](https://github.com/LiuStar2233/StarFlow-1.8.9))  
+- **Pull Request Requirements**:  
+  - Must include a **feature description**  
+  - Must specify **safety classification** (✅ Safe / ⚠️ High-Risk)  
+- **Developer Communication**: No official group yet; use GitHub Issues / PRs as the primary channel.
 
-```
-StarFlow-[VERSION]-[YYYYMMDD].jar
-```
+### 3.6 Open-Source Compliance & Licensing
+- **License**: GPL-3.0  
+- **Compliance with Minecraft EULA**:  
+  > “This mod is your original work and does not contain substantial portions of Mojang’s code or content… The mod may be freely distributed, but you may not distribute a complete version of Minecraft bundled with this mod.”
 
-Example: `StarFlow-v2.1.0-20251227.jar`
-
-#### Versioning Semantics (`MAJOR.PATCH`)
-
-- **MAJOR**: New feature (e.g., `MiniMap`)
-- **PATCH**: Bug fix or safety optimization
-
-### 3.3 Code Quality and Architectural Principles
-
-- **No Shit Code**
-- **100% Modular Design**
-- **100% Mixin-Based Implementation** (except `OverwriteRender` and `GUIInGame`)
-- **LWJGL Migration Path**:
-    1. Phase 1: Use `LWJGL3ify` bridge
-    2. Phase 2: Remove bridge and integrate `LWJGL3` directly
-
-### 3.4 Code Style and Collaboration Standards
-
-- **Naming Conventions**:
-    - Classes: `PascalCase` (e.g., `JsonConfigManager`)
-    - Methods/Variables: `camelCase` (e.g., `loadConfigFromFile`)
-    - Mixins: Prefix with `Mixin*` (e.g., `MixinEntityRenderer`)
-- **Configuration**:
-    - Format: `Gson + JSON`
-    - Path: `./starflow/config.json`
-    - Supports **hot reload** (no game restart required)
-- **Git Collaboration**:
-    - Hosted on **GitHub**
-    - Pull Requests must include: feature description + security level classification
-
-### 3.5 Community, Open Source, and Compliance
-
-- **License**: `GPL-3.0`
-- **Minecraft EULA Compliance**:
-  > “The mod is your original work and does not contain any substantial parts of Mojang's code or content... The mod can
-  be freely distributed, but distributing a version of Minecraft with the mod is not allowed.”
+All contributors must ensure their code respects Mojang's copyright and complies with the open-source license.
 
 ---
 
-## 4. Open Source Dependencies and Credits
+## 4. Open-Source Dependencies & Acknowledgements
 
-- **[MCP919](https://github.com/Marcelektro/MCP-919)**: Used to obtain Minecraft 1.8.9 decompiled source and resources.
-- **[MCP919-LWJGL3-Gradle](https://github.com/Eatgrapes/MCP919-LWJGL3-Gradle)**: Base build environment and integration
-  reference.
-- **[SpongePowered Mixin](https://github.com/GTNewHorizons/SpongePoweredMixin)**: Core bytecode injection framework.
-- **[FPSMaster](https://github.com/WithoutIQ/FPSMaster-v2)**: Reference implementation for rendering and performance
-  optimization.
+- [**MCP919**](https://github.com/Marcelektro/MCP-919): Provides decompiled Minecraft 1.8.9 source code and resources  
+- [**MCP919-LWJGL3-Gradle**](https://github.com/Eatgrapes/MCP919-LWJGL3-Gradle): Base build environment and integration reference  
+- [**SpongePowered Mixin**](https://github.com/GTNewHorizons/SpongePoweredMixin): Core bytecode injection framework  
+- [**FPSMaster**](https://github.com/WithoutIQ/FPSMaster-v2): Reference implementation for rendering and performance optimization  
+- [**ULAchelous**](https://github.com/ULAchelous): Core team developer  
+- [**LiuStar2233**](https://github.com/LiuStar2233): Core team developer  
+- And our testers
+
+--- 
