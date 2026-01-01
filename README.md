@@ -1,5 +1,5 @@
 # StarFlow Client README  
-**Version**: v1.0.2 Final  
+
 **Last Updated**: 2026/1/1  
 **Note**: This document serves as a development guide.  
 **Author**: LiuStar2233  
