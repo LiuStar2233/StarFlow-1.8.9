@@ -224,7 +224,7 @@
 - [MCP919](https://github.com/Marcelektro/MCP-919)：用于获取 Minecraft 1.8.9 的反编译源码与资源  
 - [MCP919-LWJGL3-Gradle](https://github.com/Eatgrapes/MCP919-LWJGL3-Gradle)：基础构建环境与集成参考  
 - [SpongePowered Mixin](https://github.com/GTNewHorizons/SpongePoweredMixin)：核心字节码注入框架  
-- [FPSMaster](https://github.com/WithoutIQ/FPSMaster-v2)：渲染与性能优化的参考实现
+- [FPSMaster](https://github.com/SuperSkidder/FPSMaster)：渲染与性能优化的参考实现
 - [ULAchelous](https://github.com/ULAchelous)：团队技术骨干
 - [LiuStar2233](https://github.com/LiuStar2233)：团队技术骨干
 - 以及我们的测试人员
