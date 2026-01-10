@@ -1,7 +1,7 @@
 # StarFlow 客户端 README
 
-**最后更新时间**：2026/1/1  
-**说明**：本文档作为开发指南使用。  
+**最后更新时间**：2026/01/10  
+**说明**：本文件作为项目开发指南，贡献者须遵循其规范。  
 **作者**：LiuStar2233
 
 ---
@@ -150,7 +150,7 @@
 - **JDK**：Azul Zulu JDK 8（禁止使用预览版或高版本）
 - **Mixin 框架**：SpongePowered Mixin 0.7.11
 - **图形库**：
-  - 阶段 1：通过 `LWJGL3ify` 桥接兼容 LWJGL3
+  - 阶段 1（可能直接跳过？）：通过 `LWJGL3ify` 桥接兼容 LWJGL3
   - 阶段 2：移除桥接，直接集成原生 LWJGL3
 - **打包工具**：ShadowJar
 
@@ -160,7 +160,7 @@
 
 #### 3.2 代码质量与架构原则
 
-- **模块化**：实现 **100% 模块化设计**，每个功能应为独立、可插拔的模块。
+- **模块化**：实现 **完全模块化设计**，每个功能应为独立、可插拔的模块。
 - **实现方式**：
   - 所有功能 **必须基于 Mixin 实现**
   - **唯一例外**：`OverwriteRender` 与 `GUIInGame` 初期允许直接修改源码，后续需迁移至 Mixin 的 `@Overwrite`
@@ -168,17 +168,18 @@
   - 类名：`PascalCase`（例：`JsonConfigManager`）
   - 方法/变量名：`camelCase`（例：`loadConfigFromFile`）
   - Mixin 类：前缀为 `Mixin*`（例：`MixinEntityRenderer`）
-- **拒绝垃圾代码**：保持高可读性、高可维护性，禁止冗余、硬编码或魔法值。
+- **拒绝屎山代码**：保持高可读性、高可维护性，禁止冗余、硬编码或魔法值。
 
 ---
 
 #### 3.3 配置系统规范
 
-- **格式**：使用 `Gson + JSON`
-- **路径**：`./starflow/config.json`
+- **格式**：使用 `Gson(文件处理) + JSON(保存格式)`
+- **路径**：`./StarFlow/configs/config.json`
 - **功能要求**：
-  - 支持 **热重载**（无需重启游戏即可生效）
-  - 所有可配置项必须提供默认值，并在首次启动时自动生成配置文件
+  - 如果没有自动生成，默认全部关闭；
+  - 可选择是否保留旧配置；
+  - 支持修改后保存到文件里并在游戏内即使加载最新版本配置文件。
 
 ---
 
@@ -192,7 +193,7 @@
   ```
   StarFlow-[VERSION]-[YYYYMMDD].jar
   ```
-  示例：`StarFlow-v2.1.0-20251227.jar`
+  示例：`StarFlow-v1.1-20260110.jar`
 - **版本语义（MAJOR.PATCH）**：
   - `MAJOR`：新增功能（如 `MiniMap`）
   - `PATCH`：Bug 修复或安全性优化
@@ -224,9 +225,9 @@
 - [MCP919](https://github.com/Marcelektro/MCP-919)：用于获取 Minecraft 1.8.9 的反编译源码与资源  
 - [MCP919-LWJGL3-Gradle](https://github.com/Eatgrapes/MCP919-LWJGL3-Gradle)：基础构建环境与集成参考  
 - [SpongePowered Mixin](https://github.com/GTNewHorizons/SpongePoweredMixin)：核心字节码注入框架  
-- [FPSMaster](https://github.com/WithoutIQ/FPSMaster-v2)：渲染与性能优化的参考实现
-- [ULAchelous](https://github.com/ULAchelous)：团队技术骨干
+- [FPSMaster](https://github.com/SuperSkidder/FPSMaster)：渲染与性能优化的参考实现
 - [LiuStar2233](https://github.com/LiuStar2233)：团队技术骨干
+- [ULAchelous](https://github.com/ULAchelous)：团队技术骨干
 - 以及我们的测试人员
 
 --- 
