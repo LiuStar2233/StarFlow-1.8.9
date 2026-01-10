@@ -206,7 +206,7 @@ All contributors must ensure their code respects Mojang's copyright and complies
 - [**MCP919**](https://github.com/Marcelektro/MCP-919): Provides decompiled Minecraft 1.8.9 source code and resources  
 - [**MCP919-LWJGL3-Gradle**](https://github.com/Eatgrapes/MCP919-LWJGL3-Gradle): Base build environment and integration reference  
 - [**SpongePowered Mixin**](https://github.com/GTNewHorizons/SpongePoweredMixin): Core bytecode injection framework  
-- [**FPSMaster**](https://github.com/SuperSkidder/FPSMaster): Reference implementation for rendering and performance optimization  
+- [**FPSMaster**](https://github.com/WithoutIQ/FPSMaster-v2): Reference implementation for rendering and performance optimization  
 - [**ULAchelous**](https://github.com/ULAchelous): Core team developer  
 - [**LiuStar2233**](https://github.com/LiuStar2233): Core team developer  
 - And our testers
