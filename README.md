@@ -16,7 +16,7 @@
 - **Injection Framework:** `SpongePowered Mixin`
 - **Packaging Tool:** `ShadowJar`
 - **Runtime JDK:** `Azul Zulu JDK 8`
-- **Compile-time JDK:** `Azul Zulu JDK 25`
+- **Compile-time JDK:** `Azul Zulu JDK 25/21`
 
 ### 1.2 Feature List
 

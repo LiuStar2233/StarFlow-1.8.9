@@ -16,7 +16,7 @@
 - 注入：`SpongePowered Mixin`
 - 打包：`ShadowJar进行打包`
 - 运行时：`Azul Zulu JDK 8`
-- 编译时：`Azul Zulu JDK 25`
+- 编译时：`Azul Zulu JDK 25/21`
 
 ### 1.2 功能列表
 

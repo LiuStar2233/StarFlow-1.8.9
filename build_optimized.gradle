@@ -20,6 +20,8 @@ project.ext.lwjglVersion = "3.3.6"
 project.ext.lwjglNatives = "natives-windows"
 
 repositories {
+    maven { url =  uri("./libs/mavens") }
+    maven { url = "https://maven.aliyun.com/repository/gradle-plugin" }
     maven { url = 'https://maven.aliyun.com/repository/public/' }
     maven { url = 'https://libraries.minecraft.net/' }
     maven { url = 'https://repo.marcloud.net/' }
@@ -78,7 +80,7 @@ dependencies {
 
 shadowJar {
     archiveFileName = "StarFlow-${VERSION}-${LastChangeTime}.jar"
-    archiveBaseName.set(archiveFileName)
+    archiveBaseName.set(archiveFileName as Provider<? extends String>)
     mergeServiceFiles()
     manifest {
         attributes('Main-Class': 'net.minecraft.client.main.Main')
