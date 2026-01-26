@@ -6,6 +6,11 @@
 .kotlinc/
 .kotlin/
 
+# 运行文件
+/run/
+!/run/assets/
+!/run/saves/
+
 # IDE
 .idea/
 *.iml
