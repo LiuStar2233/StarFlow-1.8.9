@@ -1,0 +1,40 @@
+# 构建产物
+/build/
+.gradle/
+/out/
+/bin/
+.kotlinc/
+.kotlin/
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+.springBeans
+.sts4-cache
+/nbproject/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# 日志与临时
+**/*.log
+**/*.log.gz
+**/*.tmp
+.DS_Store
+history/
+workspace.xml
+
+# 配置文件
+*.properties
+!gradle.properties
+
+# 必须保留的
+!gradle/wrapper/gradle-wrapper.jar
