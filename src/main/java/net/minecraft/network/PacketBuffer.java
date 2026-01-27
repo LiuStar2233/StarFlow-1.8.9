@@ -34,12 +34,6 @@ public class PacketBuffer extends ByteBuf {
         this.buf = wrapped;
     }
 
-    // FUCKING CHANGE
-    @Override
-    public ByteBuf unwrap() {
-        return buf; // 关键：让 Netty 自动处理委托
-    }
-
     /**
      * Calculates the number of bytes required to fit the supplied int (0-5) if it were to be read/written using
      * readVarIntFromBuffer or writeVarIntToBuffer
