@@ -49,7 +49,7 @@ public class SoundManager {
     private SoundManager.SoundSystemStarterThread sndSystem;
 
     /**
-     * Set to true when the SoundManager has been initialised.
+     * Set to true when the SoundManager has been initialized.
      */
     private boolean loaded;
 
