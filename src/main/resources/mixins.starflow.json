@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.starflow.client.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "mixins.starflow.refmap.json",
+  "mixins": [],
+  "client": [],
+  "injectors": { "defaultRequire": 1 }
+}

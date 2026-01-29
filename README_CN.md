@@ -1,6 +1,6 @@
 # StarFlow 客户端 README
 
-**最后更新时间**：2026/01/25  
+**最后更新时间**：2026/01/29  
 **说明**：贡献前请看我。  
 **作者**：LiuStar2233
 **主要贡献者**：LiuStar2233
@@ -12,11 +12,12 @@
 
 ### 1.1 开发技术栈
 
-- 基础：`MCP919-LWJGL3-Gradle`
-- 注入：`SpongePowered Mixin`
+- 项目基础：`MCP919-LWJGL3-Gradle`
+- Gradle：`Gradle 9.3(developBranch)/8.14(master)`
+- 注入：`SpongePowered Mixin 0.8.7` + `MixinBooter 10.7`
 - 打包：`ShadowJar进行打包`
 - 运行时：`Azul Zulu JDK 8`
-- 编译时：`Azul Zulu JDK 25/21`
+- 编译时：`Azul Zulu JDK 25(developBranch)/21(master)`
 
 ### 1.2 功能列表
 
@@ -25,6 +26,10 @@
 - `Lithium`（逻辑优化）  
 - `FerrireCore`（内存优化）  
 - `Iris`（着色器优化）
+
+#### 正在实现
+- [ ] `重写声音模块(paulscode太屎山了)`
+- [ ] `netty部分有点小bug`
 
 #### 已规划功能（待实现）
 
@@ -157,7 +162,7 @@
 - **JDK 运行时**：Azul Zulu JDK 8
 - **JDK 编译时**：Azul Zulu JDK 25
 - **Gradle 版本**：Gradle 9.3
-- **Mixin 框架**：SpongePowered Mixin 0.7.11
+- **Mixin 框架**：SpongePowered Mixin 0.8.7 + MixinBooter 10.7
 - **图形库**：
   - 阶段 1（可能直接跳过？）：通过 `LWJGL3ify` 桥接兼容 LWJGL3
   - 阶段 2：移除桥接，直接集成原生 LWJGL3
@@ -234,6 +239,7 @@
 - [MCP919](https://github.com/Marcelektro/MCP-919)：用于获取 Minecraft 1.8.9 的反编译源码与资源  
 - [MCP919-LWJGL3-Gradle](https://github.com/RATMC/MCP919-LWJGL3-Gradle)：基础构建环境与集成  
 - [SpongePowered Mixin](https://github.com/GTNewHorizons/SpongePoweredMixin)：注入框架  
+- [MixinBooter](https://github.com/CleanroomMC/MixinBooter)：注入加载器
 - [FPSMaster](https://github.com/SuperSkidder/FPSMaster)：功能的参考
 - [LiuStar2233](https://github.com/LiuStar2233)：团队技术骨干
 - [ULAchelous](https://github.com/ULAchelous)：团队技术骨干
