@@ -2,7 +2,7 @@
 
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'com.gradleup.shadow' version '8.3.6'
 }
 
 java {
@@ -13,6 +13,7 @@ java {
 
 tasks.withType(JavaCompile).configureEach {
     options.release = 8
+    options.encoding = 'UTF-8'
 }
 
 project.ext.group = 'dev.starflow.client'
@@ -23,15 +24,15 @@ project.ext.lwjglNatives = "natives-windows"
 
 repositories {
     mavenCentral()
-    maven { url = uri("./libs/mavens") }
-    maven { url = "https://maven.aliyun.com/repository/gradle-plugin" }
-    maven { url = "https://maven.lwjgl.org" }
-    maven { url = "https://oss.sonatype.org/service/local/repositories/releases/content/" }
-    maven { url = 'https://maven.aliyun.com/repository/public/' }
-    maven { url = 'https://libraries.minecraft.net/' }
-    maven { url = 'https://repo.marcloud.net/' }
-    // maven { url "https://repo.spongepowered.org/repository/maven-public/" } // SpongePoweredMixin
-    // maven { url 'https://maven.cleanroommc.com' } // MixinBooter
+    maven { url = file("${projectDir}/libs/mavens").toURI() }
+    maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
+    maven { url = uri("https://maven.lwjgl.org") }
+    maven { url = uri("https://oss.sonatype.org/service/local/repositories/releases/content/") }
+    maven { url = uri("https://maven.aliyun.com/repository/public/") }
+    maven { url = uri("https://libraries.minecraft.net/") }
+    maven { url = uri("https://repo.marcloud.net/") }
+    // maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") } // SpongePoweredMixin
+    // maven { url = uri('https://maven.cleanroommc.com') } // MixinBooter
 }
 
 dependencies {
@@ -50,12 +51,11 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-nfd:$lwjglVersion:$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb:$lwjglVersion:$lwjglNatives"
 
+    /*
     // === 原版 LWJGL 2 + Paulscode (已注释，保留供参考) ===
     // implementation "org.lwjgl.lwjgl:lwjgl:2.9.4-nightly-20150209"
     // implementation "org.lwjgl.lwjgl:lwjgl_util:2.9.4-nightly-20150209"
     // implementation "org.lwjgl.lwjgl:lwjgl-platform:2.9.4-nightly-20150209"
-
-    /*
     // temp
      implementation "com.paulscode:codecjorbis:20101023"
      implementation "com.paulscode:codecwav:20101023"
@@ -91,9 +91,7 @@ dependencies {
     implementation "org.apache.commons:commons-compress:1.26.0"
 
     // 网络通信
-     implementation "io.netty:netty-all:4.2.9.Final"
-    // temp
-    // implementation "io.netty:netty-all:4.0.23.Final"
+    implementation "io.netty:netty-all:4.2.9.Final"
 
     // JSON 和日志
     implementation "com.google.code.gson:gson:2.10.1"
@@ -148,4 +146,8 @@ tasks.register('RunClient', JavaExec) {
     mainClass = "Start"
     workingDir = file("run")
     args = ['--username', 'Developer']
+
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
 }
