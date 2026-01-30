@@ -3,7 +3,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-project.ext.group = 'dev.starflow.client'
+project.ext.group = 'io.starflow.client'
 project.ext.VERSION = 'v1.0-Dev'
 project.ext.LastChangeTime = '20260126'
 project.ext.lwjglVersion = "3.3.3"

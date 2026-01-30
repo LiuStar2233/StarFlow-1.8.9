@@ -28,6 +28,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+// FUCKING CHANGE
+import io.starflow.module.audio.SoundManager;
+
 public class SoundHandler implements IResourceManagerReloadListener, ITickable {
     private static final Logger logger = LogManager.getLogger();
     private static final Gson GSON = (new GsonBuilder()).registerTypeAdapter(SoundList.class, new SoundListSerializer()).create();

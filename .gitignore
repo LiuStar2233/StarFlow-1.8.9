@@ -1,3 +1,6 @@
+getTree.bat
+treeFiles.txt
+
 # 构建产物
 /build/
 .gradle/
