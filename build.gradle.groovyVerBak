@@ -1,5 +1,3 @@
-// 原 build_optimized.gradle
-
 plugins {
     id 'java'
     id 'com.gradleup.shadow' version '8.3.6'
@@ -21,8 +19,8 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 project.ext.group = 'io.starflow.client'
-project.ext.VERSION = "v1.0-Dev"
-project.ext.LastChangeTime = "20260129"
+project.ext.VERSION = "v1.0-SNAPSHOT"
+project.ext.LastChangeTime = "20260201"
 project.ext.lwjglVersion = "3.3.6"
 project.ext.lwjglNatives = "natives-windows"
 project.ext.mixinVersion = "0.8.7"
@@ -93,11 +91,10 @@ dependencies {
     implementation "commons-io:commons-io:2.16.1"
     implementation "commons-codec:commons-codec:1.17.1"
     implementation "org.apache.commons:commons-compress:1.26.0"
-    implementation "org.joml:joml:1.10.5" // 替代 LWJGL2 的 Vector/Matrix 类
+    implementation "org.joml:joml:1.10.5"
 
     // 网络通信
-    // implementation "io.netty:netty-all:4.2.9.Final"
-    implementation "io.netty:netty-all:4.1.97.Final"
+    implementation "io.netty:netty-all:4.0.23.Final"
 
     // JSON 和日志
     implementation "com.google.code.gson:gson:2.10.1"

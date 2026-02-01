@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'StarFlow-1.8.9'
+rootProject.name = "StarFlow-1.8.9"
