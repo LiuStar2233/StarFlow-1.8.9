@@ -1,26 +1,9 @@
 package net.minecraft.network;
 
 import com.google.common.base.Charsets;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
-import io.netty.buffer.ByteBufInputStream;
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.ByteBufProcessor;
+import io.netty.buffer.*;
 import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.EncoderException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.channels.FileChannel;
-import java.nio.channels.GatheringByteChannel;
-import java.nio.channels.ScatteringByteChannel;
-import java.nio.charset.Charset;
-import java.util.UUID;
-
-import io.netty.util.ByteProcessor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -29,9 +12,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 
-/**
- * 注：所有LE结尾的方法或返回0、false等值的方法单纯就是为了让编译通过
- */
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.channels.GatheringByteChannel;
+import java.nio.channels.ScatteringByteChannel;
+import java.nio.charset.Charset;
+import java.util.UUID;
 
 public class PacketBuffer extends ByteBuf {
     private final ByteBuf buf;
@@ -299,17 +288,6 @@ public class PacketBuffer extends ByteBuf {
         return this.buf.isDirect();
     }
 
-    // FUCKING CHANGE
-    @Override
-    public boolean isReadOnly() {
-        return false;
-    }
-
-    @Override
-    public ByteBuf asReadOnly() {
-        return null;
-    }
-
     public int readerIndex() {
         return this.buf.readerIndex();
     }
@@ -410,66 +388,29 @@ public class PacketBuffer extends ByteBuf {
         return this.buf.getShort(p_getShort_1_);
     }
 
-    // FUCKING CHANGE
-    @Override
-    public short getShortLE(int i) {
-        return 0;
-    }
-
     public int getUnsignedShort(int p_getUnsignedShort_1_) {
         return this.buf.getUnsignedShort(p_getUnsignedShort_1_);
-    }
-
-    @Override
-    public int getUnsignedShortLE(int i) {
-        return 0;
     }
 
     public int getMedium(int p_getMedium_1_) {
         return this.buf.getMedium(p_getMedium_1_);
     }
 
-    @Override
-    public int getMediumLE(int i) {
-        return 0;
-    }
-
     public int getUnsignedMedium(int p_getUnsignedMedium_1_) {
         return this.buf.getUnsignedMedium(p_getUnsignedMedium_1_);
-    }
-
-    @Override
-    public int getUnsignedMediumLE(int i) {
-        return 0;
     }
 
     public int getInt(int p_getInt_1_) {
         return this.buf.getInt(p_getInt_1_);
     }
 
-    @Override
-    public int getIntLE(int i) {
-        return 0;
-    }
-
     public long getUnsignedInt(int p_getUnsignedInt_1_) {
         return this.buf.getUnsignedInt(p_getUnsignedInt_1_);
-    }
-
-    @Override
-    public long getUnsignedIntLE(int i) {
-        return 0;
     }
 
     public long getLong(int p_getLong_1_) {
         return this.buf.getLong(p_getLong_1_);
     }
-
-    @Override
-    public long getLongLE(int i) {
-        return 0;
-    }
-    // FUCKING CHANGE STOP
 
     public char getChar(int p_getChar_1_) {
         return this.buf.getChar(p_getChar_1_);
@@ -515,17 +456,6 @@ public class PacketBuffer extends ByteBuf {
         return this.buf.getBytes(p_getBytes_1_, p_getBytes_2_, p_getBytes_3_);
     }
 
-    // FUCKING CHANGE
-    @Override
-    public int getBytes(int i, FileChannel fileChannel, long l, int i1) throws IOException {
-        return 0;
-    }
-
-    @Override
-    public CharSequence getCharSequence(int i, int i1, Charset charset) {
-        return null;
-    }
-
     public ByteBuf setBoolean(int p_setBoolean_1_, boolean p_setBoolean_2_) {
         return this.buf.setBoolean(p_setBoolean_1_, p_setBoolean_2_);
     }
@@ -538,38 +468,17 @@ public class PacketBuffer extends ByteBuf {
         return this.buf.setShort(p_setShort_1_, p_setShort_2_);
     }
 
-    @Override
-    public ByteBuf setShortLE(int i, int i1) {
-        return null;
-    }
-
     public ByteBuf setMedium(int p_setMedium_1_, int p_setMedium_2_) {
         return this.buf.setMedium(p_setMedium_1_, p_setMedium_2_);
-    }
-
-    @Override
-    public ByteBuf setMediumLE(int i, int i1) {
-        return null;
     }
 
     public ByteBuf setInt(int p_setInt_1_, int p_setInt_2_) {
         return this.buf.setInt(p_setInt_1_, p_setInt_2_);
     }
 
-    @Override
-    public ByteBuf setIntLE(int i, int i1) {
-        return null;
-    }
-
     public ByteBuf setLong(int p_setLong_1_, long p_setLong_2_) {
         return this.buf.setLong(p_setLong_1_, p_setLong_2_);
     }
-
-    @Override
-    public ByteBuf setLongLE(int i, long l) {
-        return null;
-    }
-    // FUCKING CHANGE STOP
 
     public ByteBuf setChar(int p_setChar_1_, int p_setChar_2_) {
         return this.buf.setChar(p_setChar_1_, p_setChar_2_);
@@ -615,19 +524,8 @@ public class PacketBuffer extends ByteBuf {
         return this.buf.setBytes(p_setBytes_1_, p_setBytes_2_, p_setBytes_3_);
     }
 
-    // FUCKING CHANGE
-    @Override
-    public int setBytes(int i, FileChannel fileChannel, long l, int i1) throws IOException {
-        return 0;
-    }
-
     public ByteBuf setZero(int p_setZero_1_, int p_setZero_2_) {
         return this.buf.setZero(p_setZero_1_, p_setZero_2_);
-    }
-
-    @Override
-    public int setCharSequence(int i, CharSequence charSequence, Charset charset) {
-        return 0;
     }
 
     public boolean readBoolean() {
@@ -646,65 +544,29 @@ public class PacketBuffer extends ByteBuf {
         return this.buf.readShort();
     }
 
-    @Override
-    public short readShortLE() {
-        return 0;
-    }
-
     public int readUnsignedShort() {
         return this.buf.readUnsignedShort();
-    }
-
-    @Override
-    public int readUnsignedShortLE() {
-        return 0;
     }
 
     public int readMedium() {
         return this.buf.readMedium();
     }
 
-    @Override
-    public int readMediumLE() {
-        return 0;
-    }
-
     public int readUnsignedMedium() {
         return this.buf.readUnsignedMedium();
-    }
-
-    @Override
-    public int readUnsignedMediumLE() {
-        return 0;
     }
 
     public int readInt() {
         return this.buf.readInt();
     }
 
-    @Override
-    public int readIntLE() {
-        return 0;
-    }
-
     public long readUnsignedInt() {
         return this.buf.readUnsignedInt();
-    }
-
-    @Override
-    public long readUnsignedIntLE() {
-        return 0;
     }
 
     public long readLong() {
         return this.buf.readLong();
     }
-
-    @Override
-    public long readLongLE() {
-        return 0;
-    }
-    // FUCKING CHANGE STOP
 
     public char readChar() {
         return this.buf.readChar();
@@ -724,12 +586,6 @@ public class PacketBuffer extends ByteBuf {
 
     public ByteBuf readSlice(int p_readSlice_1_) {
         return this.buf.readSlice(p_readSlice_1_);
-    }
-
-    // FUCKING CHANGE
-    @Override
-    public ByteBuf readRetainedSlice(int i) {
-        return null;
     }
 
     public ByteBuf readBytes(ByteBuf p_readBytes_1_) {
@@ -764,17 +620,6 @@ public class PacketBuffer extends ByteBuf {
         return this.buf.readBytes(p_readBytes_1_, p_readBytes_2_);
     }
 
-    // FUCKING CHANGE
-    @Override
-    public CharSequence readCharSequence(int i, Charset charset) {
-        return null;
-    }
-
-    @Override
-    public int readBytes(FileChannel fileChannel, long l, int i) throws IOException {
-        return 0;
-    }
-
     public ByteBuf skipBytes(int p_skipBytes_1_) {
         return this.buf.skipBytes(p_skipBytes_1_);
     }
@@ -791,38 +636,17 @@ public class PacketBuffer extends ByteBuf {
         return this.buf.writeShort(p_writeShort_1_);
     }
 
-    @Override
-    public ByteBuf writeShortLE(int i) {
-        return null;
-    }
-
     public ByteBuf writeMedium(int p_writeMedium_1_) {
         return this.buf.writeMedium(p_writeMedium_1_);
-    }
-
-    @Override
-    public ByteBuf writeMediumLE(int i) {
-        return null;
     }
 
     public ByteBuf writeInt(int p_writeInt_1_) {
         return this.buf.writeInt(p_writeInt_1_);
     }
 
-    @Override
-    public ByteBuf writeIntLE(int i) {
-        return null;
-    }
-
     public ByteBuf writeLong(long p_writeLong_1_) {
         return this.buf.writeLong(p_writeLong_1_);
     }
-
-    @Override
-    public ByteBuf writeLongLE(long l) {
-        return null;
-    }
-    // FUCKING CHANGE STOP
 
     public ByteBuf writeChar(int p_writeChar_1_) {
         return this.buf.writeChar(p_writeChar_1_);
@@ -868,19 +692,8 @@ public class PacketBuffer extends ByteBuf {
         return this.buf.writeBytes(p_writeBytes_1_, p_writeBytes_2_);
     }
 
-    // FUCKING CHANGE
-    @Override
-    public int writeBytes(FileChannel fileChannel, long l, int i) throws IOException {
-        return 0;
-    }
-
     public ByteBuf writeZero(int p_writeZero_1_) {
         return this.buf.writeZero(p_writeZero_1_);
-    }
-
-    @Override
-    public int writeCharSequence(CharSequence charSequence, Charset charset) {
-        return 0;
     }
 
     public int indexOf(int p_indexOf_1_, int p_indexOf_2_, byte p_indexOf_3_) {
@@ -898,27 +711,6 @@ public class PacketBuffer extends ByteBuf {
     public int bytesBefore(int p_bytesBefore_1_, int p_bytesBefore_2_, byte p_bytesBefore_3_) {
         return this.buf.bytesBefore(p_bytesBefore_1_, p_bytesBefore_2_, p_bytesBefore_3_);
     }
-
-    @Override
-    public int forEachByte(ByteProcessor byteProcessor) {
-        return 0;
-    }
-
-    @Override
-    public int forEachByte(int i, int i1, ByteProcessor byteProcessor) {
-        return 0;
-    }
-
-    @Override
-    public int forEachByteDesc(ByteProcessor byteProcessor) {
-        return 0;
-    }
-
-    @Override
-    public int forEachByteDesc(int i, int i1, ByteProcessor byteProcessor) {
-        return 0;
-    }
-    // FUCKING CHANGE STOP
 
     public int forEachByte(ByteBufProcessor p_forEachByte_1_) {
         return this.buf.forEachByte(p_forEachByte_1_);
@@ -948,30 +740,13 @@ public class PacketBuffer extends ByteBuf {
         return this.buf.slice();
     }
 
-    // FUCKING CHANGE
-    @Override
-    public ByteBuf retainedSlice() {
-        return null;
-    }
-
     public ByteBuf slice(int p_slice_1_, int p_slice_2_) {
         return this.buf.slice(p_slice_1_, p_slice_2_);
-    }
-
-    @Override
-    public ByteBuf retainedSlice(int i, int i1) {
-        return null;
     }
 
     public ByteBuf duplicate() {
         return this.buf.duplicate();
     }
-
-    @Override
-    public ByteBuf retainedDuplicate() {
-        return null;
-    }
-    // FUCKING CHANGE STOP
 
     public int nioBufferCount() {
         return this.buf.nioBufferCount();
@@ -1048,18 +823,6 @@ public class PacketBuffer extends ByteBuf {
     public ByteBuf retain() {
         return this.buf.retain();
     }
-
-    // FUCKING CHANGE
-    @Override
-    public ByteBuf touch() {
-        return null;
-    }
-
-    @Override
-    public ByteBuf touch(Object o) {
-        return null;
-    }
-    // FUCKING CHANGE STOP
 
     public int refCnt() {
         return this.buf.refCnt();
