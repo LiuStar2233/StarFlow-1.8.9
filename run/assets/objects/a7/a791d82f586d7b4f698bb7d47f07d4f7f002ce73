@@ -116,7 +116,6 @@ build.tooHigh=Visinska granica za gradnju je %s blokova
 chat.cannotSend=Nije moguće slanje poruke
 chat.copy=Kopiraj
 chat.link.confirm=Jeste li sigurni da želite otvoriti ovu stranicu?
-
 chat.link.confirmTrusted=Želite li otvoriti ovu stranicu u pregledniku ili je kopirati u međuspremnik?
 chat.link.open=Otvori u pregledniku
 chat.link.warning=Nikad ne otvarajte hiperveze ljudi kojima ne vjerujete!
@@ -658,7 +657,6 @@ demo.help.movement=Koristi %1$s, %2$s, %3$s, %4$s i miš za kretanje
 demo.help.movementMouse=Gledaj uokolo koristeći miš
 demo.help.movementShort=Kreći se stiskanjem tipka %1$s, %2$s, %3$s, %4$s
 demo.help.title=Minecraft demo verzija
-
 demo.remainingTime=Vremena preostalo: %s
 demo.reminder=Demo vrijeme je isteklo, kupi igru kako bi nastavio ili započni novi svijet!
 difficulty.lock.question=Jeste li sigurni da želite zaključati težinu ovoga svijeta? Ovo će svijet staviti na %1$s zauvijek, i nikada nećete moći to promijeniti.

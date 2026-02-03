@@ -269,7 +269,6 @@ commands.xp.success=Given %s experience to %s
 commands.xp.success.levels=Given %s levels to %s
 commands.xp.success.negative.levels=Taken %s levels from %s
 commands.xp.usage=/تجربه <مقدار> {بازیکن} یا / تجربه <مقدار> هر {بازیکن}
-
 connect.authorizing=در حال ورود...
 connect.connecting=در حال اتصال به سرور...
 connect.failed=عدم موفقیت در اتصال به سرور
@@ -832,7 +831,6 @@ options.ao.min=حداقل
 options.ao.off=خاموش
 options.chat.color=رنگ ها
 options.chat.height.focused=ارتفاع متمرکز
-
 options.chat.height.unfocused=ارتفاع غیر متمرکز
 options.chat.links=لینک های وب
 options.chat.links.prompt=بازکردن لينک ها را درخواست کن
@@ -1053,7 +1051,6 @@ selectWorld.gameMode.survival.line2=سطوح، سلامتی و گرسنگی
 selectWorld.hardcoreMode=هاردکور:
 selectWorld.hardcoreMode.info=دنیا پس از مرگ حذف می گردد
 selectWorld.mapFeatures=تولید کردن سازه:
-
 selectWorld.mapFeatures.info=روستا, سیاه چال و غیره
 selectWorld.mapType=نوع دنیا:
 selectWorld.mapType.normal=معمولی

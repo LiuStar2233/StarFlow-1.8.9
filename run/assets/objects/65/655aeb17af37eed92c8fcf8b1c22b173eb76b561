@@ -106,7 +106,6 @@ book.generation.2=Copia de una copia
 book.generation.3=Ajado
 book.pageIndicator=Página %1$s de %2$s
 book.signButton=Firmar
-
 build.tooHigh=El límite de altura para la construcción es de %s bloques
 chat.cannotSend=No se puede enviar el mensaje de chat
 chat.copy=Copiar
@@ -662,7 +661,6 @@ entity.PrimedTnt.name=Bloque de TNT
 entity.Rabbit.name=Conejo
 entity.Sheep.name=Oveja
 entity.Silverfish.name=Lepisma
-
 entity.Skeleton.name=Esqueleto
 entity.Slime.name=Slime
 entity.SmallFireball.name=Bola de fuego chica
@@ -1239,7 +1237,6 @@ potion.prefix.stinky=Apestosa
 potion.prefix.suave=Afable
 potion.prefix.thick=Espesa
 potion.prefix.thin=flaca
-
 potion.prefix.uninteresting=Banal
 potion.regeneration=Regeneración
 potion.regeneration.postfix=Poción de Regeneración

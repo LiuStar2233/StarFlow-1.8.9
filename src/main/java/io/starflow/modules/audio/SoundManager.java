@@ -1,6 +1,6 @@
-package io.starflow.module.audio;
+package io.starflow.modules.audio;
 
-import io.starflow.tools.SoundLoader;
+import io.starflow.engine.utils.SoundLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.*;
 import net.minecraft.client.resources.IResource;
@@ -29,7 +29,7 @@ import static org.lwjgl.openal.EXTDisconnect.ALC_CONNECTED;
 
 /**
  * @author StarFlow Team -> LiuStar2233
- * @Package io.starflow.module.audio
+ * @Package io.starflow.modules.audio
  * @ClassName SoundManager
  * @description 负责处理游戏中的音频播放、管理和控制。
  * @since 2026-01-27

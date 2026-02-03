@@ -29,7 +29,6 @@ achievement.diamondsToYou.desc=Kast diamanter på en annen spiller.
 achievement.enchantments=Trollmann
 achievement.enchantments.desc=Bruk en bok, obsidian og diamanter til å lage et fortryllelsesbord
 achievement.exploreAllBiomes=Tid for eventyr!
-
 achievement.exploreAllBiomes.desc=Oppdag alle klimaområdene
 achievement.flyPig=Når Griser Flyr
 achievement.flyPig.desc=Ri en gris utfor et stup
@@ -1029,7 +1028,6 @@ itemGroup.tools=Verktøy
 itemGroup.transportation=Transport
 key.attack=Angrep/Ødelegge
 key.back=Gå baklengs
-
 key.categories.gameplay=Gameplay
 key.categories.inventory=Inventar
 key.categories.misc=Diverse

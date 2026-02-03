@@ -722,11 +722,9 @@ item.fireworksCharge.magenta=Ματζέντα
 item.fireworksCharge.name=Αστέρι Πυροτεχνήματος
 item.fireworksCharge.orange=Πορτοκαλί
 item.fireworksCharge.pink=Ροζ
-
 item.fireworksCharge.purple=Μωβ
 item.fireworksCharge.red=Κόκκινο
 item.fireworksCharge.silver=Ανοιχτό Γκρι
-
 item.fireworksCharge.trail=Ουρά
 item.fireworksCharge.type=Άγνωστο σχήμα
 item.fireworksCharge.type.0=Μικρή Μπάλα
@@ -922,7 +920,6 @@ key.togglePerspective=Εναλλαγή κάμερας
 key.use=Χρήση Αντικειμένου/Τοποθέτηση κύβου
 lanServer.otherPlayers=Ρυθμίσεις Υπόλοιπων Παικτών
 lanServer.scanning=Σάρωση για παιχνίδια στο τοπικό σου δίκτυο 
-
 lanServer.start=Εκκίνηση κόσμου Τοπικού Δικτύου
 lanServer.title=Κόσμος Τοπικού Δικτύου
 language.code=el_GR
@@ -1037,7 +1034,6 @@ options.performanceButton=Απόδοση Ποιότητας Βίντεο...
 options.performanceVideoTitle=Απόδοση Ποιότητας Βίντεο
 options.postButton=Επανα-επεξεργασία Ρυθμίσεων...
 options.postProcessEnable=Αποδοχή Post-Processing
-
 options.postVideoTitle=Επανα-επεξεργασία Ρυθμίσεων
 options.qualityButton=Ρυθμίσεις Ποιότητας Βίντεο...
 options.qualityVideoTitle=Ρυθμίσεις ποιότητας βίντεο
@@ -1419,7 +1415,6 @@ tile.fenceIron.name=Σιδερένια κάγκελα
 tile.fire.name=Φωτιά
 tile.flower1.dandelion.name=Πικραλίδα
 tile.flower1.name=Λουλούδι
-
 tile.flower2.allium.name=Άλλιο
 tile.flower2.blueOrchid.name=Μπλε Ορχιδέα
 tile.flower2.houstonia.name=Ανεμολούλουδο
@@ -1537,7 +1532,6 @@ tile.spruceFenceGate.name=Πύλη φράχτη από ερυθρελάτη
 tile.stainedGlass.black.name=Μαύρο χρωματισμένο γυαλί
 tile.stainedGlass.blue.name=Μπλε χρωματισμένο γυαλί
 tile.stainedGlass.brown.name=Καφέ χρωματισμένο γυαλί
-
 tile.stainedGlass.cyan.name=Κυανό χρωματισμένο γυαλί
 tile.stainedGlass.gray.name=Γκρι χρωματισμένο γυαλί
 tile.stainedGlass.green.name=Πράσινο χρωματισμένο γυαλί

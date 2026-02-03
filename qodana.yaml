@@ -1,19 +1,15 @@
 version: "1.0"
 
-# 使用 Qodana JVM linter
-linter: jetbrains/qodana-jvm:latest
+report:
+  path: "./build/qodana-report"
 
-# 自动修复
-fixesStrategy: cleanup
-
-# 使用推荐配置文件
+# 基础配置
 profile:
   name: qodana.recommended
 
-# 排除不需要分析的目录
+# 排除目录
 exclude:
-  - name: All
-    paths:
+  - paths:
       - .gradle
       - .idea
       - build
@@ -22,10 +18,10 @@ exclude:
       - pyScripts
       - run
 
-  # 显式启用冗余相关检查
-inspections:
-  - name: UnusedDeclaration          # 未使用的类/方法/字段
-  - name: RedundantSuppression       # 冗余的 @SuppressWarnings
-  - name: RedundantExplicitType      # 冗余的显式类型声明
-  - name: RedundantCast              # 冗余的类型转换
-  - name: RedundantImplements        # 冗余的 implements 声明
+# 开启特定的冗余检查（注意缩进和层级）
+include:
+  - name: UnusedDeclaration
+  - name: RedundantSuppression
+  - name: RedundantExplicitType
+  - name: RedundantCast
+  - name: RedundantImplements

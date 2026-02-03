@@ -1,10 +1,7 @@
 #version 120
-
 uniform sampler2D DiffuseSampler;
-
 varying vec2 texCoord;
 varying vec2 oneTexel;
-
 void main(){
     vec4 center = texture2D(DiffuseSampler, texCoord);
     vec4 left = texture2D(DiffuseSampler, texCoord - vec2(oneTexel.x, 0.0));

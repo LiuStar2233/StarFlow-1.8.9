@@ -1066,7 +1066,6 @@ options.on=AN
 options.particles=Partikels
 options.particles.all=Alle
 options.particles.decreased=Vöringert
-
 options.particles.minimal=Minimaal
 options.performanceButton=Grafikleisten...
 options.performanceVideoTitle=Grafikleisten

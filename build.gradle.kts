@@ -2,7 +2,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     id("java")
-    id("com.gradleup.shadow") version "8.3.6"
+    id("com.gradleup.shadow") version "9.3.1"
 }
 
 // 项目基础信息配置
@@ -24,6 +24,7 @@ java {
 
 tasks.withType<JavaCompile>().configureEach {
     options.release.set(8)
+    options.compilerArgs.add("-Xlint:-options")
     options.encoding = "UTF-8"
 
     options.isIncremental = true
@@ -94,7 +95,7 @@ dependencies {
     implementation("org.apache.httpcomponents:httpclient:4.5.14")
     implementation("org.apache.httpcomponents:httpcore:4.4.16")
 
-    // 输入与 Legacy 支持
+    // 输入支持
     implementation("net.java.jinput:jinput:2.0.5")
     implementation("net.java.jinput:jinput-platform:2.0.5")
     implementation("net.java.jutils:jutils:1.0.0")
@@ -108,13 +109,21 @@ dependencies {
 
 tasks.named<ShadowJar>("shadowJar") {
     archiveFileName.set("StarFlow-$versionStr-$lastChangeTime.jar")
+    configurations.set(listOf(project.configurations.runtimeClasspath.get()))
+    exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+    exclude("META-INF/versions/**")
+    exclude("**/module-info.class")
     mergeServiceFiles()
+    isZip64 = true
+
     manifest {
         attributes(
             "Main-Class" to "net.minecraft.client.main.Main",
             "MixinConfigs" to "mixins.starflow.json",
             "FMLCorePluginContainsFMLMod" to "true",
-            "ForceLoadAsMod" to "true"
+            "ForceLoadAsMod" to "true",
+            "Implementation-Version" to versionStr,
+            "Multi-Release" to "false"
         )
     }
 }
@@ -132,5 +141,5 @@ tasks.register<JavaExec>("RunClient") {
         languageVersion.set(JavaLanguageVersion.of(25))
     })
 
-    jvmArgs("-Dmixin.debug.export=true", "-XX:+UseZGC")
+    jvmArgs("--enable-native-access=ALL-UNNAMED", "-Dmixin.debug.export=true", "-XX:+UseZGC")
 }

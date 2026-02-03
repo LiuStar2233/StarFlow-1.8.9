@@ -1258,7 +1258,6 @@ stat.entityKilledBy.none=You have never been killed by %s
 stat.entityKills=You killed %s %s
 stat.entityKills.none=You have never killed %s
 stat.fallOneCm=Distance Fallen-English
-
 Pelder Kodha- Cornish
 stat.fishCaught=Pysk Kachys
 stat.flyOneCm=Pelder Kelyon
@@ -1325,25 +1324,20 @@ tile.clay.name=Pri
 tile.clayHardened.name=Pri Kalesek
 tile.clayHardenedStained.black.name=Kālā dāga klē
 tile.clayHardenedStained.blue.name=Blåttmålat Clay
-
 tile.clayHardenedStained.brown.name=Brun målat Clay
 tile.clayHardenedStained.cyan.name=Cyan Målat Clay
 tile.clayHardenedStained.gray.name=Gray Stained Clay
 tile.clayHardenedStained.green.name=Grön Stained Clay
 tile.clayHardenedStained.lightBlue.name=Ljusblå målat Clay
 tile.clayHardenedStained.lime.name=Lime målat Clay
-
 tile.clayHardenedStained.magenta.name=Magenta Stained Clay
 tile.clayHardenedStained.orange.name=Orange Stained Clay
-
 tile.clayHardenedStained.pink.name=Rosa målat Clay
 tile.clayHardenedStained.purple.name=Lila målat Clay
-
 tile.clayHardenedStained.red.name=Lāla dāga klē
 tile.clayHardenedStained.silver.name=Ljusgrå målat Clay
 tile.clayHardenedStained.white.name=Vitlaserad Clay
 tile.clayHardenedStained.yellow.name=Gul målat Clay
-
 tile.cloth.black.name=Gwlan Du
 tile.cloth.blue.name=Gwelen Blou
 tile.cloth.brown.name=Gwelan Gell

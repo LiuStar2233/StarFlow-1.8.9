@@ -493,7 +493,6 @@ demo.help.fullWrapped=Hierdie demo sal vir 5 in-spel dae duur (ongeveer 1 uur en
 demo.help.inventory=Gebruik %1$s om jou rugsak se inhoud te sien
 demo.help.jump=Spring deur %1$s te druk
 demo.help.later=Speel Voort!
-
 demo.help.movement=Gebruik %1$s, %2$s, %3$s, %4$s en die muis om rond te beweeg
 demo.help.movementMouse=Kyk rond deur die muis te gebruik
 demo.help.movementShort=Beweeg deur %1$s, %2$s, %3$s, %4$s te druk
@@ -1260,7 +1259,6 @@ stat.entityKills=Jy het %s %s doodgemaak
 stat.entityKills.none=Jy het nooit %s doodgemaak nie
 stat.fallOneCm=Afstand Geval
 stat.fishCaught=Visse Gevang
-
 stat.flyOneCm=Afstand Gevlieg
 stat.generalButton=Algemeen
 stat.horseOneCm=Afstand te Perd

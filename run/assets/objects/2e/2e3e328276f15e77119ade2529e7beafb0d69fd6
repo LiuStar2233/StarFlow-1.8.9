@@ -444,7 +444,6 @@ container.enchant.level.one=Tempahan tingkat 1
 container.enderchest=Peti Ender
 container.furnace=Tungku Pembakaran
 container.hopper=Corong
-
 container.inventory=Inventaris
 container.isLocked=%s terkunci!
 container.minecart=Kereta Tambang
@@ -536,7 +535,6 @@ death.attack.cactus.player=%1$s berjalan ke kaktus saat kabur dari %2$s
 death.attack.drown=%1$s tenggelam
 death.attack.drown.player=%1$s tenggelam saat mencoba kabur dari %2$s
 death.attack.explosion=%1$s meledak
-
 death.attack.explosion.player=%1$s diledakkan oleh %2$s
 death.attack.fall=%1$s jatuh terlalu keras
 death.attack.fallingBlock=%1$s tergencet blok yang jatuh
@@ -675,7 +673,6 @@ entity.Mob.name=Makhluk Hidup
 entity.Monster.name=Monster
 entity.MushroomCow.name=Mooshroom
 entity.Ozelot.name=Kucing Hutan
-
 entity.Painting.name=Lukisan
 entity.Pig.name=Babi
 entity.PigZombie.name=Zombie Pigman
@@ -919,7 +916,6 @@ item.muttonRaw.name=Daging Mentah Kambing
 item.nameTag.name=Label Nama
 item.netherStalkSeeds.name=Nether Wart
 item.netherStar.name=Bintang Nether
-
 item.netherbrick.name=Bata Neraka
 item.netherquartz.name=Kuarsa Neraka
 item.painting.name=Lukisan
@@ -1569,7 +1565,6 @@ tile.hayBlock.name=Jerami
 tile.hellrock.name=Batu Neraka
 tile.hellsand.name=Pasir Jiwa
 tile.hopper.name=Alat pengambil barang
-
 tile.ice.name=Es
 tile.icePacked.name=Es Batu
 tile.ironTrapdoor.name=Pintu Jebakan Besi

@@ -1,15 +1,10 @@
 #version 120
-
 #extension GL_EXT_gpu_shader4 : enable
-
 uniform sampler2D DiffuseSampler;
 uniform vec2 OutSize;
-
 varying vec2 texCoord;
-
 //#define FXAA_GREEN_AS_LUMA 1
 //#define FXAA_DISCARD 1
-
 #ifndef FXAA_GREEN_AS_LUMA
     // For those using non-linear color,
     // and either not able to get luma in alpha, or not wanting to,
@@ -30,13 +25,11 @@ varying vec2 texCoord;
     //
     #define FXAA_GREEN_AS_LUMA 0
 #endif
-
 #ifndef FXAA_DISCARD
     // 1 = Use discard on pixels which don't need AA.
     // 0 = Return unchanged color on pixels which don't need AA.
     #define FXAA_DISCARD 0
 #endif
-
 /*============================================================================
                                 API PORTING
 ============================================================================*/
@@ -54,9 +47,7 @@ varying vec2 texCoord;
     #define FxaaSat(x) clamp(x, 0.0, 1.0)
     #define FxaaTex sampler2D
 /*--------------------------------------------------------------------------*/
-
     #define FxaaTexTop(t, p) texture2DLod(t, p, 0.0)
-
 /*============================================================================
                    GREEN AS LUMA OPTION SUPPORT FUNCTION
 ============================================================================*/
@@ -66,7 +57,6 @@ varying vec2 texCoord;
 #else
     FxaaFloat FxaaLuma(FxaaFloat4 rgba) { return rgba.y; }
 #endif    
-
 /*============================================================================
                          FXAA3 CONSOLE - PC VERSION
 ============================================================================*/
@@ -228,7 +218,6 @@ FxaaFloat4 FxaaPixelShader(
     return rgbyB; 
 }
 /*==========================================================================*/
-
 void main() 
 {
     // PosPos {xy__} = upper left of pixel, {__zw} = lower right of pixel

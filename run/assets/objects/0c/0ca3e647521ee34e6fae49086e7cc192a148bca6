@@ -1587,7 +1587,6 @@ item.milk.name=牛乳
 item.minecart.name=トロッコ
 item.minecartChest.name=チェスト付きトロッコ
 item.minecartCommandBlock.name=コマンドブロック付きトロッコ
-
 item.minecartFurnace.name=かまど付きトロッコ
 item.minecartHopper.name=ホッパー付きトロッコ
 item.minecartTnt.name=TNT付きトロッコ

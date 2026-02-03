@@ -5,20 +5,16 @@ The gbuffer shaders come first in the pipeline. They render data to textures tha
 Optional deferred shaders can be added between terrain and water rendering.
 The composite shaders then render to textures that will be sent to the final shader. 
 The final shader renders directly to the screen.
-
 Shader Files
 ============
 All shader files are placed in the folder "shaders" of the shader pack.
 The shader source files use the name of the program in which they are to be used with extension depending on their type.
-
 Extension  Type                 
 ==========================
 .vsh       Vertex shader     
 .gsh       Geometry shader   
 .fsh       Fragment shader   
-
 Geometry shaders need either OpenGL 3.2 with layout qualifiers or the extension GL_ARB_geometry_shader4 with configuration "maxVerticesOut".
-
 Color Attachments
 =================
 The data is passed from shader to shader using color attachments. 
@@ -29,7 +25,6 @@ Despite the naming, all of these color attachments are the same and can be used 
 The first one, gcolor has its color cleared to the current fog color before rendering. 
 The second one, gdepth has its color cleared to solid white before rendering and uses a higher precision storage buffer suitable for storing depth values. 
 The rest have their color cleared to black with 0 alpha.
-
 Each color attachment uses 2 buffers (A and B) with logical names "main" and "alt", which can be used as ping-pong buffers.
 When the buffers are flipped the mapping between main/alt and A/B is reversed.
 Gbuffer programs always read from "main" (only gaux1-4) and write to "main" buffers (they shouldn't read and write to the same buffer at the same time).
@@ -37,10 +32,8 @@ Deferred/composite programs always read from "main" and write to "alt" buffers.
 After a deferred/composite program is rendered the buffers that it writes to are flipped so the next programs can see the current output as input.
 The property "flip.<program>.<buffer>=<true|false>" can be used to enable or disable the flip independant of the buffer write.
 The virtual programs "deferred_pre" and "composite_pre" can be used for buffer flipping before the deferred/composite pass.
-
 When writing to the color attachments in the composite shader, blending is disabled. 
 Writing to color attachments that the composite shader also reads from will generate artifacts (unless you just copy the original contents) 
-
 The vertex and fragment configuration parsing is affected by the preprocessor conditional compilation directives.
 The following preprocessor directives are currently recognized:
   #define <macro>
@@ -55,9 +48,7 @@ The following preprocessor directives are currently recognized:
   #elif !defined <macro>
   #else
   #endif
-
 The current shaderpack can be reloaded by pressing "F3+R" or using the command "/reloadShaders". 
-
 Shader Programs
 ===============
 Name                         Render                                When not defined use
@@ -105,13 +96,10 @@ composite1                   <composite>                           <none>
 composite15                  <composite>                           <none>
 --- Final ---
 final                        <final>                               <none>
-
 Remarks:
  - The programs shadow_solid, shadow_cutout, gbuffers_terrain_solid, gbuffers_terrain_cutout and gbuffers_terrain_cutout_mip are not used
-
 Todo:
  - Separate programs for world border, entities (by id, by type), cape, elytra, wolf collar, etc. 
- 
 Attributes
 ==========
 Source                                          Value                                                    Comment
@@ -119,7 +107,6 @@ Source                                          Value                           
 attribute vec3 mc_Entity;                       xyz = blockID, renderType, metadata                            
 attribute vec2 mc_midTexCoord;                  st = midTexU, midTexV                                    Sprite middle UV coordinates                
 attribute vec4 at_tangent;                      xyz = tangent vector, w = handedness
-
 Uniforms
 ==========
 Source                                          Value                                                    
@@ -178,7 +165,6 @@ uniform int entityId;                           entity ID
 uniform int blockEntityId;                      block entity ID (block ID for the tile entity) 
 uniform ivec4 blendFunc;                        blend function (srcRGB, dstRGB, srcAlpha, dstAlpha)
 uniform int instanceId;                         instance ID when instancing is enabled (countInstances > 1), 0 = original, 1-N = copies
-
 GBuffers Uniforms
 ================= 
 Programs: basic, textured, textured_lit, skybasic, skytextured, clouds, terrain, terrain_solid, terrain_cutout_mip, terrain_cutout, damagedblock, water, block, beaconbeam, item, entities, armor_glint, spidereyes, hand, hand_water, weather)
@@ -203,7 +189,6 @@ uniform sampler2D shadowcolor;                  13
 uniform sampler2D shadowcolor0;                 13
 uniform sampler2D shadowcolor1;                 14
 uniform sampler2D noisetex;                     15
-
 Shadow Uniforms
 ==================
 Programs: shadow, shadow_solid, shadow_cutout 
@@ -227,7 +212,6 @@ uniform sampler2D shadowcolor;                  13
 uniform sampler2D shadowcolor0;                 13
 uniform sampler2D shadowcolor1;                 14
 uniform sampler2D noisetex;                     15
-
 Composite and Deferred Uniforms
 ===============================
 Programs: composite, composite1, composite2, composite3, composite4, composite5, composite6, composite7, final, deferred, deferred1, deferred2, deferred3, deferred4, deferred5, deferred6, deferred7
@@ -262,7 +246,6 @@ uniform sampler2D shadowcolor;                  13
 uniform sampler2D shadowcolor0;                 13
 uniform sampler2D shadowcolor1;                 14
 uniform sampler2D noisetex;                     15
-
 GBuffers Textures
 =================
 Id Name           Legacy name
@@ -282,7 +265,6 @@ Id Name           Legacy name
 13 shadowcolor0   shadowcolor 
 14 shadowcolor1
 15 noisetex
-
 Shadow Textures
 ==================
 Id Name           Legacy name
@@ -300,7 +282,6 @@ Id Name           Legacy name
 13 shadowcolor0   shadowcolor
 14 shadowcolor1   
 15 noisetex
-
 Composite and Deferred Textures
 ===============================
 Id Name           Legacy name
@@ -321,7 +302,6 @@ Id Name           Legacy name
 13 shadowcolor0   shadowcolor
 14 shadowcolor1
 15 noisetex
-
 Depth buffers usage
 ===================
 Name        Usage
@@ -329,14 +309,12 @@ Name        Usage
 depthtex0   everything
 depthtex1   no translucent objects (water, stained glass) 
 depthtex2   no translucent objects (water, stained glass), no handheld objects
-
 Shadow buffers usage
 ====================
 Name        Usage
 ==============================================================================
 shadowtex0  everything
 shadowtex1  no translucent objects (water, stained glass) 
-
 Vertex Shader Configuration
 ===========================
 Source                                          Effect                                                    Comment
@@ -345,14 +323,12 @@ attribute <type> mc_Entity;                     useEntityAttrib = true
 attribute <type> mc_midTexCoord;                useMidTexCoordAttrib = true             
 attribute <type> at_tangent;                    useTangentAttrib = true
 const int countInstances = 1;                   when "countInstances > 1" the geometry will be rendered several times, see uniform "instanceId"
-
 Geometry Shader Configuration
 ===========================
 Source                                          Effect                                                    Comment
 =====================================================================================================================================================================
 #extension GL_ARB_geometry_shader4 : enable     Enable GL_ARB_geometry_shader4
 const int maxVerticesOut = 3;                   Set GEOMETRY_VERTICES_OUT_ARB for GL_ARB_geometry_shader4 
-
 Fragment Shader Configuration
 =============================
 Source                                          Effect                                                     Comment
@@ -426,7 +402,6 @@ const bool <bufferIndex>Clear = false;          gbuffersClear[index] = false    
 const vec4 <bufferIndex>ClearColor = vec4();    gbuffersClearColor[index] = vec4(r, g, b, a)               Clear color for the given buffer, only for "composite" and "deferred" programs 
 const bool <bufferIndex>MipmapEnabled = true;   bufferMipmaps[index] = true                                Only for programs "composite" , "deferred" and "final"
 /* DRAWBUFFERS:0246 */                          drawBuffers = "0246"                                       Draw buffers 0, 2, 4 and 6
-
 Draw Buffer Index 
 ==================
 Prefix                  Index
@@ -440,7 +415,6 @@ gaux1                   4
 gaux2                   5
 gaux3                   6
 gaux4                   7
- 
 Texture Formats
 ===============
 1. 8-bit normalized
@@ -489,7 +463,6 @@ Texture Formats
  RGB10_A2
  R11F_G11F_B10F
  RGB9_E5
-
 Pixel Formats
 =============
 1. Normalized
@@ -506,7 +479,6 @@ Pixel Formats
  BGR_INTEGER
  RGBA_INTEGER
  BGRA_INTEGER
-
 Pixel Types
 ===========
  BYTE
@@ -529,7 +501,6 @@ Pixel Types
  UNSIGNED_INT_8_8_8_8_REV
  UNSIGNED_INT_10_10_10_2
  UNSIGNED_INT_2_10_10_10_REV
-
 Block ID mapping
 ================
 The block ID mapping is defined in "shaders/block.properties" included in the shader pack.
@@ -540,7 +511,6 @@ Format "block.<id>=<block1> <block2> ..."
 The key is the substitute block ID, the values are the blocks which are to be replaced.
 Only one line per block ID is allowed.
 See "properties_files.txt" for the block matching rules.
-
   # Short format
   block.31=red_flower yellow_flower reeds
   # Long format
@@ -549,28 +519,22 @@ See "properties_files.txt" for the block matching rules.
   block.33=minecraft:red_flower:type=white_tulip minecraft:red_flower:type=pink_tulip botania:reeds:type=green
   # Block ID, Metadata (backwards compatibility)
   block.34=38:6 38:7 83
-
 Block render layers
 ===================
 The custom block render layers are defined in "shaders/block.properties" included in the shader pack.
-
   layer.solid=<blocks>
   layer.cutout=<blocks>
   layer.cutout_mipped=<blocks>
   layer.translucent=<blocks>
-
 Layers
   solid - no alpha, no blending (solid textures)
   cutout - alpha, no blending (cutout textures)
   cutout_mipped - alpha, no blending, mipmaps (cutout with mipmaps)
   translucent - alpha, blending, mipmaps (water, stained glass)
- 
 Blocks which are solid opaque cubes (stone, dirt, ores, etc) can't be rendered on a custom layer
 as this would affect face culling, ambient occlusion, light propagation and so on.
-
 For exaple:
   layer.translucent=glass_pane fence wooden_door
-
 Item ID mapping
 ================
 The item ID mapping is defined in "shaders/item.properties" included in the shader pack.
@@ -580,12 +544,10 @@ For more details see section "Standard Macros" A to G. Option macros are not ava
 Format "item.<id>=<item1> <item2> ..."
 The key is the substitute item ID, the values are the items which are to be replaced.
 Only one line per item ID is allowed.
-
   # Short format
   item.5000=diamond_sword dirt
   # Long format
   item.5001=minecraft:diamond_sword botania:reeds
-
 Entity ID mapping
 =================
 The entity ID mapping is defined in "shaders/entity.properties" included in the shader pack.
@@ -595,34 +557,27 @@ For more details see section "Standard Macros" A to G. Option macros are not ava
 Format "entity.<id>=<entity1> <entity2> ..."
 The key is the substitute entity ID, the values are the entities which are to be replaced.
 Only one line per entity ID is allowed.
-
   # Short format
   entity.2000=Sheep Cow
-
 Standard Macros
 ===============
 The standard macros are automatically included after the "#version" declaration in every shader file
-
 A. Minecraft version
  #define MC_VERSION <value>
  The value is in format 122 (major 1, minor 2, release 2)
  For example: 1.9.4 -> 10904, 1.11.2 -> 11102, etc.
-
 B. Maximum supported GL version
  #define MC_GL_VERSION <value>
  The value is integer, for example: 210, 320, 450
-
 C. Maximum supported GLSL version
  #define MC_GLSL_VERSION <value>
  The value is integer, for example: 120, 150, 450
-
 D. Operating system 
  One of the following:
   #define MC_OS_WINDOWS
   #define MC_OS_MAC
   #define MC_OS_LINUX
   #define MC_OS_OTHER
-
 E. GPU
  One of the following:
   #define MC_GL_VENDOR_ATI
@@ -630,7 +585,6 @@ E. GPU
   #define MC_GL_VENDOR_NVIDIA
   #define MC_GL_VENDOR_XORG
   #define MC_GL_VENDOR_OTHER
-
 F. Driver
  One of the following:
   #define MC_GL_RENDERER_RADEON 
@@ -640,12 +594,10 @@ F. Driver
   #define MC_GL_RENDERER_GALLIUM
   #define MC_GL_RENDERER_MESA
   #define MC_GL_RENDERER_OTHER
-
 G. OpenGL extensions
  Macros for the supported OpenGL extensions are named like the corresponding extension with a prefix "MC_".
  For example the macro "MC_GL_ARB_shader_texture_lod" is defined when the extension "GL_ARB_shader_texture_lod" is supported.
  Only the macros which are referenced and supported are added to the shader file.
-
 H. Options
  #define MC_FXAA_LEVEL <value>       // When FXAA is enabled, values: 2, 4
  #define MC_NORMAL_MAP               // When the normal map is enabled
@@ -655,7 +607,6 @@ H. Options
  #define MC_HAND_DEPTH <value>       // Values: 0.0625, 0.125, 0.25
  #define MC_OLD_HAND_LIGHT           // When Old Hand Light is enabled
  #define MC_OLD_LIGHTING             // When Old Lighting is enabled
-
 References
 ==========
  http://daxnitro.wikia.com/wiki/Editing_Shaders_%28Shaders2%29

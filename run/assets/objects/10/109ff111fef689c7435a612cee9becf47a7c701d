@@ -352,7 +352,6 @@ commands.spawnpoint.success=Se estableció el spawn de %s en (%s, %s, %s)
 commands.spawnpoint.usage=/spawnpoint [jugador] [<x> <y> <z>]
 commands.spreadplayers.failure.players=No se pudo esparcir %s jugadores alrededor de %s, %s (muchos jugadores para el espacio - intente usar esparcimiento de al menos %s)
 commands.spreadplayers.failure.teams=No se pudo esparcir %s equipos alrededor de %s, %s (muchos jugadores para el espacio - intente usar esparcir de al menos %s)
-
 commands.spreadplayers.info.players=(Distancia promedio entre jugadores es %s bloques aparte despues de %s iteraciones)
 commands.spreadplayers.info.teams=(Distancia promedio entre equipos es %s bloques aparte despues de %s iteraciones)
 commands.spreadplayers.spreading.players=Esparciendo %s jugadores %s bloques alrededor %s, %s (min %s bloques aparte)

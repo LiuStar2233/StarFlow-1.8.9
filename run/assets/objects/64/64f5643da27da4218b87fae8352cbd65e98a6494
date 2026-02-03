@@ -2,7 +2,6 @@ achievement.acquireIron=Upgradin' ye hardware
 achievement.acquireIron.desc=Smelt yerself an iron ingot
 achievement.bakeCake=Pirates Don' Get Portal References
 achievement.bakeCake.desc=Wheat, sugar, milk and eggs! That's how I lost me teeth
-
 achievement.blazeRod=Blazing Demons!
 achievement.blazeRod.desc=Plunder treasure from the monsters of fire
 achievement.bookcase=Book Keeper
@@ -45,7 +44,6 @@ achievement.killEnemy.desc=Plunder and Pillage a scurvy hound
 achievement.killWither=the Start o' th' game.
 achievement.killWither.desc=Slay the skull shooter
 achievement.makeBread=Bake some Hard Tack
-
 achievement.makeBread.desc=Turn wheat ta Hard Tack
 achievement.mineWood=tree chopper 
 achievement.mineWood.desc=Hit a tree w' yer fist till timber falls
@@ -740,7 +738,6 @@ gui.done=Plundered
 gui.down=Downwards
 gui.no=Nay
 gui.none=Cookie
-
 gui.stats=Ship's Manifest
 gui.toMenu=Back ta deck
 gui.up=Skywards
@@ -905,9 +902,6 @@ item.dyePowder.pink.name=Dye o' Pink
 item.dyePowder.purple.name=Dye o' the Evening
 item.dyePowder.red.name=Scarlet o' Roses
 item.dyePowder.silver.name=Dye o' Mist
-
-
-
 item.dyePowder.white.name=Mashed Bones
 item.dyePowder.yellow.name=Yellow o' Dandelion
 item.dyed=Colorrred
@@ -1279,7 +1273,6 @@ options.snooper.view=rules for tharr spies
 options.sound=Ocean Breeze
 options.sounds=Sea Shanties & Noises
 options.sounds.title=Sea Shanties & Noise Options
-
 options.title=Methods
 options.touchscreen=getthescreendirty mode
 options.vbo=Use VBOs

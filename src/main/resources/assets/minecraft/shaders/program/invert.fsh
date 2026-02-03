@@ -1,11 +1,7 @@
 #version 120
-
 uniform sampler2D DiffuseSampler;
-
 varying vec2 texCoord;
-
 uniform float InverseAmount;
-
 void main(){
     vec4 diffuseColor = texture2D(DiffuseSampler, texCoord);
     vec4 invertColor = 1.0 - diffuseColor;

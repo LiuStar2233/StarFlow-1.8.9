@@ -778,7 +778,6 @@ item.clay.name=Глина
 item.clock.name=Сат
 item.coal.name=Угаљ
 item.comparator.name=Компаратор
-
 item.compass.name=Компас
 item.cookie.name=Колачић
 item.diamond.name=Дијамант
@@ -1694,7 +1693,6 @@ tile.stoneSlab.quartz.name=Кварц плоча
 tile.stoneSlab.sand.name=Пешчарски плочник
 tile.stoneSlab.smoothStoneBrick.name=Плоча од камених цигли
 tile.stoneSlab.stone.name=Камени степеник
-
 tile.stoneSlab.wood.name=Дрвени степеник
 tile.stoneSlab2.red_sandstone.name=Степеник црвенок пешкара
 tile.stonebrick.name=Блок калдрме

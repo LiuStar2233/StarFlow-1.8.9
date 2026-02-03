@@ -287,7 +287,6 @@ commands.scoreboard.objectives.add.usage=/scoreboard objectives add <nombre> <cr
 commands.scoreboard.objectives.add.wrongType='%s' no es un tipo de objetivo válido
 commands.scoreboard.objectives.list.count=Objetivo(s) de %s que muestra en marcador:
 commands.scoreboard.objectives.list.empty=No hay objetivos en el marcador 
-
 commands.scoreboard.objectives.list.entry=-%s: muestra como '%s' y es de tipo '%s'
 commands.scoreboard.objectives.remove.success=Eliminado el objetivo '%s' con éxito
 commands.scoreboard.objectives.remove.usage=/scoreboard objectives remove <nombre>
@@ -341,7 +340,6 @@ commands.scoreboard.teams.leave.usage=/scoreboard teams leave [jugador]
 commands.scoreboard.teams.list.count=Mostrando %s equipo(s) en el marcador:
 commands.scoreboard.teams.list.empty=Hay no hay equipos registrados en el marcador
 commands.scoreboard.teams.list.entry=-%1$s: %2$s tiene %3$s jugadores
-
 commands.scoreboard.teams.list.player.count=Mostrando %s jugador(es) en el equipo %s:
 commands.scoreboard.teams.list.player.empty=El equipo %s no tiene ningún jugador
 commands.scoreboard.teams.list.usage=/scoreboard teams list [nombre]
@@ -598,7 +596,6 @@ death.attack.mob=%1$s fue asesinado por %2$s
 death.attack.onFire=%1$s se quemó a la muerte
 death.attack.onFire.player=
 %1$s ardió hasta ser una patata frita mientras luchaba %2$s
-
 death.attack.outOfWorld=%1$s se cayó del mapa
 death.attack.player=%1$s fue asesinado por %2$s
 death.attack.player.item=%1$s fue asesinado por %2$s usando %3$s

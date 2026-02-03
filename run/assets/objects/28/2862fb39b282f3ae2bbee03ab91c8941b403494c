@@ -1878,7 +1878,6 @@ potion.blindness=Körlük
 potion.blindness.postfix=Körlük İksiri
 potion.confusion=Bulantı
 potion.confusion.postfix=Bulantı iksiri
-
 potion.damageBoost=Kuvvet
 potion.damageBoost.postfix=Güç İksiri
 potion.digSlowDown=Madenci yorgunluğu
@@ -1897,7 +1896,6 @@ potion.healthBoost=Sağlık Arttırıcı
 potion.healthBoost.postfix=Sağlık Yükseltici İksiri
 potion.hunger=Açlık
 potion.hunger.postfix=Açlık İksiri
-
 potion.invisibility=Görünmezlik
 potion.invisibility.postfix=Görünmezlik İksiri
 potion.jump=Zıplama desteği
@@ -1948,7 +1946,6 @@ potion.prefix.thin=Seyrek
 potion.prefix.uninteresting=Sıkıcı
 potion.regeneration=Yenilenme
 potion.regeneration.postfix=Rejenerasyon iksiri
-
 potion.resistance=Direnç
 potion.resistance.postfix=Direnç iksiri
 potion.saturation=Doygunluk
@@ -2009,7 +2006,6 @@ selectWorld.gameMode.spectator=Seyirci
 selectWorld.gameMode.spectator.line1=İzleyebilirsin ama dokunamazsın
 selectWorld.gameMode.survival=Hayatta Kalma
 selectWorld.gameMode.survival.line1=Kaynak ara, yarat, elde et
-
 selectWorld.gameMode.survival.line2=Seviyeler,sağlık ve açlık
 selectWorld.hardcoreMode=Zorlu:
 selectWorld.hardcoreMode.info=Öldüğünde dünya silinecek
@@ -2232,7 +2228,6 @@ tile.flower1.name=Çiçek
 tile.flower2.allium.name=Allium
 tile.flower2.blueOrchid.name=Mavi Orkide
 tile.flower2.houstonia.name=Gök Mavisi
-
 tile.flower2.name=Çiçek
 tile.flower2.oxeyeDaisy.name=Papatya
 tile.flower2.poppy.name=Gelincik

@@ -245,7 +245,6 @@ commands.scoreboard.teams.leave.noTeam=Wala ka sa isang pangkat
 commands.scoreboard.teams.leave.success=Inalis ng %s na manlalaro sa kanilang pangkat: %s
 commands.scoreboard.teams.leave.usage=/scoreboard teams leave [manalalro]
 commands.scoreboard.teams.list.count=Ipinapakita ang %s na pangkat sa scoreboard:
-
 commands.scoreboard.teams.list.empty=Walang pangkat ay nakalagay sa scoreboard
 commands.scoreboard.teams.list.entry=- %1$s: May %3$s na manlalaro sa pangkat %2$s
 commands.scoreboard.teams.list.player.count=Nagpapakita ng %s sa pangkat %s:

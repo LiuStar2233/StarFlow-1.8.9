@@ -1,10 +1,10 @@
-package io.starflow.module.audio;
+package io.starflow.modules.audio;
 
 import net.minecraft.client.audio.ISound;
 
 /**
  * @author LiuStar2233
- * @Package io.starflow.module.audio
+ * @Package io.starflow.modules.audio
  * @ClassName DelayedSound
  * @description 延迟播放的音频类，用于在指定的游戏 tick 后播放音频。
  * @since 2026-01-29

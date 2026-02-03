@@ -228,9 +228,7 @@ commands.replaceitem.noContainer=บล็อกที่ %s, %s, %s ไม่�
 commands.replaceitem.success=แทนที่ช่อง %s ด้วย %s * %s เรียบร้อยแล้ว
 commands.replaceitem.usage=/replaceitem <entity|block> ...
 commands.save-off.alreadyOff=ออมทรัพย์ที่มีเปิดแล้วปิด
-
 commands.save-on.alreadyOn=ออมทรัพย์ที่มีเปิดอยู่แล้ว,
-
 commands.save.disabled=ปิดการบันทึกโลกอัตโนมัติ
 commands.save.enabled=เปิดการบันทึกโลกอัตโนมัติ
 commands.save.failed=การบันทึกล้มเหลว: %s
@@ -239,7 +237,6 @@ commands.save.success=บันทึกโลกแล้ว
 commands.say.usage=/say <ข้อความ>
 commands.scoreboard.objectiveNotFound=ไม่มีวัตถุประสงค์ถูกพบโดยชื่อ '%s'
 commands.scoreboard.objectiveReadOnly=วัตถุประสงค์ '%s' คืออ่านอย่างเดียวและไม่สามารถตั้งค่า
-
 commands.scoreboard.objectives.add.alreadyExists=วัตถุประสงค์กับ '%s' ชื่อที่มีอยู่แล้ว
 commands.scoreboard.objectives.add.displayTooLong='%s' ชื่อที่ปรากฏจะยาวเกินไปสำหรับวัตถุประสงค์ก็สามารถที่มากที่สุด%s ตัวอักษรยาว
 commands.scoreboard.objectives.add.success='%s' วัตถุประสงค์ใหม่ที่เพิ่มเข้ามาประสบความสำเร็จ
@@ -253,7 +250,6 @@ commands.scoreboard.objectives.remove.success=เอาวัตถุประ�
 commands.scoreboard.objectives.remove.usage=/scoreboard objectives remove <name>
 commands.scoreboard.objectives.setdisplay.invalidSlot=ช่องเสียบจอแสดงผลดังกล่าวไม่มี '%s'
 commands.scoreboard.objectives.setdisplay.successCleared=ช่องเสียบจอแสดงผลเคลียร์วัตถุประสงค์ '%s'
-
 commands.scoreboard.objectives.setdisplay.successSet=ตั้งวัตถุประสงค์ที่จะแสดงใน '%s' สล็อต '%s'
 commands.scoreboard.objectives.setdisplay.usage=/scoreboard objectives setdisplay <slot> [วัตถุประสงค์]
 commands.scoreboard.players.list.count=แสดงผู้เล่น %s คน บนกระดานคะแนน %s:

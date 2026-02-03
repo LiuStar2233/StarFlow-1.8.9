@@ -251,7 +251,6 @@ commands.playsound.usage=/playsound <sound> <player> [x] [y] [z] [hlasitosť] [v
 commands.publish.failed=Nepodarilo sa spustiť lokálnu hru
 commands.publish.started=Lokálna hra hostovaná na porte %s
 commands.replaceitem.block.usage=/replaceitem block <x> <y> <z> <slot> <item> [množstvo] [dáta] [NBT dáta]
-
 commands.replaceitem.entity.usage=/replaceitem entity <selektor> <slot> <item> [množstvo] [dáta] [NBT dáta]
 commands.replaceitem.failed=Slot %s sa nedá nahradiť %s * %s
 commands.replaceitem.noContainer=Kocka so súradnicami %s,%s,%s nemôže obsahovať veci
@@ -305,7 +304,6 @@ commands.scoreboard.teams.add.success=Pridaný nový tím "%s"
 commands.scoreboard.teams.add.tooLong=meno "%s" je príliš dlhé, môže byť maximálne %s znakov dlhé
 commands.scoreboard.teams.add.usage=/scoreboard teams add <meno> [display name ...]
 commands.scoreboard.teams.empty.alreadyEmpty=Tím %s je prázdny, nie je možné odstrániť neexistujúcich hráčov
-    
 commands.scoreboard.teams.empty.success=Bolo odstránených %s hráč(ov) z tímu %s
 commands.scoreboard.teams.empty.usage=/scoreboard teams empty <tím>
 commands.scoreboard.teams.join.failure=Nepodarilo sa pridať %s hráčov do teamu %s: %s
@@ -1030,19 +1028,12 @@ key.fullscreen=Celá obrazovka
 key.hotbar.1=Lišta-pozícia 1
 key.hotbar.2=Lišta-pozícia 2
 key.hotbar.3=Lišta- pozícia 3
-
 key.hotbar.4=Lišta- pozícia 4
-
 key.hotbar.5=Lišta- pozícia 5
-
 key.hotbar.6=Lišta- pozícia 6
-
 key.hotbar.7=Lišta- pozícia 7
-
 key.hotbar.8=Lišta- pozícia 8
-
 key.hotbar.9=Lišta- pozícia 9
-
 key.inventory=Inventár
 key.jump=Skok
 key.left=Ísť doľava
@@ -1741,14 +1732,12 @@ tile.thinStainedGlass.brown.name=Hnedý sklenený panel
 tile.thinStainedGlass.cyan.name=Tyrkysový sklenený panel
 tile.thinStainedGlass.gray.name=Sivý sklenený panel
 tile.thinStainedGlass.green.name=Zelený sklenený panel
-
 tile.thinStainedGlass.lightBlue.name=Svetlomodrý sklenený panel
 tile.thinStainedGlass.lime.name=Svetlozelený sklenený panel
 tile.thinStainedGlass.magenta.name=Purpurové sklenené panely
 tile.thinStainedGlass.name=Vitrážny sklenený panel
 tile.thinStainedGlass.orange.name=Oranžový sklenený panel
 tile.thinStainedGlass.pink.name=Ružový sklenený panel
-
 tile.thinStainedGlass.purple.name=Fialový sklenený panel
 tile.thinStainedGlass.red.name=Červený sklenený panel
 tile.thinStainedGlass.silver.name=Svetlosivý sklenený panel

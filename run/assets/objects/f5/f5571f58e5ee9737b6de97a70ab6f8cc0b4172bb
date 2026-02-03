@@ -668,7 +668,6 @@ key.hotbar.5=hotbar Slot 5
 key.hotbar.6=hotbar Slot 6
 key.hotbar.7=hotbar Slot 7
 key.hotbar.8=hotbar Slot 8
-
 key.hotbar.9=hotbar Slot 9
 key.inventory='aplo'Daq
 key.jump=Sup
@@ -730,7 +729,6 @@ options.ao.max=law'
 options.ao.min=loQ
 options.ao.off=chu'Ha'
 options.chat.color=nguv­moH  mu'mey
-
 Colored Words
 options.chat.height.focused=Focused Height
 options.chat.height.unfocused=Unfocused 'ab

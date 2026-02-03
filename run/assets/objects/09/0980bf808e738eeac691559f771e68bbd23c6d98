@@ -412,7 +412,6 @@ commands.summon.tagError=Kann NBT-Daten nicht analysieren: %s
 commands.summon.usage=/summon <Objektname> [<x> <y> <z>] [<NBT-Daten>]
 commands.tellraw.jsonException=Ungültige JSON: %s
 commands.tellraw.usage=/tellraw <Spieler> <Nachricht im JSON-Format>
-
 commands.testfor.failure=%s entspricht nicht der erforderlichen Daten-Struktur
 commands.testfor.success=%s gefunden
 commands.testfor.tagError=Kann NBT-Daten nicht analysieren: %s
@@ -769,7 +768,6 @@ entity.Villager.weapon=Waffenschmied
 entity.VillagerGolem.name=Eisengolem
 entity.Witch.name=Hexe
 entity.WitherBoss.name=Wither
-
 entity.Wolf.name=Wolf
 entity.XPOrb.name=Erfahrungskugel
 entity.Zombie.name=Zombie

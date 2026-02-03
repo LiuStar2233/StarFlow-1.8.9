@@ -738,7 +738,6 @@ entity.Mob.name=生物
 entity.Monster.name=怪物
 entity.MushroomCow.name=哞菇
 entity.Ozelot.name=野貓
-
 entity.Painting.name=繪畫
 entity.Pig.name=豬
 entity.PigZombie.name=殭屍豬人
@@ -2240,7 +2239,6 @@ tile.flower2.tulipWhite.name=白色鬱金香
 tile.furnace.name=熔爐
 tile.glass.name=玻璃
 tile.goldenRail.name=動力鐵軌
-
 tile.grass.name=草地
 tile.gravel.name=礫石
 tile.hayBlock.name=乾草捆

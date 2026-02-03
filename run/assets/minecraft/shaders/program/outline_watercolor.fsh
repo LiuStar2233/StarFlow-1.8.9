@@ -1,12 +1,8 @@
 #version 120
-
 uniform sampler2D DiffuseSampler;
-
 varying vec2 texCoord;
 varying vec2 oneTexel;
-
 uniform float LumaRamp;
-
 void main(){
     vec4 center = texture2D(DiffuseSampler, texCoord);
     vec4 up     = texture2D(DiffuseSampler, texCoord + vec2(        0.0, -oneTexel.y));
@@ -36,6 +32,5 @@ void main(){
     float brDiff = dot(abs(center - br), gray);
     float sum = uDiff + dDiff + lDiff + rDiff + u2Diff + d2Diff + l2Diff + r2Diff + ulDiff + urDiff + blDiff + brDiff;
     float sumLuma = clamp(sum, 0.0, 1.0);
-
     gl_FragColor = vec4(sumLuma, sumLuma, sumLuma, 1.0);
 }

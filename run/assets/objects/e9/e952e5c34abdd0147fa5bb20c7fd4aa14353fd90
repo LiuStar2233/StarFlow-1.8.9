@@ -542,7 +542,6 @@ entity.Skeleton.name=Beinrangel
 entity.Slime.name=Slime
 entity.SmallFireball.name=Lita eldkule
 entity.SnowMan.name=Snømann
-
 entity.Snowball.name=Snøball
 entity.Spider.name=Vevkjerring
 entity.Squid.name=Blekksprut
@@ -776,7 +775,6 @@ item.redstone.name=Raudstein
 item.reeds.name=Sukkerrøyr
 item.rottenFlesh.name=Forderva kjøt
 item.ruby.name=Rubin
-
 item.saddle.name=Sal
 item.seeds.name=Frø
 item.seeds_melon.name=Melonfrø

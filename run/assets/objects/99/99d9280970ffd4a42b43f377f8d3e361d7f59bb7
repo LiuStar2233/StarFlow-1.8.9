@@ -303,7 +303,6 @@ commands.scoreboard.objectives.add.usage=/scoreboard objectives add <име> <к
 commands.scoreboard.objectives.add.wrongType=Невалиден критерии на цел от тип '%s'
 commands.scoreboard.objectives.list.count=Показване на %s обекта на таблото:
 commands.scoreboard.objectives.list.empty=Няма обекти на таблото
-
 commands.scoreboard.objectives.list.entry=-%s: се показва като "%s" и е тип '%s'
 commands.scoreboard.objectives.remove.success=Целта "%s" е премахната успешно
 commands.scoreboard.objectives.remove.usage=/scoreboard objectives remove <име>

@@ -310,8 +310,6 @@ test
 test
 test
 test
-
-
 death.attack.drown=%1$s डूब गए
 death.attack.drown.player=%1$s भागने की कोशिश करते समय डूब गए %2$s
 death.attack.explosion=%1$s को विस्फोट से उड़ा दिया

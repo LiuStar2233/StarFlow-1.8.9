@@ -289,7 +289,6 @@ commands.testforblock.failed.data=كانت الكتلة في %s، د % % d قي�
 commands.testforblock.failed.nbt=الكتلة في %s، د % % d لم تكن مفاتيح NBT المطلوبة.
 commands.testforblock.failed.tile=الكتلة في %s، د % % d من %s (المتوقع: %s).
 commands.testforblock.failed.tileEntity=عادي
-
 commands.testforblock.outOfWorld=لا يمكن اختبار للكتلة خارج العالم
 commands.testforblock.success=العثور بنجاح كتلة في d%s%s%,
 commands.testforblock.usage=/testforblock <x><y><z><TileName>[dataValue] [داتاتاج]
@@ -936,7 +935,6 @@ menu.shareToLan=فتح للشبكة المحلية
 menu.simulating=يتم الآن فحص العالم للتأكد من خلوه من الأخطاء
 menu.singleplayer=اللعب الفردي
 menu.switchingLevel=تبديل العوالم
-
 merchant.deprecated=اشتر شيأَ لتفتح شياَ آخر!
 mount.onboard=اضغط %1$s إلى ترجل
 multiplayer.connect=إتصال
@@ -963,7 +961,6 @@ options.ao.off=إيقاف
 options.blockAlternatives=مكعبات بديلة
 options.chat.color=الألوان
 options.chat.height.focused=الارتفاع المركز 
-
 options.chat.height.unfocused=الارتفاع غير مركزة
 options.chat.links=روابط ويب
 options.chat.links.prompt=المطالبة عند ضغط الروابط
@@ -1200,7 +1197,6 @@ selectWorld.mapFeatures=بناء الهياكل:
 selectWorld.mapFeatures.info=قرى، مغارات، الخ
 selectWorld.mapType=نوع العالم:
 selectWorld.mapType.normal=طبيعي
-
 selectWorld.moreWorldOptions=...خيارات اضافية للعالم
 selectWorld.newWorld=عالم جديد
 selectWorld.newWorld.copyOf=نسخة من %s
@@ -1239,7 +1235,6 @@ stat.diveOneCm=مسافة الغوص
 stat.drop=المواد الملقاة
 stat.entityKilledBy=%s قتلك %s مرة(ات)
 stat.entityKilledBy.none=انت لم تمت أبداً من أحد s%
-
 stat.entityKills=انت قتلت 
 stat.entityKills.none=انت لم تقتل ابداً &s
 stat.fallOneCm=مسافة السقوط
@@ -1410,8 +1405,6 @@ tile.doorWood.name=باب خشبي
 tile.doublePlant.fern.name=السرخس الكبيرة
 tile.doublePlant.grass.name=عشب طويل مزدوج
 tile.doublePlant.name=نبات
-
-
 tile.doublePlant.paeonia.name=عود
 tile.doublePlant.rose.name=ﺩﻭﺭﻭ ﺓﺮﻴﺠﺷ
 tile.doublePlant.sunflower.name=عباد الشمس

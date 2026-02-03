@@ -1910,7 +1910,6 @@ potion.nightVision=Nyctalopie
 potion.nightVision.postfix=Potion de vision nocturne
 potion.poison=Poison
 potion.poison.postfix=Potion de poison
-
 potion.potency.1=II
 potion.potency.2=III
 potion.potency.3=IV

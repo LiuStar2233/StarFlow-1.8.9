@@ -243,7 +243,6 @@ commands.give.tagError=Úrvinnsla gagnatags mistókst: %s
 commands.give.usage=/give <player> <item> [magn] [data] [dataTag]
 commands.help.footer=Ábending: Notaðu <tab> inni á meðan að slá inn skipunina til sjálfvirkt farartæki-heill stjórn eða rök þess
 commands.help.header=Hjálp 
-
 commands.help.usage=/help [síða|skipun]
 commands.kick.success=Sparkaði %s úr leiknum
 commands.kick.success.reason=Sparkaði %s úr leiknum: '%s'

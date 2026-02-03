@@ -83,7 +83,6 @@ advMode.notAllowed=חייב להיות מנהל כדי לשחק במצב יצי�
 advMode.notEnabled=בלוק הפקודה לא מאושר בשרת זה
 advMode.previousOutput=פלט הקודם
 advMode.randomPlayer=השתמש ב "@r" כדי לשגר שחקן אקראי
-
 advMode.setCommand=הגדר פקודת מסוף לבלוק
 advMode.setCommand.success=הפקודה נקבע: %s
 attribute.name.generic.attackDamage=כוח התקפה
@@ -484,7 +483,6 @@ enchantment.lootBonusFishing=מזל הים
 enchantment.oxygen=נשימה
 enchantment.protect.all=הגנה
 enchantment.protect.explosion=חסינות מפיצוצים
-
 enchantment.protect.fall=נפילת נוצה
 enchantment.protect.fire=חסינות לאש
 enchantment.protect.projectile=הגנה מקליעים
@@ -861,7 +859,6 @@ language.name=עברית
 language.region=ישראל
 mcoServer.title=העולם המקוון של Minecraft
 menu.convertingLevel=ממיר עולם
-
 menu.disconnect=התנתק
 menu.game=תפריט המשחק
 menu.generatingLevel=יוצר עולם
