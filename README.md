@@ -1,6 +1,6 @@
 # StarFlow Client README
 
-**Last Updated**: 2026/01/29  
+**Last Updated**: 2026/02/03  
 **Notice**: Please read this before contributing.  
 **Author**: LiuStar2233  
 **Main Contributors**: LiuStar2233  
@@ -13,11 +13,11 @@
 ### 1.1 Technology Stack
 
 - Project Base: `MCP919-LWJGL3-Gradle`
-- Gradle: `Gradle 9.3 (developBranch) / 8.14 (master)`
+- Gradle: `Gradle 9.3`
 - Injection: `SpongePowered Mixin 0.8.7` + `MixinBooter 10.7`
 - Packaging: `ShadowJar`
 - Runtime JDK: `Azul Zulu JDK 8`
-- Compile-time JDK: `Azul Zulu JDK 25 (developBranch) / 21 (master)`
+- Compile-time JDK: `Azul Zulu JDK 25`
 
 ### 1.2 Feature List
 
@@ -27,9 +27,13 @@
 - `FerrireCore` (memory optimization)
 - `Iris` (shader optimization)
 
+#### Implemented Features
+
+- [x] Removed unused `Realms` and deprecated `Twitch` functionality
+
 #### In Progress
+
 - [ ] `Rewrite sound module (paulscode is spaghetti code)`
-- [ ] `Minor bugs in netty components`
 
 #### Planned Features (To Be Implemented)
 
@@ -84,11 +88,9 @@
 - `NetworkOptimize`: Network optimization (without packet modification); still carries false-positive ban risks.
 - `InClash`: Clash proxy support; works out-of-the-box without additional handling.
 
-### 1.3 Current Development Workflow / Stage (None)
+### 1.3 Current Development Status
 
-- Launch the client using `gradle.build`, specifically the **`gradle task`: `runClient`**.
-  1. If successful: Switch to `gradle_optimized.gradle` for development (this uses optimized dependencies but requires source code rewrites).
-  2. If failed: Modify `gradle.build` to ensure **`gradle task`: `runClient`** functions correctly.
+#### Features Under Development
 
 ---
 
@@ -164,8 +166,8 @@ These features **may be flagged by anti-cheat systems** and are disabled by defa
 - **Gradle Version**: Gradle 9.3
 - **Mixin Framework**: SpongePowered Mixin 0.8.7 + MixinBooter 10.7
 - **Graphics Library**:
-  - Phase 1 (may be skipped): Bridge compatibility via `LWJGL3ify`
-  - Phase 2: Remove bridge and integrate native LWJGL3 directly
+  - Phase 1: Bridge compatibility via `Lwjgl-Fusion.jar` `-> now!`
+  - Phase 2: Remove bridge and integrate native LWJGL 3.3.6 directly
 - **Packaging Tool**: ShadowJar
 
 > Note: Development should occur within this environment configuration to ensure compatibility and build consistency.
@@ -176,8 +178,8 @@ These features **may be flagged by anti-cheat systems** and are disabled by defa
 
 - **Fully Modular**: Each feature must be an independent, pluggable module.
 - **Implementation Approach**:
-  - All features **must be implemented using Mixin**
-  - Only two exceptions: `OverwriteRender`, `GUIInGame`, and `Minecraft modules using paulscode` may initially modify source code directly, but **must later be migrated to Mixin `@Overwrite`**. Note: Direct source modification is only for migrating to `LWJGL3` to achieve better performance.
+  - All features **should be implemented using Mixin**
+  - All optimizations **should preferably use Mixin**
 - **Code Style**:
   - Class names: `PascalCase` (e.g., `JsonConfigManager`)
   - Method/variable names: `camelCase` (e.g., `loadConfigFromFile`)
@@ -207,12 +209,12 @@ These features **may be flagged by anti-cheat systems** and are disabled by defa
   ```
   StarFlow-[VERSION]-[YYYYMMDD].jar
   ```
-  Example: `StarFlow-v1.1-20260110.jar`
+  Example: `StarFlow-v1.0-SNAPSHOT-20260203.jar`
 - **Versioning Semantics (MAJOR.PATCH)**:
   - `MAJOR`: New feature added (e.g., `MiniMap`)
   - `PATCH`: Bug fixes or security improvements
 
-> Note: Version increments must strictly correspond to functional changes; skipping numbers or misusing semantics is prohibited.
+> Note: Version increments should correspond to functional changes.
 
 ---
 
