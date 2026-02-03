@@ -3,15 +3,7 @@ package net.minecraft.entity.passive;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIControlledByPlayer;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.player.EntityPlayer;
@@ -58,7 +50,7 @@ public class EntityPig extends EntityAnimal {
      */
     public boolean canBeSteered() {
         ItemStack itemstack = ((EntityPlayer) this.riddenByEntity).getHeldItem();
-        return itemstack != null && itemstack.getItem() == Items.carrot_on_a_stick;
+        return null != itemstack && itemstack.getItem() == Items.carrot_on_a_stick;
     }
 
     protected void entityInit() {
@@ -113,7 +105,7 @@ public class EntityPig extends EntityAnimal {
     public boolean interact(EntityPlayer player) {
         if (super.interact(player)) {
             return true;
-        } else if (!this.getSaddled() || this.worldObj.isRemote || this.riddenByEntity != null && this.riddenByEntity != player) {
+        } else if (!this.getSaddled() || this.worldObj.isRemote || null != riddenByEntity && this.riddenByEntity != player) {
             return false;
         } else {
             player.mountEntity(this);
@@ -152,7 +144,7 @@ public class EntityPig extends EntityAnimal {
      * Returns true if the pig is saddled.
      */
     public boolean getSaddled() {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+        return 0 != (dataWatcher.getWatchableObjectByte(16) & 1);
     }
 
     /**
@@ -189,7 +181,7 @@ public class EntityPig extends EntityAnimal {
     public void fall(float distance, float damageMultiplier) {
         super.fall(distance, damageMultiplier);
 
-        if (distance > 5.0F && this.riddenByEntity instanceof EntityPlayer) {
+        if (5.0F < distance && this.riddenByEntity instanceof EntityPlayer) {
             ((EntityPlayer) this.riddenByEntity).triggerAchievement(AchievementList.flyPig);
         }
     }
@@ -203,7 +195,7 @@ public class EntityPig extends EntityAnimal {
      * the animal type)
      */
     public boolean isBreedingItem(ItemStack stack) {
-        return stack != null && stack.getItem() == Items.carrot;
+        return null != stack && stack.getItem() == Items.carrot;
     }
 
     /**

@@ -38,18 +38,18 @@ public class EntityMinecartFurnace extends EntityMinecart {
     public void onUpdate() {
         super.onUpdate();
 
-        if (this.fuel > 0) {
+        if (0 < fuel) {
             --this.fuel;
         }
 
-        if (this.fuel <= 0) {
+        if (0 >= fuel) {
             this.pushX = this.pushZ = 0.0D;
         }
 
-        this.setMinecartPowered(this.fuel > 0);
+        this.setMinecartPowered(0 < fuel);
 
-        if (this.isMinecartPowered() && this.rand.nextInt(4) == 0) {
-            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + 0.8D, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+        if (this.isMinecartPowered() && 0 == rand.nextInt(4)) {
+            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + 0.8D, this.posZ, 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -72,12 +72,12 @@ public class EntityMinecartFurnace extends EntityMinecart {
         super.func_180460_a(p_180460_1_, p_180460_2_);
         double d0 = this.pushX * this.pushX + this.pushZ * this.pushZ;
 
-        if (d0 > 1.0E-4D && this.motionX * this.motionX + this.motionZ * this.motionZ > 0.001D) {
-            d0 = (double) MathHelper.sqrt_double(d0);
+        if (1.0E-4D < d0 && 0.001D < motionX * motionX + motionZ * motionZ) {
+            d0 = MathHelper.sqrt_double(d0);
             this.pushX /= d0;
             this.pushZ /= d0;
 
-            if (this.pushX * this.motionX + this.pushZ * this.motionZ < 0.0D) {
+            if (0.0D > pushX * motionX + pushZ * motionZ) {
                 this.pushX = 0.0D;
                 this.pushZ = 0.0D;
             } else {
@@ -91,11 +91,11 @@ public class EntityMinecartFurnace extends EntityMinecart {
     protected void applyDrag() {
         double d0 = this.pushX * this.pushX + this.pushZ * this.pushZ;
 
-        if (d0 > 1.0E-4D) {
-            d0 = (double) MathHelper.sqrt_double(d0);
+        if (1.0E-4D < d0) {
+            d0 = MathHelper.sqrt_double(d0);
             this.pushX /= d0;
             this.pushZ /= d0;
-            double d1 = 1.0D;
+            final double d1 = 1.0D;
             this.motionX *= 0.800000011920929D;
             this.motionY *= 0.0D;
             this.motionZ *= 0.800000011920929D;
@@ -116,9 +116,9 @@ public class EntityMinecartFurnace extends EntityMinecart {
     public boolean interactFirst(EntityPlayer playerIn) {
         ItemStack itemstack = playerIn.inventory.getCurrentItem();
 
-        if (itemstack != null && itemstack.getItem() == Items.coal) {
-            if (!playerIn.capabilities.isCreativeMode && --itemstack.stackSize == 0) {
-                playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack) null);
+        if (null != itemstack && itemstack.getItem() == Items.coal) {
+            if (!playerIn.capabilities.isCreativeMode && 0 == --itemstack.stackSize) {
+                playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
             }
 
             this.fuel += 3600;
@@ -150,7 +150,7 @@ public class EntityMinecartFurnace extends EntityMinecart {
     }
 
     protected boolean isMinecartPowered() {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+        return 0 != (dataWatcher.getWatchableObjectByte(16) & 1);
     }
 
     protected void setMinecartPowered(boolean p_94107_1_) {

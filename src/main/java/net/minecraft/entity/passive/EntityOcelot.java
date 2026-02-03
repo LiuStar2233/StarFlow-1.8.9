@@ -1,23 +1,12 @@
 package net.minecraft.entity.passive;
 
-import com.google.common.base.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAILeapAtTarget;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIOcelotAttack;
-import net.minecraft.entity.ai.EntityAIOcelotSit;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITargetNonTamed;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -37,7 +26,7 @@ public class EntityOcelot extends EntityTameable {
     /**
      * The tempt AI task for this mob, used to prevent taming while it is fleeing.
      */
-    private EntityAITempt aiTempt;
+    private final EntityAITempt aiTempt;
 
     public EntityOcelot(World worldIn) {
         super(worldIn);
@@ -53,7 +42,7 @@ public class EntityOcelot extends EntityTameable {
         this.tasks.addTask(9, new EntityAIMate(this, 0.8D));
         this.tasks.addTask(10, new EntityAIWander(this, 0.8D));
         this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 10.0F));
-        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityChicken.class, false, (Predicate) null));
+        this.targetTasks.addTask(1, new EntityAITargetNonTamed(this, EntityChicken.class, false, null));
     }
 
     protected void entityInit() {
@@ -65,10 +54,10 @@ public class EntityOcelot extends EntityTameable {
         if (this.getMoveHelper().isUpdating()) {
             double d0 = this.getMoveHelper().getSpeed();
 
-            if (d0 == 0.6D) {
+            if (0.6D == d0) {
                 this.setSneaking(true);
                 this.setSprinting(false);
-            } else if (d0 == 1.33D) {
+            } else if (1.33D == d0) {
                 this.setSneaking(false);
                 this.setSprinting(true);
             } else {
@@ -85,7 +74,7 @@ public class EntityOcelot extends EntityTameable {
      * Determines if an entity can be despawned, used on idle far away entities
      */
     protected boolean canDespawn() {
-        return !this.isTamed() && this.ticksExisted > 2400;
+        return !this.isTamed() && 2400 < ticksExisted;
     }
 
     protected void applyEntityAttributes() {
@@ -117,7 +106,7 @@ public class EntityOcelot extends EntityTameable {
      * Returns the sound this mob makes while it's alive.
      */
     protected String getLivingSound() {
-        return this.isTamed() ? (this.isInLove() ? "mob.cat.purr" : (this.rand.nextInt(4) == 0 ? "mob.cat.purreow" : "mob.cat.meow")) : "";
+        return this.isTamed() ? (this.isInLove() ? "mob.cat.purr" : (0 == rand.nextInt(4) ? "mob.cat.purreow" : "mob.cat.meow")) : "";
     }
 
     /**
@@ -181,17 +170,17 @@ public class EntityOcelot extends EntityTameable {
             if (this.isOwner(player) && !this.worldObj.isRemote && !this.isBreedingItem(itemstack)) {
                 this.aiSit.setSitting(!this.isSitting());
             }
-        } else if (this.aiTempt.isRunning() && itemstack != null && itemstack.getItem() == Items.fish && player.getDistanceSqToEntity(this) < 9.0D) {
+        } else if (this.aiTempt.isRunning() && null != itemstack && itemstack.getItem() == Items.fish && 9.0D > player.getDistanceSqToEntity(this)) {
             if (!player.capabilities.isCreativeMode) {
                 --itemstack.stackSize;
             }
 
-            if (itemstack.stackSize <= 0) {
-                player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
+            if (0 >= itemstack.stackSize) {
+                player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
             }
 
             if (!this.worldObj.isRemote) {
-                if (this.rand.nextInt(3) == 0) {
+                if (0 == rand.nextInt(3)) {
                     this.setTamed(true);
                     this.setTameSkin(1 + this.worldObj.rand.nextInt(3));
                     this.setOwnerId(player.getUniqueID().toString());
@@ -227,7 +216,7 @@ public class EntityOcelot extends EntityTameable {
      * the animal type)
      */
     public boolean isBreedingItem(ItemStack stack) {
-        return stack != null && stack.getItem() == Items.fish;
+        return null != stack && stack.getItem() == Items.fish;
     }
 
     /**
@@ -242,7 +231,7 @@ public class EntityOcelot extends EntityTameable {
             return false;
         } else {
             EntityOcelot entityocelot = (EntityOcelot) otherAnimal;
-            return !entityocelot.isTamed() ? false : this.isInLove() && entityocelot.isInLove();
+            return entityocelot.isTamed() && this.isInLove() && entityocelot.isInLove();
         }
     }
 
@@ -258,7 +247,7 @@ public class EntityOcelot extends EntityTameable {
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
     public boolean getCanSpawnHere() {
-        return this.worldObj.rand.nextInt(3) != 0;
+        return 0 != worldObj.rand.nextInt(3);
     }
 
     /**
@@ -274,9 +263,7 @@ public class EntityOcelot extends EntityTameable {
 
             Block block = this.worldObj.getBlockState(blockpos.down()).getBlock();
 
-            if (block == Blocks.grass || block.getMaterial() == Material.leaves) {
-                return true;
-            }
+            return block == Blocks.grass || block.getMaterial() == Material.leaves;
         }
 
         return false;
@@ -294,7 +281,7 @@ public class EntityOcelot extends EntityTameable {
     }
 
     protected void setupTamedAI() {
-        if (this.avoidEntity == null) {
+        if (null == avoidEntity) {
             this.avoidEntity = new EntityAIAvoidEntity(this, EntityPlayer.class, 16.0F, 0.8D, 1.33D);
         }
 
@@ -312,8 +299,8 @@ public class EntityOcelot extends EntityTameable {
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
 
-        if (this.worldObj.rand.nextInt(7) == 0) {
-            for (int i = 0; i < 2; ++i) {
+        if (0 == worldObj.rand.nextInt(7)) {
+            for (int i = 0; 2 > i; ++i) {
                 EntityOcelot entityocelot = new EntityOcelot(this.worldObj);
                 entityocelot.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
                 entityocelot.setGrowingAge(-24000);

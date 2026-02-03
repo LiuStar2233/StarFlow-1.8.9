@@ -48,11 +48,11 @@ public abstract class EntityHanging extends Entity {
      * Updates the entity bounding box based on current facing
      */
     private void updateBoundingBox() {
-        if (this.facingDirection != null) {
+        if (null != facingDirection) {
             double d0 = (double) this.hangingPosition.getX() + 0.5D;
             double d1 = (double) this.hangingPosition.getY() + 0.5D;
             double d2 = (double) this.hangingPosition.getZ() + 0.5D;
-            double d3 = 0.46875D;
+            final double d3 = 0.46875D;
             double d4 = this.func_174858_a(this.getWidthPixels());
             double d5 = this.func_174858_a(this.getHeightPixels());
             d0 = d0 - (double) this.facingDirection.getFrontOffsetX() * 0.46875D;
@@ -64,11 +64,11 @@ public abstract class EntityHanging extends Entity {
             this.posX = d0;
             this.posY = d1;
             this.posZ = d2;
-            double d6 = (double) this.getWidthPixels();
-            double d7 = (double) this.getHeightPixels();
-            double d8 = (double) this.getWidthPixels();
+            double d6 = this.getWidthPixels();
+            double d7 = this.getHeightPixels();
+            double d8 = this.getWidthPixels();
 
-            if (this.facingDirection.getAxis() == EnumFacing.Axis.Z) {
+            if (EnumFacing.Axis.Z == facingDirection.getAxis()) {
                 d8 = 1.0D;
             } else {
                 d6 = 1.0D;
@@ -82,7 +82,7 @@ public abstract class EntityHanging extends Entity {
     }
 
     private double func_174858_a(int p_174858_1_) {
-        return p_174858_1_ % 32 == 0 ? 0.5D : 0.0D;
+        return 0 == p_174858_1_ % 32 ? 0.5D : 0.0D;
     }
 
     /**
@@ -93,12 +93,12 @@ public abstract class EntityHanging extends Entity {
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
 
-        if (this.tickCounter1++ == 100 && !this.worldObj.isRemote) {
+        if (100 == tickCounter1++ && !this.worldObj.isRemote) {
             this.tickCounter1 = 0;
 
             if (!this.isDead && !this.onValidSurface()) {
                 this.setDead();
-                this.onBroken((Entity) null);
+                this.onBroken(null);
             }
         }
     }
@@ -147,7 +147,7 @@ public abstract class EntityHanging extends Entity {
      * Called when a player attacks an entity. If this returns true the attack will not happen.
      */
     public boolean hitByEntity(Entity entityIn) {
-        return entityIn instanceof EntityPlayer ? this.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) entityIn), 0.0F) : false;
+        return entityIn instanceof EntityPlayer && this.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) entityIn), 0.0F);
     }
 
     public EnumFacing getHorizontalFacing() {
@@ -175,9 +175,9 @@ public abstract class EntityHanging extends Entity {
      * Tries to moves the entity by the passed in displacement. Args: x, y, z
      */
     public void moveEntity(double x, double y, double z) {
-        if (!this.worldObj.isRemote && !this.isDead && x * x + y * y + z * z > 0.0D) {
+        if (!this.worldObj.isRemote && !this.isDead && 0.0D < x * x + y * y + z * z) {
             this.setDead();
-            this.onBroken((Entity) null);
+            this.onBroken(null);
         }
     }
 
@@ -185,9 +185,9 @@ public abstract class EntityHanging extends Entity {
      * Adds to the current velocity of the entity. Args: x, y, z
      */
     public void addVelocity(double x, double y, double z) {
-        if (!this.worldObj.isRemote && !this.isDead && x * x + y * y + z * z > 0.0D) {
+        if (!this.worldObj.isRemote && !this.isDead && 0.0D < x * x + y * y + z * z) {
             this.setDead();
-            this.onBroken((Entity) null);
+            this.onBroken(null);
         }
     }
 

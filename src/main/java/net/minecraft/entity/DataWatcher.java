@@ -2,13 +2,6 @@ package net.minecraft.entity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.item.ItemStack;
@@ -18,6 +11,12 @@ import net.minecraft.util.ReportedException;
 import net.minecraft.util.Rotations;
 import org.apache.commons.lang3.ObjectUtils;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 public class DataWatcher {
     private final Entity owner;
 
@@ -25,25 +24,25 @@ public class DataWatcher {
      * When isBlank is true the DataWatcher is not watching any objects
      */
     private boolean isBlank = true;
-    private static final Map<Class<?>, Integer> dataTypes = Maps.<Class<?>, Integer>newHashMap();
-    private final Map<Integer, DataWatcher.WatchableObject> watchedObjects = Maps.<Integer, DataWatcher.WatchableObject>newHashMap();
+    private static final Map<Class<?>, Integer> dataTypes = Maps.newHashMap();
+    private final Map<Integer, DataWatcher.WatchableObject> watchedObjects = Maps.newHashMap();
 
     /**
      * true if one or more object was changed
      */
     private boolean objectChanged;
-    private ReadWriteLock lock = new ReentrantReadWriteLock();
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     public DataWatcher(Entity owner) {
         this.owner = owner;
     }
 
     public <T> void addObject(int id, T object) {
-        Integer integer = (Integer) dataTypes.get(object.getClass());
+        Integer integer = dataTypes.get(object.getClass());
 
-        if (integer == null) {
+        if (null == integer) {
             throw new IllegalArgumentException("Unknown data type: " + object.getClass());
-        } else if (id > 31) {
+        } else if (31 < id) {
             throw new IllegalArgumentException("Data value id is too big with " + id + "! (Max is " + 31 + ")");
         } else if (this.watchedObjects.containsKey(Integer.valueOf(id))) {
             throw new IllegalArgumentException("Duplicate id value for " + id + "!");
@@ -60,7 +59,7 @@ public class DataWatcher {
      * Add a new object for the DataWatcher to watch, using the specified data type.
      */
     public void addObjectByDataType(int id, int type) {
-        DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(type, id, (Object) null);
+        DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(type, id, null);
         this.lock.writeLock().lock();
         this.watchedObjects.put(Integer.valueOf(id), datawatcher$watchableobject);
         this.lock.writeLock().unlock();
@@ -111,7 +110,7 @@ public class DataWatcher {
         DataWatcher.WatchableObject datawatcher$watchableobject;
 
         try {
-            datawatcher$watchableobject = (DataWatcher.WatchableObject) this.watchedObjects.get(Integer.valueOf(id));
+            datawatcher$watchableobject = this.watchedObjects.get(Integer.valueOf(id));
         } catch (Throwable throwable) {
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Getting synched entity data");
             CrashReportCategory crashreportcategory = crashreport.makeCategory("Synched entity data");
@@ -155,7 +154,7 @@ public class DataWatcher {
      * ChunkCoordinates}) to the specified PacketBuffer
      */
     public static void writeWatchedListToPacketBuffer(List<DataWatcher.WatchableObject> objectsList, PacketBuffer buffer) throws IOException {
-        if (objectsList != null) {
+        if (null != objectsList) {
             for (DataWatcher.WatchableObject datawatcher$watchableobject : objectsList) {
                 writeWatchableObjectToPacketBuffer(buffer, datawatcher$watchableobject);
             }
@@ -174,8 +173,8 @@ public class DataWatcher {
                 if (datawatcher$watchableobject.isWatched()) {
                     datawatcher$watchableobject.setWatched(false);
 
-                    if (list == null) {
-                        list = Lists.<DataWatcher.WatchableObject>newArrayList();
+                    if (null == list) {
+                        list = Lists.newArrayList();
                     }
 
                     list.add(datawatcher$watchableobject);
@@ -205,8 +204,8 @@ public class DataWatcher {
         this.lock.readLock().lock();
 
         for (DataWatcher.WatchableObject datawatcher$watchableobject : this.watchedObjects.values()) {
-            if (list == null) {
-                list = Lists.<DataWatcher.WatchableObject>newArrayList();
+            if (null == list) {
+                list = Lists.newArrayList();
             }
 
             list.add(datawatcher$watchableobject);
@@ -268,9 +267,9 @@ public class DataWatcher {
     public static List<DataWatcher.WatchableObject> readWatchedListFromPacketBuffer(PacketBuffer buffer) throws IOException {
         List<DataWatcher.WatchableObject> list = null;
 
-        for (int i = buffer.readByte(); i != 127; i = buffer.readByte()) {
-            if (list == null) {
-                list = Lists.<DataWatcher.WatchableObject>newArrayList();
+        for (int i = buffer.readByte(); 127 != i; i = buffer.readByte()) {
+            if (null == list) {
+                list = Lists.newArrayList();
             }
 
             int j = (i & 224) >> 5;
@@ -326,9 +325,9 @@ public class DataWatcher {
         this.lock.writeLock().lock();
 
         for (DataWatcher.WatchableObject datawatcher$watchableobject : p_75687_1_) {
-            DataWatcher.WatchableObject datawatcher$watchableobject1 = (DataWatcher.WatchableObject) this.watchedObjects.get(Integer.valueOf(datawatcher$watchableobject.getDataValueId()));
+            DataWatcher.WatchableObject datawatcher$watchableobject1 = this.watchedObjects.get(Integer.valueOf(datawatcher$watchableobject.getDataValueId()));
 
-            if (datawatcher$watchableobject1 != null) {
+            if (null != datawatcher$watchableobject1) {
                 datawatcher$watchableobject1.setObject(datawatcher$watchableobject.getObject());
                 this.owner.onDataWatcherUpdate(datawatcher$watchableobject.getDataValueId());
             }

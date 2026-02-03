@@ -1,23 +1,18 @@
 package net.minecraft.client.resources;
 
 import com.google.common.collect.Lists;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.List;
-import java.util.Set;
-
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.*;
+import java.util.List;
+import java.util.Set;
+
 public class FallbackResourceManager implements IResourceManager {
     private static final Logger logger = LogManager.getLogger();
-    protected final List<IResourcePack> resourcePacks = Lists.<IResourcePack>newArrayList();
+    protected final List<IResourcePack> resourcePacks = Lists.newArrayList();
     private final IMetadataSerializer frmMetadataSerializer;
 
     public FallbackResourceManager(IMetadataSerializer frmMetadataSerializerIn) {
@@ -36,17 +31,17 @@ public class FallbackResourceManager implements IResourceManager {
         IResourcePack iresourcepack = null;
         ResourceLocation resourcelocation = getLocationMcmeta(location);
 
-        for (int i = this.resourcePacks.size() - 1; i >= 0; --i) {
-            IResourcePack iresourcepack1 = (IResourcePack) this.resourcePacks.get(i);
+        for (int i = this.resourcePacks.size() - 1; 0 <= i; --i) {
+            IResourcePack iresourcepack1 = this.resourcePacks.get(i);
 
-            if (iresourcepack == null && iresourcepack1.resourceExists(resourcelocation)) {
+            if (null == iresourcepack && iresourcepack1.resourceExists(resourcelocation)) {
                 iresourcepack = iresourcepack1;
             }
 
             if (iresourcepack1.resourceExists(location)) {
                 InputStream inputstream = null;
 
-                if (iresourcepack != null) {
+                if (null != iresourcepack) {
                     inputstream = this.getInputStream(resourcelocation, iresourcepack);
                 }
 
@@ -59,11 +54,11 @@ public class FallbackResourceManager implements IResourceManager {
 
     protected InputStream getInputStream(ResourceLocation location, IResourcePack resourcePack) throws IOException {
         InputStream inputstream = resourcePack.getInputStream(location);
-        return (InputStream) (logger.isDebugEnabled() ? new FallbackResourceManager.InputStreamLeakedResourceLogger(inputstream, location, resourcePack.getPackName()) : inputstream);
+        return logger.isDebugEnabled() ? new InputStreamLeakedResourceLogger(inputstream, location, resourcePack.getPackName()) : inputstream;
     }
 
     public List<IResource> getAllResources(ResourceLocation location) throws IOException {
-        List<IResource> list = Lists.<IResource>newArrayList();
+        List<IResource> list = Lists.newArrayList();
         ResourceLocation resourcelocation = getLocationMcmeta(location);
 
         for (IResourcePack iresourcepack : this.resourcePacks) {
@@ -87,13 +82,13 @@ public class FallbackResourceManager implements IResourceManager {
     static class InputStreamLeakedResourceLogger extends InputStream {
         private final InputStream inputStream;
         private final String message;
-        private boolean isClosed = false;
+        private boolean isClosed;
 
         public InputStreamLeakedResourceLogger(InputStream p_i46093_1_, ResourceLocation location, String resourcePack) {
             this.inputStream = p_i46093_1_;
             ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
             (new Exception()).printStackTrace(new PrintStream(bytearrayoutputstream));
-            this.message = "Leaked resource: \'" + location + "\' loaded from pack: \'" + resourcePack + "\'\n" + bytearrayoutputstream.toString();
+            this.message = "Leaked resource: '" + location + "' loaded from pack: '" + resourcePack + "'\n" + bytearrayoutputstream;
         }
 
         public void close() throws IOException {
@@ -101,7 +96,7 @@ public class FallbackResourceManager implements IResourceManager {
             this.isClosed = true;
         }
 
-        // FUCKING CHANGE
+        // STARFLOW-CHANGE
         // TIPS: 暂时抑制
         @SuppressWarnings("deprecation")
         protected void finalize() throws Throwable {

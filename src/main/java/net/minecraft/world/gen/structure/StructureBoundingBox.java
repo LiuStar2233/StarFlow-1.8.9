@@ -41,7 +41,7 @@ public class StructureBoundingBox {
     }
 
     public StructureBoundingBox(int[] coords) {
-        if (coords.length == 6) {
+        if (6 == coords.length) {
             this.minX = coords[0];
             this.minY = coords[1];
             this.minZ = coords[2];
@@ -196,7 +196,7 @@ public class StructureBoundingBox {
     }
 
     public String toString() {
-        // FUCKING CHANGE
+        // STARFLOW-CHANGE
         return MoreObjects.toStringHelper(this).add("x0", this.minX).add("y0", this.minY).add("z0", this.minZ).add("x1", this.maxX).add("y1", this.maxY).add("z1", this.maxZ).toString();
     }
 

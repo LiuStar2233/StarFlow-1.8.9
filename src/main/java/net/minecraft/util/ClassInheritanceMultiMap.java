@@ -8,11 +8,11 @@ import com.google.common.collect.Sets;
 import java.util.*;
 
 public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
-    private static final Set<Class<?>> field_181158_a = Sets.<Class<?>>newHashSet();
-    private final Map<Class<?>, List<T>> map = Maps.<Class<?>, List<T>>newHashMap();
-    private final Set<Class<?>> knownKeys = Sets.<Class<?>>newIdentityHashSet();
+    private static final Set<Class<?>> field_181158_a = Sets.newHashSet();
+    private final Map<Class<?>, List<T>> map = Maps.newHashMap();
+    private final Set<Class<?>> knownKeys = Sets.newIdentityHashSet();
     private final Class<T> baseClass;
-    private final List<T> values = Lists.<T>newArrayList();
+    private final List<T> values = Lists.newArrayList();
 
     public ClassInheritanceMultiMap(Class<T> baseClassIn) {
         this.baseClass = baseClassIn;
@@ -44,7 +44,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
 
             return clazz;
         } else {
-            throw new IllegalArgumentException("Don\'t know how to search for " + clazz);
+            throw new IllegalArgumentException("Don't know how to search for " + clazz);
         }
     }
 
@@ -59,9 +59,9 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
     }
 
     private void addForClass(T value, Class<?> parentClass) {
-        List<T> list = (List) this.map.get(parentClass);
+        List<T> list = this.map.get(parentClass);
 
-        if (list == null) {
+        if (null == list) {
             this.map.put(parentClass, Lists.newArrayList(value));
         } else {
             list.add(value);
@@ -74,9 +74,9 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
 
         for (Class<?> oclass : this.knownKeys) {
             if (oclass.isAssignableFrom(t.getClass())) {
-                List<T> list = (List) this.map.get(oclass);
+                List<T> list = this.map.get(oclass);
 
-                if (list != null && list.remove(t)) {
+                if (null != list && list.remove(t)) {
                     flag = true;
                 }
             }
@@ -92,11 +92,11 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
     public <S> Iterable<S> getByClass(final Class<S> clazz) {
         return new Iterable<S>() {
             public Iterator<S> iterator() {
-                List<T> list = (List) ClassInheritanceMultiMap.this.map.get(ClassInheritanceMultiMap.this.initializeClassLookup(clazz));
+                List<T> list = ClassInheritanceMultiMap.this.map.get(ClassInheritanceMultiMap.this.initializeClassLookup(clazz));
 
-                if (list == null) {
-                    // FUCKING CHANGE
-                    return Collections.<S>emptyList().iterator();
+                if (null == list) {
+                    // STARFLOW-CHANGE
+                    return Collections.emptyIterator();
                 } else {
                     Iterator<T> iterator = list.iterator();
                     return Iterators.filter(iterator, clazz);
@@ -106,8 +106,8 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T> {
     }
 
     public Iterator<T> iterator() {
-        // FUCKIGN CHANGE
-        return this.values.isEmpty() ? Collections.<T>emptyList().iterator() : Iterators.unmodifiableIterator(this.values.iterator());
+        // STARFLOW-CHANGE
+        return this.values.isEmpty() ? Collections.emptyIterator() : Iterators.unmodifiableIterator(this.values.iterator());
     }
 
     public int size() {

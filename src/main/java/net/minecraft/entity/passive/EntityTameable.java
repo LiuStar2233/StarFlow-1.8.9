@@ -1,7 +1,5 @@
 package net.minecraft.entity.passive;
 
-import java.util.UUID;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.ai.EntityAISit;
@@ -12,6 +10,8 @@ import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+
+import java.util.UUID;
 
 public abstract class EntityTameable extends EntityAnimal implements IEntityOwnable {
     protected EntityAISit aiSit = new EntityAISit(this);
@@ -33,7 +33,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
     public void writeEntityToNBT(NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
 
-        if (this.getOwnerId() == null) {
+        if (null == getOwnerId()) {
             tagCompound.setString("OwnerUUID", "");
         } else {
             tagCompound.setString("OwnerUUID", this.getOwnerId());
@@ -56,7 +56,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
             s = PreYggdrasilConverter.getStringUUIDFromName(s1);
         }
 
-        if (s.length() > 0) {
+        if (0 < s.length()) {
             this.setOwnerId(s);
             this.setTamed(true);
         }
@@ -75,18 +75,18 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
             enumparticletypes = EnumParticleTypes.SMOKE_NORMAL;
         }
 
-        for (int i = 0; i < 7; ++i) {
+        for (int i = 0; 7 > i; ++i) {
             double d0 = this.rand.nextGaussian() * 0.02D;
             double d1 = this.rand.nextGaussian() * 0.02D;
             double d2 = this.rand.nextGaussian() * 0.02D;
-            this.worldObj.spawnParticle(enumparticletypes, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2, new int[0]);
+            this.worldObj.spawnParticle(enumparticletypes, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2);
         }
     }
 
     public void handleStatusUpdate(byte id) {
-        if (id == 7) {
+        if (7 == id) {
             this.playTameEffect(true);
-        } else if (id == 6) {
+        } else if (6 == id) {
             this.playTameEffect(false);
         } else {
             super.handleStatusUpdate(id);
@@ -94,7 +94,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
     }
 
     public boolean isTamed() {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 4) != 0;
+        return 0 != (dataWatcher.getWatchableObjectByte(16) & 4);
     }
 
     public void setTamed(boolean tamed) {
@@ -113,7 +113,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
     }
 
     public boolean isSitting() {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+        return 0 != (dataWatcher.getWatchableObjectByte(16) & 1);
     }
 
     public void setSitting(boolean sitting) {
@@ -137,7 +137,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
     public EntityLivingBase getOwner() {
         try {
             UUID uuid = UUID.fromString(this.getOwnerId());
-            return uuid == null ? null : this.worldObj.getPlayerEntityByUUID(uuid);
+            return null == uuid ? null : this.worldObj.getPlayerEntityByUUID(uuid);
         } catch (IllegalArgumentException var2) {
             return null;
         }
@@ -162,7 +162,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
         if (this.isTamed()) {
             EntityLivingBase entitylivingbase = this.getOwner();
 
-            if (entitylivingbase != null) {
+            if (null != entitylivingbase) {
                 return entitylivingbase.getTeam();
             }
         }
@@ -178,7 +178,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
                 return true;
             }
 
-            if (entitylivingbase != null) {
+            if (null != entitylivingbase) {
                 return entitylivingbase.isOnSameTeam(otherEntity);
             }
         }
@@ -191,7 +191,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
      */
     public void onDeath(DamageSource cause) {
         if (!this.worldObj.isRemote && this.worldObj.getGameRules().getBoolean("showDeathMessages") && this.hasCustomName() && this.getOwner() instanceof EntityPlayerMP) {
-            ((EntityPlayerMP) this.getOwner()).addChatMessage(this.getCombatTracker().getDeathMessage());
+            this.getOwner().addChatMessage(this.getCombatTracker().getDeathMessage());
         }
 
         super.onDeath(cause);

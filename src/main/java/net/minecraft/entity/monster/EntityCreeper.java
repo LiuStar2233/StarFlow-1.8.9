@@ -2,15 +2,7 @@ package net.minecraft.entity.monster;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAICreeperSwell;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,7 +30,7 @@ public class EntityCreeper extends EntityMob {
      * Explosion radius for this creeper.
      */
     private int explosionRadius = 3;
-    private int field_175494_bm = 0;
+    private int field_175494_bm;
 
     public EntityCreeper(World worldIn) {
         super(worldIn);
@@ -50,7 +42,7 @@ public class EntityCreeper extends EntityMob {
         this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
-        this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
+        this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
     }
 
     protected void applyEntityAttributes() {
@@ -62,7 +54,7 @@ public class EntityCreeper extends EntityMob {
      * The maximum height from where the entity is alowed to jump (used in pathfinder)
      */
     public int getMaxFallHeight() {
-        return this.getAttackTarget() == null ? 3 : 3 + (int) (this.getHealth() - 1.0F);
+        return null == getAttackTarget() ? 3 : 3 + (int) (this.getHealth() - 1.0F);
     }
 
     public void fall(float distance, float damageMultiplier) {
@@ -87,7 +79,7 @@ public class EntityCreeper extends EntityMob {
     public void writeEntityToNBT(NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
 
-        if (this.dataWatcher.getWatchableObjectByte(17) == 1) {
+        if (1 == dataWatcher.getWatchableObjectByte(17)) {
             tagCompound.setBoolean("powered", true);
         }
 
@@ -129,13 +121,13 @@ public class EntityCreeper extends EntityMob {
 
             int i = this.getCreeperState();
 
-            if (i > 0 && this.timeSinceIgnited == 0) {
+            if (0 < i && 0 == timeSinceIgnited) {
                 this.playSound("creeper.primed", 1.0F, 0.5F);
             }
 
             this.timeSinceIgnited += i;
 
-            if (this.timeSinceIgnited < 0) {
+            if (0 > timeSinceIgnited) {
                 this.timeSinceIgnited = 0;
             }
 
@@ -187,7 +179,7 @@ public class EntityCreeper extends EntityMob {
      * Returns true if the creeper is powered by a lightning bolt.
      */
     public boolean getPowered() {
-        return this.dataWatcher.getWatchableObjectByte(17) == 1;
+        return 1 == dataWatcher.getWatchableObjectByte(17);
     }
 
     /**
@@ -229,7 +221,7 @@ public class EntityCreeper extends EntityMob {
     protected boolean interact(EntityPlayer player) {
         ItemStack itemstack = player.inventory.getCurrentItem();
 
-        if (itemstack != null && itemstack.getItem() == Items.flint_and_steel) {
+        if (null != itemstack && itemstack.getItem() == Items.flint_and_steel) {
             this.worldObj.playSoundEffect(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D, "fire.ignite", 1.0F, this.rand.nextFloat() * 0.4F + 0.8F);
             player.swingItem();
 
@@ -256,7 +248,7 @@ public class EntityCreeper extends EntityMob {
     }
 
     public boolean hasIgnited() {
-        return this.dataWatcher.getWatchableObjectByte(18) != 0;
+        return 0 != dataWatcher.getWatchableObjectByte(18);
     }
 
     public void ignite() {
@@ -267,7 +259,7 @@ public class EntityCreeper extends EntityMob {
      * Returns true if the newer Entity AI code should be run
      */
     public boolean isAIEnabled() {
-        return this.field_175494_bm < 1 && this.worldObj.getGameRules().getBoolean("doMobLoot");
+        return 1 > field_175494_bm && this.worldObj.getGameRules().getBoolean("doMobLoot");
     }
 
     public void func_175493_co() {

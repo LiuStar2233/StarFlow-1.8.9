@@ -20,10 +20,10 @@ public class BlockPattern {
         this.blockMatches = predicatesIn;
         this.fingerLength = predicatesIn.length;
 
-        if (this.fingerLength > 0) {
+        if (0 < fingerLength) {
             this.thumbLength = predicatesIn[0].length;
 
-            if (this.thumbLength > 0) {
+            if (0 < thumbLength) {
                 this.palmLength = predicatesIn[0][0].length;
             } else {
                 this.palmLength = 0;
@@ -73,7 +73,7 @@ public class BlockPattern {
                     if (enumfacing1 != enumfacing && enumfacing1 != enumfacing.getOpposite()) {
                         BlockPattern.PatternHelper blockpattern$patternhelper = this.checkPatternAt(blockpos, enumfacing, enumfacing1, loadingcache);
 
-                        if (blockpattern$patternhelper != null) {
+                        if (null != blockpattern$patternhelper) {
                             return blockpattern$patternhelper;
                         }
                     }
@@ -85,7 +85,7 @@ public class BlockPattern {
     }
 
     public static LoadingCache<BlockPos, BlockWorldState> func_181627_a(World p_181627_0_, boolean p_181627_1_) {
-        return CacheBuilder.newBuilder().<BlockPos, BlockWorldState>build(new BlockPattern.CacheLoader(p_181627_0_, p_181627_1_));
+        return CacheBuilder.newBuilder().build(new BlockPattern.CacheLoader(p_181627_0_, p_181627_1_));
     }
 
     /**
@@ -157,11 +157,11 @@ public class BlockPattern {
         }
 
         public BlockWorldState translateOffset(int palmOffset, int thumbOffset, int fingerOffset) {
-            return (BlockWorldState) this.lcache.getUnchecked(BlockPattern.translateOffset(this.pos, this.getFinger(), this.getThumb(), palmOffset, thumbOffset, fingerOffset));
+            return this.lcache.getUnchecked(BlockPattern.translateOffset(this.pos, this.getFinger(), this.getThumb(), palmOffset, thumbOffset, fingerOffset));
         }
 
         public String toString() {
-            // FUCKING CHANGE
+            // STARFLOW-CHANGE
             return MoreObjects.toStringHelper(this).add("up", this.thumb).add("forwards", this.finger).add("frontTopLeft", this.pos).toString();
         }
     }

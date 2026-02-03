@@ -34,8 +34,8 @@ public class PacketBuffer extends ByteBuf {
      * readVarIntFromBuffer or writeVarIntToBuffer
      */
     public static int getVarIntSize(int input) {
-        for (int i = 1; i < 5; ++i) {
-            if ((input & -1 << i * 7) == 0) {
+        for (int i = 1; 5 > i; ++i) {
+            if (0 == (input & -1 << i * 7)) {
                 return i;
             }
         }
@@ -90,11 +90,11 @@ public class PacketBuffer extends ByteBuf {
             byte b0 = this.readByte();
             i |= (b0 & 127) << j++ * 7;
 
-            if (j > 5) {
+            if (5 < j) {
                 throw new RuntimeException("VarInt too big");
             }
 
-            if ((b0 & 128) != 128) {
+            if (128 != (b0 & 128)) {
                 break;
             }
         }
@@ -110,11 +110,11 @@ public class PacketBuffer extends ByteBuf {
             byte b0 = this.readByte();
             i |= (long) (b0 & 127) << j++ * 7;
 
-            if (j > 10) {
+            if (10 < j) {
                 throw new RuntimeException("VarLong too big");
             }
 
-            if ((b0 & 128) != 128) {
+            if (128 != (b0 & 128)) {
                 break;
             }
         }
@@ -138,7 +138,7 @@ public class PacketBuffer extends ByteBuf {
      * values below 128.
      */
     public void writeVarIntToBuffer(int input) {
-        while ((input & -128) != 0) {
+        while (0 != (input & -128)) {
             this.writeByte(input & 127 | 128);
             input >>>= 7;
         }
@@ -147,7 +147,7 @@ public class PacketBuffer extends ByteBuf {
     }
 
     public void writeVarLong(long value) {
-        while ((value & -128L) != 0L) {
+        while (0L != (value & -128L)) {
             this.writeByte((int) (value & 127L) | 128);
             value >>>= 7;
         }
@@ -159,7 +159,7 @@ public class PacketBuffer extends ByteBuf {
      * Writes a compressed NBTTagCompound to this buffer
      */
     public void writeNBTTagCompoundToBuffer(NBTTagCompound nbt) {
-        if (nbt == null) {
+        if (null == nbt) {
             this.writeByte(0);
         } else {
             try {
@@ -177,7 +177,7 @@ public class PacketBuffer extends ByteBuf {
         int i = this.readerIndex();
         byte b0 = this.readByte();
 
-        if (b0 == 0) {
+        if (0 == b0) {
             return null;
         } else {
             this.readerIndex(i);
@@ -189,7 +189,7 @@ public class PacketBuffer extends ByteBuf {
      * Writes the ItemStack's ID (short), then size (byte), then damage. (short)
      */
     public void writeItemStackToBuffer(ItemStack stack) {
-        if (stack == null) {
+        if (null == stack) {
             this.writeShort(-1);
         } else {
             this.writeShort(Item.getIdFromItem(stack.getItem()));
@@ -212,7 +212,7 @@ public class PacketBuffer extends ByteBuf {
         ItemStack itemstack = null;
         int i = this.readShort();
 
-        if (i >= 0) {
+        if (0 <= i) {
             int j = this.readByte();
             int k = this.readShort();
             itemstack = new ItemStack(Item.getItemById(i), j, k);
@@ -231,7 +231,7 @@ public class PacketBuffer extends ByteBuf {
 
         if (i > maxLength * 4) {
             throw new DecoderException("The received encoded string buffer length is longer than maximum allowed (" + i + " > " + maxLength * 4 + ")");
-        } else if (i < 0) {
+        } else if (0 > i) {
             throw new DecoderException("The received encoded string buffer length is less than zero! Weird string!");
         } else {
             String s = new String(this.readBytes(i).array(), Charsets.UTF_8);
@@ -247,7 +247,7 @@ public class PacketBuffer extends ByteBuf {
     public PacketBuffer writeString(String string) {
         byte[] abyte = string.getBytes(Charsets.UTF_8);
 
-        if (abyte.length > 32767) {
+        if (32767 < abyte.length) {
             throw new EncoderException("String too big (was " + string.length() + " bytes encoded, max " + 32767 + ")");
         } else {
             this.writeVarIntToBuffer(abyte.length);

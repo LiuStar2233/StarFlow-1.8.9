@@ -1,23 +1,11 @@
 package net.minecraft.entity.passive;
 
 import com.google.common.collect.Maps;
-
-import java.util.Map;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIEatGrass;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -34,6 +22,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+
+import java.util.Map;
+import java.util.Random;
 
 public class EntitySheep extends EntityAnimal {
     /**
@@ -52,10 +43,10 @@ public class EntitySheep extends EntityAnimal {
      * tick.
      */
     private int sheepTimer;
-    private EntityAIEatGrass entityAIEatGrass = new EntityAIEatGrass(this);
+    private final EntityAIEatGrass entityAIEatGrass = new EntityAIEatGrass(this);
 
     public static float[] getDyeRgb(EnumDyeColor dyeColor) {
-        return (float[]) DYE_TO_RGB.get(dyeColor);
+        return DYE_TO_RGB.get(dyeColor);
     }
 
     public EntitySheep(World worldIn) {
@@ -131,7 +122,7 @@ public class EntitySheep extends EntityAnimal {
     }
 
     public void handleStatusUpdate(byte id) {
-        if (id == 10) {
+        if (10 == id) {
             this.sheepTimer = 40;
         } else {
             super.handleStatusUpdate(id);
@@ -139,15 +130,15 @@ public class EntitySheep extends EntityAnimal {
     }
 
     public float getHeadRotationPointY(float p_70894_1_) {
-        return this.sheepTimer <= 0 ? 0.0F : (this.sheepTimer >= 4 && this.sheepTimer <= 36 ? 1.0F : (this.sheepTimer < 4 ? ((float) this.sheepTimer - p_70894_1_) / 4.0F : -((float) (this.sheepTimer - 40) - p_70894_1_) / 4.0F));
+        return 0 >= sheepTimer ? 0.0F : (4 <= sheepTimer && 36 >= sheepTimer ? 1.0F : (4 > sheepTimer ? ((float) this.sheepTimer - p_70894_1_) / 4.0F : -((float) (this.sheepTimer - 40) - p_70894_1_) / 4.0F));
     }
 
     public float getHeadRotationAngleX(float p_70890_1_) {
-        if (this.sheepTimer > 4 && this.sheepTimer <= 36) {
+        if (4 < sheepTimer && 36 >= sheepTimer) {
             float f = ((float) (this.sheepTimer - 4) - p_70890_1_) / 32.0F;
             return ((float) Math.PI / 5F) + ((float) Math.PI * 7F / 100F) * MathHelper.sin(f * 28.7F);
         } else {
-            return this.sheepTimer > 0 ? ((float) Math.PI / 5F) : this.rotationPitch / (180F / (float) Math.PI);
+            return 0 < sheepTimer ? ((float) Math.PI / 5F) : this.rotationPitch / (180F / (float) Math.PI);
         }
     }
 
@@ -157,16 +148,16 @@ public class EntitySheep extends EntityAnimal {
     public boolean interact(EntityPlayer player) {
         ItemStack itemstack = player.inventory.getCurrentItem();
 
-        if (itemstack != null && itemstack.getItem() == Items.shears && !this.getSheared() && !this.isChild()) {
+        if (null != itemstack && itemstack.getItem() == Items.shears && !this.getSheared() && !this.isChild()) {
             if (!this.worldObj.isRemote) {
                 this.setSheared(true);
                 int i = 1 + this.rand.nextInt(3);
 
                 for (int j = 0; j < i; ++j) {
                     EntityItem entityitem = this.entityDropItem(new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, this.getFleeceColor().getMetadata()), 1.0F);
-                    entityitem.motionY += (double) (this.rand.nextFloat() * 0.05F);
-                    entityitem.motionX += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
-                    entityitem.motionZ += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F);
+                    entityitem.motionY += this.rand.nextFloat() * 0.05F;
+                    entityitem.motionX += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F;
+                    entityitem.motionZ += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.1F;
                 }
             }
 
@@ -239,7 +230,7 @@ public class EntitySheep extends EntityAnimal {
      * returns true if a sheeps wool has been sheared
      */
     public boolean getSheared() {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 16) != 0;
+        return 0 != (dataWatcher.getWatchableObjectByte(16) & 16);
     }
 
     /**
@@ -260,7 +251,7 @@ public class EntitySheep extends EntityAnimal {
      */
     public static EnumDyeColor getRandomSheepColor(Random random) {
         int i = random.nextInt(100);
-        return i < 5 ? EnumDyeColor.BLACK : (i < 10 ? EnumDyeColor.GRAY : (i < 15 ? EnumDyeColor.SILVER : (i < 18 ? EnumDyeColor.BROWN : (random.nextInt(500) == 0 ? EnumDyeColor.PINK : EnumDyeColor.WHITE))));
+        return 5 > i ? EnumDyeColor.BLACK : (10 > i ? EnumDyeColor.GRAY : (15 > i ? EnumDyeColor.SILVER : (18 > i ? EnumDyeColor.BROWN : (0 == random.nextInt(500) ? EnumDyeColor.PINK : EnumDyeColor.WHITE))));
     }
 
     public EntitySheep createChild(EntityAgeable ageable) {
@@ -300,10 +291,10 @@ public class EntitySheep extends EntityAnimal {
         int j = ((EntitySheep) mother).getFleeceColor().getDyeDamage();
         this.inventoryCrafting.getStackInSlot(0).setItemDamage(i);
         this.inventoryCrafting.getStackInSlot(1).setItemDamage(j);
-        ItemStack itemstack = CraftingManager.getInstance().findMatchingRecipe(this.inventoryCrafting, ((EntitySheep) father).worldObj);
+        ItemStack itemstack = CraftingManager.getInstance().findMatchingRecipe(this.inventoryCrafting, father.worldObj);
         int k;
 
-        if (itemstack != null && itemstack.getItem() == Items.dye) {
+        if (null != itemstack && itemstack.getItem() == Items.dye) {
             k = itemstack.getMetadata();
         } else {
             k = this.worldObj.rand.nextBoolean() ? i : j;

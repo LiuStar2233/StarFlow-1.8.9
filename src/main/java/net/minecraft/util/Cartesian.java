@@ -6,15 +6,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.UnmodifiableIterator;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class Cartesian {
     public static <T> Iterable<T[]> cartesianProduct(Class<T> clazz, Iterable<? extends Iterable<? extends T>> sets) {
-        return new Cartesian.Product(clazz, (Iterable[]) toArray(Iterable.class, sets));
+        return new Cartesian.Product(clazz, toArray(Iterable.class, sets));
     }
 
     public static <T> Iterable<List<T>> cartesianProduct(Iterable<? extends Iterable<? extends T>> sets) {
@@ -25,14 +21,14 @@ public class Cartesian {
         return Iterables.transform(arrays, new Cartesian.GetList());
     }
 
-    // FUCKING CHANGE
+    // STARFLOW-CHANGE
     @SuppressWarnings("unchecked")
     private static <T> T[] toArray(Class<? super T> clazz, Iterable<? extends T> it) {
         List<T> list = Lists.newArrayList(it);
-        return (T[]) list.toArray(createArray(clazz, list.size()));
+        return list.toArray(createArray(clazz, list.size()));
     }
 
-    // FUCKING CHANGE
+    // STARFLOW-CHANGE
     @SuppressWarnings("unchecked")
     private static <T> T[] createArray(Class<? super T> clazz, int length) {
         return (T[]) Array.newInstance(clazz, length);
@@ -43,7 +39,7 @@ public class Cartesian {
         }
 
         public List<T> apply(Object[] p_apply_1_) {
-            return Arrays.<T>asList((T[]) p_apply_1_);
+            return Arrays.asList((T[]) p_apply_1_);
         }
     }
 
@@ -56,9 +52,9 @@ public class Cartesian {
             this.iterables = iterables;
         }
 
-        // FUCKING CHANGE
+        // STARFLOW-CHANGE
         public Iterator<T[]> iterator() {
-            if (this.iterables.length <= 0) {
+            if (0 >= iterables.length) {
                 // 创建一个空的 T[] 数组
                 T[] empty = Cartesian.createArray(this.clazz, 0);
                 // 直接用这个 T[] 构造 singleton list
@@ -77,7 +73,7 @@ public class Cartesian {
             private ProductIterator(Class<T> clazz, Iterable<? extends T>[] iterables) {
                 this.index = -2;
                 this.iterables = iterables;
-                this.iterators = (Iterator[]) Cartesian.createArray(Iterator.class, this.iterables.length);
+                this.iterators = Cartesian.createArray(Iterator.class, this.iterables.length);
 
                 for (int i = 0; i < this.iterables.length; ++i) {
                     this.iterators[i] = iterables[i].iterator();
@@ -88,12 +84,12 @@ public class Cartesian {
 
             private void endOfData() {
                 this.index = -1;
-                Arrays.fill(this.iterators, (Object) null);
-                Arrays.fill(this.results, (Object) null);
+                Arrays.fill(this.iterators, null);
+                Arrays.fill(this.results, null);
             }
 
             public boolean hasNext() {
-                if (this.index == -2) {
+                if (-2 == index) {
                     this.index = 0;
 
                     for (Iterator<? extends T> iterator1 : this.iterators) {
@@ -106,14 +102,14 @@ public class Cartesian {
                     return true;
                 } else {
                     if (this.index >= this.iterators.length) {
-                        for (this.index = this.iterators.length - 1; this.index >= 0; --this.index) {
+                        for (this.index = this.iterators.length - 1; 0 <= index; --this.index) {
                             Iterator<? extends T> iterator = this.iterators[this.index];
 
                             if (iterator.hasNext()) {
                                 break;
                             }
 
-                            if (this.index == 0) {
+                            if (0 == index) {
                                 this.endOfData();
                                 break;
                             }
@@ -128,7 +124,7 @@ public class Cartesian {
                         }
                     }
 
-                    return this.index >= 0;
+                    return 0 <= index;
                 }
             }
 
@@ -141,7 +137,7 @@ public class Cartesian {
                         ++this.index;
                     }
 
-                    return (T[]) ((Object[]) this.results.clone());
+                    return this.results.clone();
                 }
             }
         }

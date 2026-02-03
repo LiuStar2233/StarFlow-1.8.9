@@ -1,7 +1,6 @@
 package net.minecraft.client.entity;
 
 import com.mojang.authlib.GameProfile;
-import java.io.File;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.ImageBufferDownload;
@@ -18,36 +17,30 @@ import net.minecraft.util.StringUtils;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 
-public abstract class AbstractClientPlayer extends EntityPlayer
-{
+public abstract class AbstractClientPlayer extends EntityPlayer {
     private NetworkPlayerInfo playerInfo;
 
-    public AbstractClientPlayer(World worldIn, GameProfile playerProfile)
-    {
+    public AbstractClientPlayer(World worldIn, GameProfile playerProfile) {
         super(worldIn, playerProfile);
     }
 
     /**
      * Returns true if the player is in spectator mode.
      */
-    public boolean isSpectator()
-    {
+    public boolean isSpectator() {
         NetworkPlayerInfo networkplayerinfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(this.getGameProfile().getId());
-        return networkplayerinfo != null && networkplayerinfo.getGameType() == WorldSettings.GameType.SPECTATOR;
+        return null != networkplayerinfo && WorldSettings.GameType.SPECTATOR == networkplayerinfo.getGameType();
     }
 
     /**
      * Checks if this instance of AbstractClientPlayer has any associated player data.
      */
-    public boolean hasPlayerInfo()
-    {
-        return this.getPlayerInfo() != null;
+    public boolean hasPlayerInfo() {
+        return null != getPlayerInfo();
     }
 
-    protected NetworkPlayerInfo getPlayerInfo()
-    {
-        if (this.playerInfo == null)
-        {
+    protected NetworkPlayerInfo getPlayerInfo() {
+        if (null == playerInfo) {
             this.playerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(this.getUniqueID());
         }
 
@@ -57,83 +50,69 @@ public abstract class AbstractClientPlayer extends EntityPlayer
     /**
      * Returns true if the player has an associated skin.
      */
-    public boolean hasSkin()
-    {
+    public boolean hasSkin() {
         NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
-        return networkplayerinfo != null && networkplayerinfo.hasLocationSkin();
+        return null != networkplayerinfo && networkplayerinfo.hasLocationSkin();
     }
 
     /**
      * Returns true if the player instance has an associated skin.
      */
-    public ResourceLocation getLocationSkin()
-    {
+    public ResourceLocation getLocationSkin() {
         NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
-        return networkplayerinfo == null ? DefaultPlayerSkin.getDefaultSkin(this.getUniqueID()) : networkplayerinfo.getLocationSkin();
+        return null == networkplayerinfo ? DefaultPlayerSkin.getDefaultSkin(this.getUniqueID()) : networkplayerinfo.getLocationSkin();
     }
 
-    public ResourceLocation getLocationCape()
-    {
+    public ResourceLocation getLocationCape() {
         NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
-        return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
+        return null == networkplayerinfo ? null : networkplayerinfo.getLocationCape();
     }
 
-    public static ThreadDownloadImageData getDownloadImageSkin(ResourceLocation resourceLocationIn, String username)
-    {
+    public static ThreadDownloadImageData getDownloadImageSkin(ResourceLocation resourceLocationIn, String username) {
         TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
         ITextureObject itextureobject = texturemanager.getTexture(resourceLocationIn);
 
-        if (itextureobject == null)
-        {
-            itextureobject = new ThreadDownloadImageData((File)null, String.format("http://skins.minecraft.net/MinecraftSkins/%s.png", new Object[] {StringUtils.stripControlCodes(username)}), DefaultPlayerSkin.getDefaultSkin(getOfflineUUID(username)), new ImageBufferDownload());
+        if (null == itextureobject) {
+            itextureobject = new ThreadDownloadImageData(null, String.format("http://skins.minecraft.net/MinecraftSkins/%s.png", StringUtils.stripControlCodes(username)), DefaultPlayerSkin.getDefaultSkin(getOfflineUUID(username)), new ImageBufferDownload());
             texturemanager.loadTexture(resourceLocationIn, itextureobject);
         }
 
-        return (ThreadDownloadImageData)itextureobject;
+        return (ThreadDownloadImageData) itextureobject;
     }
 
     /**
      * Returns true if the username has an associated skin.
      */
-    public static ResourceLocation getLocationSkin(String username)
-    {
+    public static ResourceLocation getLocationSkin(String username) {
         return new ResourceLocation("skins/" + StringUtils.stripControlCodes(username));
     }
 
-    public String getSkinType()
-    {
+    public String getSkinType() {
         NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
-        return networkplayerinfo == null ? DefaultPlayerSkin.getSkinType(this.getUniqueID()) : networkplayerinfo.getSkinType();
+        return null == networkplayerinfo ? DefaultPlayerSkin.getSkinType(this.getUniqueID()) : networkplayerinfo.getSkinType();
     }
 
-    public float getFovModifier()
-    {
+    public float getFovModifier() {
         float f = 1.0F;
 
-        if (this.capabilities.isFlying)
-        {
+        if (this.capabilities.isFlying) {
             f *= 1.1F;
         }
 
         IAttributeInstance iattributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-        f = (float)((double)f * ((iattributeinstance.getAttributeValue() / (double)this.capabilities.getWalkSpeed() + 1.0D) / 2.0D));
+        f = (float) ((double) f * ((iattributeinstance.getAttributeValue() / (double) this.capabilities.getWalkSpeed() + 1.0D) / 2.0D));
 
-        if (this.capabilities.getWalkSpeed() == 0.0F || Float.isNaN(f) || Float.isInfinite(f))
-        {
+        if (0.0F == capabilities.getWalkSpeed() || Float.isNaN(f) || Float.isInfinite(f)) {
             f = 1.0F;
         }
 
-        if (this.isUsingItem() && this.getItemInUse().getItem() == Items.bow)
-        {
+        if (this.isUsingItem() && this.getItemInUse().getItem() == Items.bow) {
             int i = this.getItemInUseDuration();
-            float f1 = (float)i / 20.0F;
+            float f1 = (float) i / 20.0F;
 
-            if (f1 > 1.0F)
-            {
+            if (1.0F < f1) {
                 f1 = 1.0F;
-            }
-            else
-            {
+            } else {
                 f1 = f1 * f1;
             }
 

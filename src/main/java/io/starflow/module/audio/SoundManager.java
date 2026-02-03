@@ -53,7 +53,7 @@ public class SoundManager {
         ChannelState state = ChannelState.FREE;
 
         public void stop() {
-            if (this.sourceId != 0) {
+            if (0 != sourceId) {
                 AL10.alSourceStop(this.sourceId);
                 AL10.alSourcei(this.sourceId, AL10.AL_BUFFER, 0);
             }
@@ -78,7 +78,7 @@ public class SoundManager {
     private final Map<ResourceLocation, Integer> bufferCache = new LinkedHashMap<ResourceLocation, Integer>(128, 0.75F, true) {
         @Override
         protected boolean removeEldestEntry(Map.Entry<ResourceLocation, Integer> eldest) {
-            if (size() > 128) {
+            if (128 < this.size()) {
                 int bufferId = eldest.getValue();
                 soundExecutor.execute(() -> {
                     if (AL10.alIsBuffer(bufferId)) {
@@ -91,8 +91,8 @@ public class SoundManager {
         }
     };
 
-    private volatile boolean loaded = false;
-    private int playTime = 0;
+    private volatile boolean loaded;
+    private int playTime;
 
     private final ExecutorService soundExecutor = Executors.newSingleThreadExecutor(r -> {
         Thread thread = new Thread(r, "Sound_Runtime_Thread");
@@ -104,7 +104,7 @@ public class SoundManager {
         this.sndHandler = soundHandler;
         this.gameSettings = gameSettings;
         this.channels = new SoundChannel[MAX_SOURCES];
-        for (int i = 0; i < MAX_SOURCES; i++) {
+        for (int i = 0; MAX_SOURCES > i; i++) {
             this.channels[i] = new SoundChannel();
         }
 
@@ -122,7 +122,7 @@ public class SoundManager {
                 logger.info(LOG_MARKER, "正在分配 OpenAL 资源...");
 
                 device = ALC10.alcOpenDevice((ByteBuffer) null);
-                if (device == 0L) {
+                if (0L == this.device) {
                     logger.error(LOG_MARKER, "打开 OpenAL 设备失败");
                     throw new IllegalStateException("打开 OpenAL 设备失败");
                 }
@@ -132,9 +132,9 @@ public class SoundManager {
                 ALC10.alcMakeContextCurrent(context);
                 AL.createCapabilities(deviceCaps);
 
-                for (int i = 0; i < MAX_SOURCES; i++) {
+                for (int i = 0; MAX_SOURCES > i; i++) {
                     int sid = AL10.alGenSources();
-                    if (AL10.alGetError() == AL10.AL_NO_ERROR) {
+                    if (AL10.AL_NO_ERROR == AL10.alGetError()) {
                         channels[i].sourceId = sid;
                         channels[i].state = ChannelState.FREE;
                     }
@@ -172,9 +172,9 @@ public class SoundManager {
     }
 
     private void checkDeviceHealth() {
-        if (!this.loaded || device == 0L) return;
+        if (!this.loaded || 0L == this.device) return;
         int connected = ALC10.alcGetInteger(device, ALC_CONNECTED);
-        if (connected == ALC10.ALC_FALSE) {
+        if (ALC10.ALC_FALSE == connected) {
             logger.warn(LOG_MARKER, "检测到音频设备断开，正在尝试恢复...");
             this.handleDeviceChange();
         }
@@ -185,14 +185,14 @@ public class SoundManager {
         float minWeight = Float.MAX_VALUE;
 
         for (SoundChannel channel : channels) {
-            if (channel.state == ChannelState.FREE) return channel;
-            if (channel.state == ChannelState.INITIALIZING) continue;
+            if (ChannelState.FREE == channel.state) return channel;
+            if (ChannelState.INITIALIZING == channel.state) continue;
 
             // 计算重要性：音量越小、距离越远，权重越低（越容易被替换）采用距离平方避免开根号开销
             float weight = (float) Minecraft.getMinecraft().thePlayer.getDistanceSq(
                     channel.sound.getXPosF(), channel.sound.getYPosF(), channel.sound.getZPosF());
 
-            if (weight > 0 && weight < minWeight) {
+            if (0 < weight && weight < minWeight) {
                 minWeight = weight;
                 bestToReplace = channel;
             }
@@ -208,7 +208,7 @@ public class SoundManager {
         try {
             IResource resource = Minecraft.getMinecraft().getResourceManager().getResource(location);
             SoundLoader.AudioData data = SoundLoader.load(location, resource.getInputStream());
-            if (data != null) {
+            if (null != data) {
                 AL10.alBufferData(bufferId, data.format, data.pcmData, data.sampleRate);
                 data.free();
                 bufferCache.put(location, bufferId);
@@ -224,7 +224,7 @@ public class SoundManager {
     public float getSoundCategoryVolume(SoundCategory category) {
         float masterVolume = this.gameSettings.getSoundLevel(SoundCategory.MASTER);
 
-        if (category == null || category == SoundCategory.MASTER) {
+        if (null == category || SoundCategory.MASTER == category) {
             return masterVolume;
         } else {
             float categoryVolume = this.gameSettings.getSoundLevel(category);
@@ -237,9 +237,9 @@ public class SoundManager {
 
         soundExecutor.execute(() -> {
             for (SoundChannel channel : channels) {
-                if ((channel.state != ChannelState.FREE) && channel.sound != null) {
+                if ((ChannelState.FREE != channel.state) && null != channel.sound) {
                     SoundEventAccessorComposite accessor = this.sndHandler.getSound(channel.sound.getSoundLocation());
-                    if (accessor != null && (category == null || accessor.getSoundCategory() == category)) {
+                    if (null != accessor && (null == category || accessor.getSoundCategory() == category)) {
                         float newVol = this.getNormalizedVolume(channel.sound, accessor.cloneEntry(), accessor.getSoundCategory());
                         AL10.alSourcef(channel.sourceId, AL10.AL_GAIN, newVol);
                     }
@@ -255,7 +255,7 @@ public class SoundManager {
             this.loaded = false;
 
             for (SoundChannel channel : channels) {
-                if (channel.sourceId != 0) {
+                if (0 != channel.sourceId) {
                     AL10.alSourceStop(channel.sourceId);
                     AL10.alDeleteSources(channel.sourceId);
                     channel.sourceId = 0;
@@ -263,16 +263,16 @@ public class SoundManager {
             }
 
             bufferCache.forEach((loc, id) -> {
-                if (id != 0) AL10.alDeleteBuffers(id);
+                if (0 != id) AL10.alDeleteBuffers(id);
             });
             bufferCache.clear();
 
-            if (context != 0L) {
+            if (0L != this.context) {
                 ALC10.alcMakeContextCurrent(0L);
                 ALC10.alcDestroyContext(context);
                 context = 0L;
             }
-            if (device != 0L) {
+            if (0L != this.device) {
                 ALC10.alcCloseDevice(device);
                 device = 0L;
             }
@@ -284,7 +284,7 @@ public class SoundManager {
         if (!this.loaded) return;
         soundExecutor.execute(() -> {
             for (SoundChannel channel : channels) {
-                if (channel.state != ChannelState.FREE) {
+                if (ChannelState.FREE != channel.state) {
                     channel.stop();
                 }
             }
@@ -300,7 +300,7 @@ public class SoundManager {
 
         while (!this.delayedQueue.isEmpty() && this.delayedQueue.peek().getPlayTime() <= this.playTime) {
             DelayedSound delayed = this.delayedQueue.poll();
-            if (delayed != null) {
+            if (null != delayed) {
                 this.playSound(delayed.getSound());
             }
         }
@@ -320,8 +320,8 @@ public class SoundManager {
 
         soundExecutor.execute(() -> {
             for (SoundChannel channel : channels) {
-                if (channel.state != ChannelState.FREE) {
-                    if (AL10.alGetSourcei(channel.sourceId, AL10.AL_SOURCE_STATE) == AL10.AL_STOPPED) {
+                if (ChannelState.FREE != channel.state) {
+                    if (AL10.AL_STOPPED == AL10.alGetSourcei(channel.sourceId, AL10.AL_SOURCE_STATE)) {
                         channel.cleanup();
                     }
                 }
@@ -334,7 +334,7 @@ public class SoundManager {
     private void stopInternal(ISound sound) {
         soundExecutor.execute(() -> {
             for (SoundChannel channel : channels) {
-                if ((channel.state != ChannelState.FREE) && channel.sound == sound) {
+                if ((ChannelState.FREE != channel.state) && channel.sound == sound) {
                     channel.stop();
                 }
             }
@@ -342,7 +342,7 @@ public class SoundManager {
     }
 
     public void setListener(EntityPlayer player, float partialTicks) {
-        if (!this.loaded || player == null) return;
+        if (!this.loaded || null == player) return;
 
         double x = player.prevPosX + (player.posX - player.prevPosX) * (double) partialTicks;
         double y = player.prevPosY + (player.posY - player.prevPosY) * (double) partialTicks + (double) player.getEyeHeight();
@@ -372,27 +372,27 @@ public class SoundManager {
 
     public void updateListener() {
         Minecraft mc = Minecraft.getMinecraft();
-        if (mc.thePlayer != null) {
+        if (null != mc.thePlayer) {
             this.setListener(mc.thePlayer, mc.timer.renderPartialTicks);
         }
     }
 
     public boolean isSoundPlaying(ISound sound) {
-        if (!this.loaded || sound == null) return false;
+        if (!this.loaded || null == sound) return false;
         for (SoundChannel channel : channels) {
-            if ((channel.state != ChannelState.FREE) && channel.sound == sound) {
+            if ((ChannelState.FREE != channel.state) && channel.sound == sound) {
                 int state = AL10.alGetSourcei(channel.sourceId, AL10.AL_SOURCE_STATE);
-                return state == AL10.AL_PLAYING;
+                return AL10.AL_PLAYING == state;
             }
         }
         return false;
     }
 
     public void stopSound(ISound sound) {
-        if (!this.loaded || sound == null) return;
+        if (!this.loaded || null == sound) return;
         soundExecutor.execute(() -> {
             for (SoundChannel channel : channels) {
-                if ((channel.state != ChannelState.FREE) && channel.sound == sound) {
+                if ((ChannelState.FREE != channel.state) && channel.sound == sound) {
                     channel.stop();
                 }
             }
@@ -409,16 +409,16 @@ public class SoundManager {
         if (!this.loaded) return;
 
         SoundEventAccessorComposite accessor = this.sndHandler.getSound(pSound.getSoundLocation());
-        if (accessor == null) return;
+        if (null == accessor) return;
 
         SoundPoolEntry entry = accessor.cloneEntry();
-        if (entry == null) return;
+        if (null == entry) return;
 
         float volume = this.getNormalizedVolume(pSound, entry, accessor.getSoundCategory());
         float pitch = this.getNormalizedPitch(pSound, entry);
 
         SoundChannel channel = findFreeChannel();
-        if (channel == null) return;
+        if (null == channel) return;
         channel.state = ChannelState.INITIALIZING;
 
         new Thread(() -> {
@@ -427,7 +427,7 @@ public class SoundManager {
                 SoundLoader.AudioData audioData = SoundLoader.load(entry.getSoundPoolEntryLocation(), iresource.getInputStream());
 
                 soundExecutor.execute(() -> {
-                    if (channel.state != ChannelState.INITIALIZING) return;
+                    if (ChannelState.INITIALIZING != channel.state) return;
 
                     int bufferId = AL10.alGenBuffers();
                     AL10.alBufferData(bufferId, audioData.format, audioData.pcmData, audioData.sampleRate);
@@ -447,8 +447,9 @@ public class SoundManager {
      * [P4 修复] 应用音频源属性
      * 核心职责：将 Minecraft 的 ISound 属性映射到 OpenAL Source 状态机
      * * @param channel 目标声道
-     * @param sound   音效实例
-     * @param bid     已绑定的 OpenAL Buffer ID
+     *
+     * @param sound 音效实例
+     * @param bid   已绑定的 OpenAL Buffer ID
      */
     private void applySourceProperties(SoundChannel channel, ISound sound, int bid) {
         int sid = channel.sourceId;
@@ -457,7 +458,7 @@ public class SoundManager {
         AL10.alSourcef(sid, AL10.AL_GAIN, sound.getVolume());
         AL10.alSourcef(sid, AL10.AL_PITCH, sound.getPitch());
 
-        if (sound.getAttenuationType() == ISound.AttenuationType.NONE) {
+        if (ISound.AttenuationType.NONE == sound.getAttenuationType()) {
             AL10.alSourcei(sid, AL10.AL_SOURCE_RELATIVE, AL10.AL_TRUE);
             AL10.alSource3f(sid, AL10.AL_POSITION, 0.0F, 0.0F, 0.0F);
         } else {
@@ -483,7 +484,7 @@ public class SoundManager {
         AL10.alSourcef(sid, AL10.AL_GAIN, volume);
         AL10.alSourcef(sid, AL10.AL_PITCH, pitch);
 
-        if (sound.getAttenuationType() == ISound.AttenuationType.NONE) {
+        if (ISound.AttenuationType.NONE == sound.getAttenuationType()) {
             AL10.alSourcei(sid, AL10.AL_SOURCE_RELATIVE, AL10.AL_TRUE);
             AL10.alSource3f(sid, AL10.AL_POSITION, 0F, 0F, 0F);
         } else {
@@ -517,9 +518,9 @@ public class SoundManager {
         if (!this.loaded) return;
         soundExecutor.execute(() -> {
             for (SoundChannel channel : channels) {
-                if (channel.state != ChannelState.FREE) {
+                if (ChannelState.FREE != channel.state) {
                     int state = AL10.alGetSourcei(channel.sourceId, AL10.AL_SOURCE_STATE);
-                    if (state == AL10.AL_PLAYING) {
+                    if (AL10.AL_PLAYING == state) {
                         AL10.alSourcePause(channel.sourceId);
                     }
                 }
@@ -531,9 +532,9 @@ public class SoundManager {
         if (!this.loaded) return;
         soundExecutor.execute(() -> {
             for (SoundChannel channel : channels) {
-                if (channel.state != ChannelState.FREE) {
+                if (ChannelState.FREE != channel.state) {
                     int state = AL10.alGetSourcei(channel.sourceId, AL10.AL_SOURCE_STATE);
-                    if (state == AL10.AL_PAUSED) {
+                    if (AL10.AL_PAUSED == state) {
                         AL10.alSourcePlay(channel.sourceId);
                     }
                 }
@@ -544,7 +545,7 @@ public class SoundManager {
     private void updateSoundPosition(ISound sound) {
         if (!this.loaded) return;
         for (SoundChannel channel : channels) {
-            if ((channel.state != ChannelState.FREE) && channel.sound == sound) {
+            if ((ChannelState.FREE != channel.state) && channel.sound == sound) {
                 AL10.alSource3f(channel.sourceId, AL10.AL_POSITION,
                         sound.getXPosF(), sound.getYPosF(), sound.getZPosF());
             }
@@ -572,7 +573,7 @@ public class SoundManager {
 
     private void checkALError(String operation) {
         int error = AL10.alGetError();
-        if (error != AL10.AL_NO_ERROR) {
+        if (AL10.AL_NO_ERROR != error) {
             String errorName;
             switch (error) {
                 case AL10.AL_INVALID_NAME:

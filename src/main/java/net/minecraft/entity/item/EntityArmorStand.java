@@ -1,7 +1,5 @@
 package net.minecraft.entity.item;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -16,13 +14,11 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.Rotations;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
+import java.util.List;
 
 public class EntityArmorStand extends EntityLivingBase {
     private static final Rotations DEFAULT_HEAD_ROTATION = new Rotations(0.0F, 0.0F, 0.0F);
@@ -119,17 +115,17 @@ public class EntityArmorStand extends EntityLivingBase {
     public boolean replaceItemInInventory(int inventorySlot, ItemStack itemStackIn) {
         int i;
 
-        if (inventorySlot == 99) {
+        if (99 == inventorySlot) {
             i = 0;
         } else {
             i = inventorySlot - 100 + 1;
 
-            if (i < 0 || i >= this.contents.length) {
+            if (0 > i || i >= this.contents.length) {
                 return false;
             }
         }
 
-        if (itemStackIn != null && EntityLiving.getArmorPosition(itemStackIn) != i && (i != 4 || !(itemStackIn.getItem() instanceof ItemBlock))) {
+        if (null != itemStackIn && EntityLiving.getArmorPosition(itemStackIn) != i && (4 != i || !(itemStackIn.getItem() instanceof ItemBlock))) {
             return false;
         } else {
             this.setCurrentItemOrArmor(i, itemStackIn);
@@ -147,7 +143,7 @@ public class EntityArmorStand extends EntityLivingBase {
         for (int i = 0; i < this.contents.length; ++i) {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-            if (this.contents[i] != null) {
+            if (null != contents[i]) {
                 this.contents[i].writeToNBT(nbttagcompound);
             }
 
@@ -156,7 +152,7 @@ public class EntityArmorStand extends EntityLivingBase {
 
         tagCompound.setTag("Equipment", nbttaglist);
 
-        if (this.getAlwaysRenderNameTag() && (this.getCustomNameTag() == null || this.getCustomNameTag().length() == 0)) {
+        if (this.getAlwaysRenderNameTag() && (null == getCustomNameTag() || 0 == getCustomNameTag().length())) {
             tagCompound.setBoolean("CustomNameVisible", this.getAlwaysRenderNameTag());
         }
 
@@ -207,7 +203,7 @@ public class EntityArmorStand extends EntityLivingBase {
     private void writePoseToNBT(NBTTagCompound tagCompound) {
         NBTTagList nbttaglist = tagCompound.getTagList("Head", 5);
 
-        if (nbttaglist.tagCount() > 0) {
+        if (0 < nbttaglist.tagCount()) {
             this.setHeadRotation(new Rotations(nbttaglist));
         } else {
             this.setHeadRotation(DEFAULT_HEAD_ROTATION);
@@ -215,7 +211,7 @@ public class EntityArmorStand extends EntityLivingBase {
 
         NBTTagList nbttaglist1 = tagCompound.getTagList("Body", 5);
 
-        if (nbttaglist1.tagCount() > 0) {
+        if (0 < nbttaglist1.tagCount()) {
             this.setBodyRotation(new Rotations(nbttaglist1));
         } else {
             this.setBodyRotation(DEFAULT_BODY_ROTATION);
@@ -223,7 +219,7 @@ public class EntityArmorStand extends EntityLivingBase {
 
         NBTTagList nbttaglist2 = tagCompound.getTagList("LeftArm", 5);
 
-        if (nbttaglist2.tagCount() > 0) {
+        if (0 < nbttaglist2.tagCount()) {
             this.setLeftArmRotation(new Rotations(nbttaglist2));
         } else {
             this.setLeftArmRotation(DEFAULT_LEFTARM_ROTATION);
@@ -231,7 +227,7 @@ public class EntityArmorStand extends EntityLivingBase {
 
         NBTTagList nbttaglist3 = tagCompound.getTagList("RightArm", 5);
 
-        if (nbttaglist3.tagCount() > 0) {
+        if (0 < nbttaglist3.tagCount()) {
             this.setRightArmRotation(new Rotations(nbttaglist3));
         } else {
             this.setRightArmRotation(DEFAULT_RIGHTARM_ROTATION);
@@ -239,7 +235,7 @@ public class EntityArmorStand extends EntityLivingBase {
 
         NBTTagList nbttaglist4 = tagCompound.getTagList("LeftLeg", 5);
 
-        if (nbttaglist4.tagCount() > 0) {
+        if (0 < nbttaglist4.tagCount()) {
             this.setLeftLegRotation(new Rotations(nbttaglist4));
         } else {
             this.setLeftLegRotation(DEFAULT_LEFTLEG_ROTATION);
@@ -247,7 +243,7 @@ public class EntityArmorStand extends EntityLivingBase {
 
         NBTTagList nbttaglist5 = tagCompound.getTagList("RightLeg", 5);
 
-        if (nbttaglist5.tagCount() > 0) {
+        if (0 < nbttaglist5.tagCount()) {
             this.setRightLegRotation(new Rotations(nbttaglist5));
         } else {
             this.setRightLegRotation(DEFAULT_RIGHTLEG_ROTATION);
@@ -297,11 +293,11 @@ public class EntityArmorStand extends EntityLivingBase {
     protected void collideWithNearbyEntities() {
         List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
 
-        if (list != null && !list.isEmpty()) {
+        if (null != list && !list.isEmpty()) {
             for (int i = 0; i < list.size(); ++i) {
-                Entity entity = (Entity) list.get(i);
+                Entity entity = list.get(i);
 
-                if (entity instanceof EntityMinecart && ((EntityMinecart) entity).getMinecartType() == EntityMinecart.EnumMinecartType.RIDEABLE && this.getDistanceSqToEntity(entity) <= 0.2D) {
+                if (entity instanceof EntityMinecart && EntityMinecart.EnumMinecartType.RIDEABLE == ((EntityMinecart) entity).getMinecartType() && 0.2D >= getDistanceSqToEntity(entity)) {
                     entity.applyEntityCollision(this);
                 }
             }
@@ -317,18 +313,18 @@ public class EntityArmorStand extends EntityLivingBase {
         } else if (!this.worldObj.isRemote && !player.isSpectator()) {
             int i = 0;
             ItemStack itemstack = player.getCurrentEquippedItem();
-            boolean flag = itemstack != null;
+            boolean flag = null != itemstack;
 
             if (flag && itemstack.getItem() instanceof ItemArmor) {
                 ItemArmor itemarmor = (ItemArmor) itemstack.getItem();
 
-                if (itemarmor.armorType == 3) {
+                if (3 == itemarmor.armorType) {
                     i = 1;
-                } else if (itemarmor.armorType == 2) {
+                } else if (2 == itemarmor.armorType) {
                     i = 2;
-                } else if (itemarmor.armorType == 1) {
+                } else if (1 == itemarmor.armorType) {
                     i = 3;
-                } else if (itemarmor.armorType == 0) {
+                } else if (0 == itemarmor.armorType) {
                     i = 4;
                 }
             }
@@ -337,31 +333,31 @@ public class EntityArmorStand extends EntityLivingBase {
                 i = 4;
             }
 
-            double d4 = 0.1D;
-            double d0 = 0.9D;
-            double d1 = 0.4D;
-            double d2 = 1.6D;
+            final double d4 = 0.1D;
+            final double d0 = 0.9D;
+            final double d1 = 0.4D;
+            final double d2 = 1.6D;
             int j = 0;
             boolean flag1 = this.isSmall();
             double d3 = flag1 ? targetVec3.yCoord * 2.0D : targetVec3.yCoord;
 
-            if (d3 >= 0.1D && d3 < 0.1D + (flag1 ? 0.8D : 0.45D) && this.contents[1] != null) {
+            if (0.1D <= d3 && d3 < 0.1D + (flag1 ? 0.8D : 0.45D) && null != contents[1]) {
                 j = 1;
-            } else if (d3 >= 0.9D + (flag1 ? 0.3D : 0.0D) && d3 < 0.9D + (flag1 ? 1.0D : 0.7D) && this.contents[3] != null) {
+            } else if (d3 >= 0.9D + (flag1 ? 0.3D : 0.0D) && d3 < 0.9D + (flag1 ? 1.0D : 0.7D) && null != contents[3]) {
                 j = 3;
-            } else if (d3 >= 0.4D && d3 < 0.4D + (flag1 ? 1.0D : 0.8D) && this.contents[2] != null) {
+            } else if (0.4D <= d3 && d3 < 0.4D + (flag1 ? 1.0D : 0.8D) && null != contents[2]) {
                 j = 2;
-            } else if (d3 >= 1.6D && this.contents[4] != null) {
+            } else if (1.6D <= d3 && null != contents[4]) {
                 j = 4;
             }
 
-            boolean flag2 = this.contents[j] != null;
+            boolean flag2 = null != contents[j];
 
-            if ((this.disabledSlots & 1 << j) != 0 || (this.disabledSlots & 1 << i) != 0) {
+            if (0 != (disabledSlots & 1 << j) || 0 != (disabledSlots & 1 << i)) {
                 j = i;
 
-                if ((this.disabledSlots & 1 << i) != 0) {
-                    if ((this.disabledSlots & 1) != 0) {
+                if (0 != (disabledSlots & 1 << i)) {
+                    if (0 != (disabledSlots & 1)) {
                         return true;
                     }
 
@@ -369,7 +365,7 @@ public class EntityArmorStand extends EntityLivingBase {
                 }
             }
 
-            if (flag && i == 0 && !this.getShowArms()) {
+            if (flag && 0 == i && !this.getShowArms()) {
                 return true;
             } else {
                 if (flag) {
@@ -388,17 +384,17 @@ public class EntityArmorStand extends EntityLivingBase {
     private void func_175422_a(EntityPlayer p_175422_1_, int p_175422_2_) {
         ItemStack itemstack = this.contents[p_175422_2_];
 
-        if (itemstack == null || (this.disabledSlots & 1 << p_175422_2_ + 8) == 0) {
-            if (itemstack != null || (this.disabledSlots & 1 << p_175422_2_ + 16) == 0) {
+        if (null == itemstack || 0 == (disabledSlots & 1 << p_175422_2_ + 8)) {
+            if (null != itemstack || 0 == (disabledSlots & 1 << p_175422_2_ + 16)) {
                 int i = p_175422_1_.inventory.currentItem;
                 ItemStack itemstack1 = p_175422_1_.inventory.getStackInSlot(i);
 
-                if (p_175422_1_.capabilities.isCreativeMode && (itemstack == null || itemstack.getItem() == Item.getItemFromBlock(Blocks.air)) && itemstack1 != null) {
+                if (p_175422_1_.capabilities.isCreativeMode && (null == itemstack || itemstack.getItem() == Item.getItemFromBlock(Blocks.air)) && null != itemstack1) {
                     ItemStack itemstack3 = itemstack1.copy();
                     itemstack3.stackSize = 1;
                     this.setCurrentItemOrArmor(p_175422_2_, itemstack3);
-                } else if (itemstack1 != null && itemstack1.stackSize > 1) {
-                    if (itemstack == null) {
+                } else if (null != itemstack1 && 1 < itemstack1.stackSize) {
+                    if (null == itemstack) {
                         ItemStack itemstack2 = itemstack1.copy();
                         itemstack2.stackSize = 1;
                         this.setCurrentItemOrArmor(p_175422_2_, itemstack2);
@@ -434,7 +430,7 @@ public class EntityArmorStand extends EntityLivingBase {
                 }
 
                 return false;
-            } else if (DamageSource.onFire.equals(source) && this.getHealth() > 0.5F) {
+            } else if (DamageSource.onFire.equals(source) && 0.5F < getHealth()) {
                 this.damageArmorStand(4.0F);
                 return false;
             } else {
@@ -457,7 +453,7 @@ public class EntityArmorStand extends EntityLivingBase {
                     } else {
                         long i = this.worldObj.getTotalWorldTime();
 
-                        if (i - this.punchCooldown > 5L && !flag) {
+                        if (5L < i - punchCooldown && !flag) {
                             this.punchCooldown = i;
                         } else {
                             this.dropBlock();
@@ -481,7 +477,7 @@ public class EntityArmorStand extends EntityLivingBase {
     public boolean isInRangeToRenderDist(double distance) {
         double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
 
-        if (Double.isNaN(d0) || d0 == 0.0D) {
+        if (Double.isNaN(d0) || 0.0D == d0) {
             d0 = 4.0D;
         }
 
@@ -491,7 +487,7 @@ public class EntityArmorStand extends EntityLivingBase {
 
     private void playParticles() {
         if (this.worldObj instanceof WorldServer) {
-            ((WorldServer) this.worldObj).spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX, this.posY + (double) this.height / 1.5D, this.posZ, 10, (double) (this.width / 4.0F), (double) (this.height / 4.0F), (double) (this.width / 4.0F), 0.05D, new int[]{Block.getStateId(Blocks.planks.getDefaultState())});
+            ((WorldServer) this.worldObj).spawnParticle(EnumParticleTypes.BLOCK_DUST, this.posX, this.posY + (double) this.height / 1.5D, this.posZ, 10, this.width / 4.0F, this.height / 4.0F, this.width / 4.0F, 0.05D, Block.getStateId(Blocks.planks.getDefaultState()));
         }
     }
 
@@ -499,7 +495,7 @@ public class EntityArmorStand extends EntityLivingBase {
         float f = this.getHealth();
         f = f - p_175406_1_;
 
-        if (f <= 0.5F) {
+        if (0.5F >= f) {
             this.dropContents();
             this.setDead();
         } else {
@@ -514,8 +510,8 @@ public class EntityArmorStand extends EntityLivingBase {
 
     private void dropContents() {
         for (int i = 0; i < this.contents.length; ++i) {
-            if (this.contents[i] != null && this.contents[i].stackSize > 0) {
-                if (this.contents[i] != null) {
+            if (null != contents[i] && 0 < contents[i].stackSize) {
+                if (null != contents[i]) {
                     Block.spawnAsEntity(this.worldObj, (new BlockPos(this)).up(), this.contents[i]);
                 }
 
@@ -657,7 +653,7 @@ public class EntityArmorStand extends EntityLivingBase {
     }
 
     public boolean isSmall() {
-        return (this.dataWatcher.getWatchableObjectByte(10) & 1) != 0;
+        return 0 != (dataWatcher.getWatchableObjectByte(10) & 1);
     }
 
     private void setNoGravity(boolean p_175425_1_) {
@@ -673,7 +669,7 @@ public class EntityArmorStand extends EntityLivingBase {
     }
 
     public boolean hasNoGravity() {
-        return (this.dataWatcher.getWatchableObjectByte(10) & 2) != 0;
+        return 0 != (dataWatcher.getWatchableObjectByte(10) & 2);
     }
 
     private void setShowArms(boolean p_175413_1_) {
@@ -689,7 +685,7 @@ public class EntityArmorStand extends EntityLivingBase {
     }
 
     public boolean getShowArms() {
-        return (this.dataWatcher.getWatchableObjectByte(10) & 4) != 0;
+        return 0 != (dataWatcher.getWatchableObjectByte(10) & 4);
     }
 
     private void setNoBasePlate(boolean p_175426_1_) {
@@ -705,7 +701,7 @@ public class EntityArmorStand extends EntityLivingBase {
     }
 
     public boolean hasNoBasePlate() {
-        return (this.dataWatcher.getWatchableObjectByte(10) & 8) != 0;
+        return 0 != (dataWatcher.getWatchableObjectByte(10) & 8);
     }
 
     /**
@@ -728,7 +724,7 @@ public class EntityArmorStand extends EntityLivingBase {
      * cannot be interacted with.
      */
     public boolean hasMarker() {
-        return (this.dataWatcher.getWatchableObjectByte(10) & 16) != 0;
+        return 0 != (dataWatcher.getWatchableObjectByte(10) & 16);
     }
 
     public void setHeadRotation(Rotations p_175415_1_) {

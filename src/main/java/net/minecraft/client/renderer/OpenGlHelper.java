@@ -1,28 +1,14 @@
 package net.minecraft.client.renderer;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.GameSettings;
+import org.lwjgl.opengl.*;
+import oshi.SystemInfo;
+import oshi.hardware.CentralProcessor;
+
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.GameSettings;
-import org.lwjgl.opengl.ARBFramebufferObject;
-import org.lwjgl.opengl.ARBMultitexture;
-import org.lwjgl.opengl.ARBShaderObjects;
-import org.lwjgl.opengl.ARBVertexBufferObject;
-import org.lwjgl.opengl.ARBVertexShader;
-import org.lwjgl.opengl.ContextCapabilities;
-import org.lwjgl.opengl.EXTBlendFuncSeparate;
-import org.lwjgl.opengl.EXTFramebufferObject;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL14;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GLContext;
-import oshi.SystemInfo;
-import oshi.hardware.CentralProcessor;
 
 public class OpenGlHelper {
     public static boolean nvidia;
@@ -263,7 +249,7 @@ public class OpenGlHelper {
             }
         }
 
-        // FUCKING CHANGE
+        // STARFLOW-CHANGE
         try {
             CentralProcessor processor = new SystemInfo().getHardware().getProcessor();
             int logicalCoreCount = processor.getLogicalProcessorCount();
@@ -733,6 +719,6 @@ public class OpenGlHelper {
     }
 
     public static String getCpu() {
-        return cpu == null ? "<unknown>" : cpu;
+        return null == OpenGlHelper.cpu ? "<unknown>" : cpu;
     }
 }

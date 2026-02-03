@@ -45,9 +45,9 @@ public class EntityItem extends Entity {
         this.setSize(0.25F, 0.25F);
         this.setPosition(x, y, z);
         this.rotationYaw = (float) (Math.random() * 360.0D);
-        this.motionX = (double) ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D));
+        this.motionX = (float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D);
         this.motionY = 0.20000000298023224D;
-        this.motionZ = (double) ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D));
+        this.motionZ = (float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D);
     }
 
     public EntityItem(World worldIn, double x, double y, double z, ItemStack stack) {
@@ -79,12 +79,12 @@ public class EntityItem extends Entity {
      * Called to update the entity's position/logic.
      */
     public void onUpdate() {
-        if (this.getEntityItem() == null) {
+        if (null == getEntityItem()) {
             this.setDead();
         } else {
             super.onUpdate();
 
-            if (this.delayBeforeCanPickup > 0 && this.delayBeforeCanPickup != 32767) {
+            if (0 < delayBeforeCanPickup && 32767 != delayBeforeCanPickup) {
                 --this.delayBeforeCanPickup;
             }
 
@@ -96,11 +96,11 @@ public class EntityItem extends Entity {
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
             boolean flag = (int) this.prevPosX != (int) this.posX || (int) this.prevPosY != (int) this.posY || (int) this.prevPosZ != (int) this.posZ;
 
-            if (flag || this.ticksExisted % 25 == 0) {
+            if (flag || 0 == ticksExisted % 25) {
                 if (this.worldObj.getBlockState(new BlockPos(this)).getBlock().getMaterial() == Material.lava) {
                     this.motionY = 0.20000000298023224D;
-                    this.motionX = (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-                    this.motionZ = (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+                    this.motionX = (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F;
+                    this.motionZ = (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F;
                     this.playSound("random.fizz", 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
                 }
 
@@ -115,21 +115,21 @@ public class EntityItem extends Entity {
                 f = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1, MathHelper.floor_double(this.posZ))).getBlock().slipperiness * 0.98F;
             }
 
-            this.motionX *= (double) f;
+            this.motionX *= f;
             this.motionY *= 0.9800000190734863D;
-            this.motionZ *= (double) f;
+            this.motionZ *= f;
 
             if (this.onGround) {
                 this.motionY *= -0.5D;
             }
 
-            if (this.age != -32768) {
+            if (-32768 != age) {
                 ++this.age;
             }
 
             this.handleWaterMovement();
 
-            if (!this.worldObj.isRemote && this.age >= 6000) {
+            if (!this.worldObj.isRemote && 6000 <= age) {
                 this.setDead();
             }
         }
@@ -155,15 +155,15 @@ public class EntityItem extends Entity {
             ItemStack itemstack = this.getEntityItem();
             ItemStack itemstack1 = other.getEntityItem();
 
-            if (this.delayBeforeCanPickup != 32767 && other.delayBeforeCanPickup != 32767) {
-                if (this.age != -32768 && other.age != -32768) {
+            if (32767 != delayBeforeCanPickup && 32767 != other.delayBeforeCanPickup) {
+                if (-32768 != age && -32768 != other.age) {
                     if (itemstack1.getItem() != itemstack.getItem()) {
                         return false;
                     } else if (itemstack1.hasTagCompound() ^ itemstack.hasTagCompound()) {
                         return false;
                     } else if (itemstack1.hasTagCompound() && !itemstack1.getTagCompound().equals(itemstack.getTagCompound())) {
                         return false;
-                    } else if (itemstack1.getItem() == null) {
+                    } else if (null == itemstack1.getItem()) {
                         return false;
                     } else if (itemstack1.getItem().getHasSubtypes() && itemstack1.getMetadata() != itemstack.getMetadata()) {
                         return false;
@@ -229,13 +229,13 @@ public class EntityItem extends Entity {
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if (this.isEntityInvulnerable(source)) {
             return false;
-        } else if (this.getEntityItem() != null && this.getEntityItem().getItem() == Items.nether_star && source.isExplosion()) {
+        } else if (null != getEntityItem() && this.getEntityItem().getItem() == Items.nether_star && source.isExplosion()) {
             return false;
         } else {
             this.setBeenAttacked();
             this.health = (int) ((float) this.health - amount);
 
-            if (this.health <= 0) {
+            if (0 >= health) {
                 this.setDead();
             }
 
@@ -247,19 +247,19 @@ public class EntityItem extends Entity {
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
     public void writeEntityToNBT(NBTTagCompound tagCompound) {
-        tagCompound.setShort("Health", (short) ((byte) this.health));
+        tagCompound.setShort("Health", (byte) this.health);
         tagCompound.setShort("Age", (short) this.age);
         tagCompound.setShort("PickupDelay", (short) this.delayBeforeCanPickup);
 
-        if (this.getThrower() != null) {
+        if (null != getThrower()) {
             tagCompound.setString("Thrower", this.thrower);
         }
 
-        if (this.getOwner() != null) {
+        if (null != getOwner()) {
             tagCompound.setString("Owner", this.owner);
         }
 
-        if (this.getEntityItem() != null) {
+        if (null != getEntityItem()) {
             tagCompound.setTag("Item", this.getEntityItem().writeToNBT(new NBTTagCompound()));
         }
     }
@@ -286,7 +286,7 @@ public class EntityItem extends Entity {
         NBTTagCompound nbttagcompound = tagCompund.getCompoundTag("Item");
         this.setEntityItemStack(ItemStack.loadItemStackFromNBT(nbttagcompound));
 
-        if (this.getEntityItem() == null) {
+        if (null == getEntityItem()) {
             this.setDead();
         }
     }
@@ -299,7 +299,7 @@ public class EntityItem extends Entity {
             ItemStack itemstack = this.getEntityItem();
             int i = itemstack.stackSize;
 
-            if (this.delayBeforeCanPickup == 0 && (this.owner == null || 6000 - this.age <= 200 || this.owner.equals(entityIn.getName())) && entityIn.inventory.addItemStackToInventory(itemstack)) {
+            if (0 == delayBeforeCanPickup && (null == owner || 200 >= 6000 - age || this.owner.equals(entityIn.getName())) && entityIn.inventory.addItemStackToInventory(itemstack)) {
                 if (itemstack.getItem() == Item.getItemFromBlock(Blocks.log)) {
                     entityIn.triggerAchievement(AchievementList.mineWood);
                 }
@@ -320,10 +320,10 @@ public class EntityItem extends Entity {
                     entityIn.triggerAchievement(AchievementList.blazeRod);
                 }
 
-                if (itemstack.getItem() == Items.diamond && this.getThrower() != null) {
+                if (itemstack.getItem() == Items.diamond && null != getThrower()) {
                     EntityPlayer entityplayer = this.worldObj.getPlayerEntityByName(this.getThrower());
 
-                    if (entityplayer != null && entityplayer != entityIn) {
+                    if (null != entityplayer && entityplayer != entityIn) {
                         entityplayer.triggerAchievement(AchievementList.diamondsToYou);
                     }
                 }
@@ -334,7 +334,7 @@ public class EntityItem extends Entity {
 
                 entityIn.onItemPickup(this, i);
 
-                if (itemstack.stackSize <= 0) {
+                if (0 >= itemstack.stackSize) {
                     this.setDead();
                 }
             }
@@ -373,8 +373,8 @@ public class EntityItem extends Entity {
     public ItemStack getEntityItem() {
         ItemStack itemstack = this.getDataWatcher().getWatchableObjectItemStack(10);
 
-        if (itemstack == null) {
-            if (this.worldObj != null) {
+        if (null == itemstack) {
+            if (null != worldObj) {
                 logger.error("Item entity " + this.getEntityId() + " has no item?!");
             }
 
@@ -429,7 +429,7 @@ public class EntityItem extends Entity {
     }
 
     public boolean cannotPickup() {
-        return this.delayBeforeCanPickup > 0;
+        return 0 < delayBeforeCanPickup;
     }
 
     public void setNoDespawn() {

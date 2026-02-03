@@ -1,16 +1,14 @@
-import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.api.tasks.JavaExec
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
-    java
+    id("java")
     id("com.gradleup.shadow") version "8.3.6"
 }
 
 // 项目基础信息配置
 val groupName = "io.starflow.client"
 val versionStr = "v1.0-SNAPSHOT"
-val lastChangeTime = "20260201"
+val lastChangeTime = "20260203"
 val lwjglVersion = "3.3.6"
 val lwjglNatives = "natives-windows"
 val mixinVersion = "0.8.7"
@@ -30,22 +28,23 @@ tasks.withType<JavaCompile>().configureEach {
 
     options.isIncremental = true
     options.isFork = true
-    options.forkOptions.jvmArgs?.addAll(listOf("-XX:+UseZGC", "-XX:+ZGenerational"))
+    options.forkOptions.jvmArgs?.addAll(listOf("-XX:+UseZGC"))
 
-    /* // Mixin 注解处理器配置
+    // Mixin 注解处理器配置
     options.compilerArgs.addAll(listOf(
         "-AoutRefMapFile=${project.layout.buildDirectory.get()}/resources/main/mixins.starflow.refmap.json",
         "-AreferencedMapFile=${project.projectDir}/src/main/resources/mixins.starflow.refmap.json",
         "-AdefaultObfuscationEnv=notch"
     ))
-    */
 }
 
 repositories {
     mavenCentral()
     maven { url = uri("${projectDir}/libs/mavens") }
     maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
-    maven { url = uri("https://maven.lwjgl.org") }
+//    maven { url = uri("https://maven.lwjgl.org") }
+    maven { url = uri("https://maven.cleanroommc.com") }
+    maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
     maven { url = uri("https://nexus.gtnewhorizons.com/repository/public/") }
     maven { url = uri("https://oss.sonatype.org/service/local/repositories/releases/content/") }
     maven { url = uri("https://maven.aliyun.com/repository/public/") }
@@ -62,22 +61,20 @@ dependencies {
         runtimeOnly("org.lwjgl:$module:$lwjglVersion:$lwjglNatives")
     }
 
-    /*
-    // Mixin 框架与注入支持 (StarFlow 核心依赖)
+    // Mixin 框架与注入支持
     implementation("org.spongepowered:mixin:$mixinVersion") { isTransitive = false }
     annotationProcessor("org.spongepowered:mixin:$mixinVersion:processor")
     implementation("zone.rong:mixinbooter:10.7")
     annotationProcessor("zone.rong:mixinbooter:10.7")
     annotationProcessor("com.google.guava:guava:32.1.3-jre")
     annotationProcessor("com.google.code.gson:gson:2.10.1")
-    */
 
     // 系统与底层访问
     implementation("com.github.oshi:oshi-core:4.4.2")
     implementation("net.java.dev.jna:jna:5.14.0")
     implementation("net.java.dev.jna:jna-platform:5.14.0")
 
-    // 高性能工具库
+    // 工具库
     implementation("com.google.guava:guava:32.1.3-jre")
     implementation("org.apache.commons:commons-lang3:3.18.0")
     implementation("commons-io:commons-io:2.16.1")
@@ -103,7 +100,6 @@ dependencies {
     implementation("net.java.jutils:jutils:1.0.0")
 
     // Mojang 官方依赖
-    implementation("tv.twitch:twitch:6.5")
     implementation("com.mojang:icu4j-core-mojang:51.2")
     implementation("net.sf.jopt-simple:jopt-simple:5.0.4")
     implementation("com.mojang:authlib:1.5.21")
@@ -125,7 +121,7 @@ tasks.named<ShadowJar>("shadowJar") {
 
 tasks.register<JavaExec>("RunClient") {
     group = "application"
-    description = "启动 StarFlow 1.8.9 开发环境"
+    description = "RunClient"
 
     classpath = sourceSets.main.get().runtimeClasspath
     mainClass.set("Start")

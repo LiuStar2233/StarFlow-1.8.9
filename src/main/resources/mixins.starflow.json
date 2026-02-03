@@ -6,5 +6,7 @@
   "refmap": "mixins.starflow.refmap.json",
   "mixins": [],
   "client": [],
-  "injectors": { "defaultRequire": 1 }
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

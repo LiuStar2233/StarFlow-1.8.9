@@ -4,11 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CancellationException;
-
 import com.google.common.util.concurrent.MoreExecutors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RegionRenderCacheBuilder;
@@ -18,13 +13,17 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CancellationException;
+
 public class ChunkRenderWorker implements Runnable {
     private static final Logger LOGGER = LogManager.getLogger();
     private final ChunkRenderDispatcher chunkRenderDispatcher;
     private final RegionRenderCacheBuilder regionRenderCacheBuilder;
 
     public ChunkRenderWorker(ChunkRenderDispatcher p_i46201_1_) {
-        this(p_i46201_1_, (RegionRenderCacheBuilder) null);
+        this(p_i46201_1_, null);
     }
 
     public ChunkRenderWorker(ChunkRenderDispatcher chunkRenderDispatcherIn, RegionRenderCacheBuilder regionRenderCacheBuilderIn) {
@@ -51,7 +50,7 @@ public class ChunkRenderWorker implements Runnable {
         generator.getLock().lock();
 
         try {
-            if (generator.getStatus() != ChunkCompileTaskGenerator.Status.PENDING) {
+            if (ChunkCompileTaskGenerator.Status.PENDING != generator.getStatus()) {
                 if (!generator.isFinished()) {
                     LOGGER.warn("Chunk render task was " + generator.getStatus() + " when I expected it to be pending; ignoring task");
                 }
@@ -66,7 +65,7 @@ public class ChunkRenderWorker implements Runnable {
 
         Entity lvt_2_1_ = Minecraft.getMinecraft().getRenderViewEntity();
 
-        if (lvt_2_1_ == null) {
+        if (null == lvt_2_1_) {
             generator.finish();
         } else {
             generator.setRegionRenderCacheBuilder(this.getRegionRenderCacheBuilder());
@@ -75,16 +74,16 @@ public class ChunkRenderWorker implements Runnable {
             float f2 = (float) lvt_2_1_.posZ;
             ChunkCompileTaskGenerator.Type chunkcompiletaskgenerator$type = generator.getType();
 
-            if (chunkcompiletaskgenerator$type == ChunkCompileTaskGenerator.Type.REBUILD_CHUNK) {
+            if (ChunkCompileTaskGenerator.Type.REBUILD_CHUNK == chunkcompiletaskgenerator$type) {
                 generator.getRenderChunk().rebuildChunk(f, f1, f2, generator);
-            } else if (chunkcompiletaskgenerator$type == ChunkCompileTaskGenerator.Type.RESORT_TRANSPARENCY) {
+            } else if (ChunkCompileTaskGenerator.Type.RESORT_TRANSPARENCY == chunkcompiletaskgenerator$type) {
                 generator.getRenderChunk().resortTransparency(f, f1, f2, generator);
             }
 
             generator.getLock().lock();
 
             try {
-                if (generator.getStatus() != ChunkCompileTaskGenerator.Status.COMPILING) {
+                if (ChunkCompileTaskGenerator.Status.COMPILING != generator.getStatus()) {
                     if (!generator.isFinished()) {
                         LOGGER.warn("Chunk render task was " + generator.getStatus() + " when I expected it to be compiling; aborting task");
                     }
@@ -101,13 +100,13 @@ public class ChunkRenderWorker implements Runnable {
             final CompiledChunk lvt_7_1_ = generator.getCompiledChunk();
             ArrayList lvt_8_1_ = Lists.newArrayList();
 
-            if (chunkcompiletaskgenerator$type == ChunkCompileTaskGenerator.Type.REBUILD_CHUNK) {
+            if (ChunkCompileTaskGenerator.Type.REBUILD_CHUNK == chunkcompiletaskgenerator$type) {
                 for (EnumWorldBlockLayer enumworldblocklayer : EnumWorldBlockLayer.values()) {
                     if (lvt_7_1_.isLayerStarted(enumworldblocklayer)) {
                         lvt_8_1_.add(this.chunkRenderDispatcher.uploadChunk(enumworldblocklayer, generator.getRegionRenderCacheBuilder().getWorldRendererByLayer(enumworldblocklayer), generator.getRenderChunk(), lvt_7_1_));
                     }
                 }
-            } else if (chunkcompiletaskgenerator$type == ChunkCompileTaskGenerator.Type.RESORT_TRANSPARENCY) {
+            } else if (ChunkCompileTaskGenerator.Type.RESORT_TRANSPARENCY == chunkcompiletaskgenerator$type) {
                 lvt_8_1_.add(this.chunkRenderDispatcher.uploadChunk(EnumWorldBlockLayer.TRANSLUCENT, generator.getRegionRenderCacheBuilder().getWorldRendererByLayer(EnumWorldBlockLayer.TRANSLUCENT), generator.getRenderChunk(), lvt_7_1_));
             }
 
@@ -117,7 +116,7 @@ public class ChunkRenderWorker implements Runnable {
                     listenablefuture.cancel(false);
                 }
             });
-            // FUCKING CHANGE
+            // STARFLOW-CHANGE
             Futures.addCallback(listenablefuture, new FutureCallback<List<Object>>() {
                 public void onSuccess(List<Object> p_onSuccess_1_) {
                     ChunkRenderWorker.this.freeRenderBuilder(generator);
@@ -125,7 +124,7 @@ public class ChunkRenderWorker implements Runnable {
                     label21:
                     {
                         try {
-                            if (generator.getStatus() == ChunkCompileTaskGenerator.Status.UPLOADING) {
+                            if (ChunkCompileTaskGenerator.Status.UPLOADING == generator.getStatus()) {
                                 generator.setStatus(ChunkCompileTaskGenerator.Status.DONE);
                                 break label21;
                             }
@@ -154,11 +153,11 @@ public class ChunkRenderWorker implements Runnable {
     }
 
     private RegionRenderCacheBuilder getRegionRenderCacheBuilder() throws InterruptedException {
-        return this.regionRenderCacheBuilder != null ? this.regionRenderCacheBuilder : this.chunkRenderDispatcher.allocateRenderBuilder();
+        return null != regionRenderCacheBuilder ? this.regionRenderCacheBuilder : this.chunkRenderDispatcher.allocateRenderBuilder();
     }
 
     private void freeRenderBuilder(ChunkCompileTaskGenerator taskGenerator) {
-        if (this.regionRenderCacheBuilder == null) {
+        if (null == regionRenderCacheBuilder) {
             this.chunkRenderDispatcher.freeRenderBuilder(taskGenerator.getRegionRenderCacheBuilder());
         }
     }

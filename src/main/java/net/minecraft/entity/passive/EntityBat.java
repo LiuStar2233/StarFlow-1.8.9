@@ -1,16 +1,15 @@
 package net.minecraft.entity.passive;
 
-import java.util.Calendar;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.Calendar;
 
 public class EntityBat extends EntityAmbientCreature {
     /**
@@ -47,7 +46,7 @@ public class EntityBat extends EntityAmbientCreature {
      * Returns the sound this mob makes while it's alive.
      */
     protected String getLivingSound() {
-        return this.getIsBatHanging() && this.rand.nextInt(4) != 0 ? null : "mob.bat.idle";
+        return this.getIsBatHanging() && 0 != rand.nextInt(4) ? null : "mob.bat.idle";
     }
 
     /**
@@ -83,7 +82,7 @@ public class EntityBat extends EntityAmbientCreature {
     }
 
     public boolean getIsBatHanging() {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+        return 0 != (dataWatcher.getWatchableObjectByte(16) & 1);
     }
 
     public void setIsBatHanging(boolean isHanging) {
@@ -118,23 +117,23 @@ public class EntityBat extends EntityAmbientCreature {
         if (this.getIsBatHanging()) {
             if (!this.worldObj.getBlockState(blockpos1).getBlock().isNormalCube()) {
                 this.setIsBatHanging(false);
-                this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1015, blockpos, 0);
+                this.worldObj.playAuxSFXAtEntity(null, 1015, blockpos, 0);
             } else {
-                if (this.rand.nextInt(200) == 0) {
+                if (0 == rand.nextInt(200)) {
                     this.rotationYawHead = (float) this.rand.nextInt(360);
                 }
 
-                if (this.worldObj.getClosestPlayerToEntity(this, 4.0D) != null) {
+                if (null != worldObj.getClosestPlayerToEntity(this, 4.0D)) {
                     this.setIsBatHanging(false);
-                    this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1015, blockpos, 0);
+                    this.worldObj.playAuxSFXAtEntity(null, 1015, blockpos, 0);
                 }
             }
         } else {
-            if (this.spawnPosition != null && (!this.worldObj.isAirBlock(this.spawnPosition) || this.spawnPosition.getY() < 1)) {
+            if (null != spawnPosition && (!this.worldObj.isAirBlock(this.spawnPosition) || 1 > spawnPosition.getY())) {
                 this.spawnPosition = null;
             }
 
-            if (this.spawnPosition == null || this.rand.nextInt(30) == 0 || this.spawnPosition.distanceSq((double) ((int) this.posX), (double) ((int) this.posY), (double) ((int) this.posZ)) < 4.0D) {
+            if (null == spawnPosition || 0 == rand.nextInt(30) || 4.0D > spawnPosition.distanceSq((int) posX, (int) posY, (int) posZ)) {
                 this.spawnPosition = new BlockPos((int) this.posX + this.rand.nextInt(7) - this.rand.nextInt(7), (int) this.posY + this.rand.nextInt(6) - 2, (int) this.posZ + this.rand.nextInt(7) - this.rand.nextInt(7));
             }
 
@@ -149,7 +148,7 @@ public class EntityBat extends EntityAmbientCreature {
             this.moveForward = 0.5F;
             this.rotationYaw += f1;
 
-            if (this.rand.nextInt(100) == 0 && this.worldObj.getBlockState(blockpos1).getBlock().isNormalCube()) {
+            if (0 == rand.nextInt(100) && this.worldObj.getBlockState(blockpos1).getBlock().isNormalCube()) {
                 this.setIsBatHanging(true);
             }
         }
@@ -225,12 +224,12 @@ public class EntityBat extends EntityAmbientCreature {
                 return false;
             }
 
-            return i > this.rand.nextInt(j) ? false : super.getCanSpawnHere();
+            return i <= this.rand.nextInt(j) && super.getCanSpawnHere();
         }
     }
 
     private boolean isDateAroundHalloween(Calendar p_175569_1_) {
-        return p_175569_1_.get(2) + 1 == 10 && p_175569_1_.get(5) >= 20 || p_175569_1_.get(2) + 1 == 11 && p_175569_1_.get(5) <= 3;
+        return 10 == p_175569_1_.get(2) + 1 && 20 <= p_175569_1_.get(5) || 11 == p_175569_1_.get(2) + 1 && 3 >= p_175569_1_.get(5);
     }
 
     public float getEyeHeight() {

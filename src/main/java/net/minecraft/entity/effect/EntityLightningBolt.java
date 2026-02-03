@@ -1,7 +1,5 @@
 package net.minecraft.entity.effect;
 
-import java.util.List;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -10,6 +8,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class EntityLightningBolt extends EntityWeatherEffect {
     /**
@@ -35,12 +35,12 @@ public class EntityLightningBolt extends EntityWeatherEffect {
         this.boltLivingTime = this.rand.nextInt(3) + 1;
         BlockPos blockpos = new BlockPos(this);
 
-        if (!worldIn.isRemote && worldIn.getGameRules().getBoolean("doFireTick") && (worldIn.getDifficulty() == EnumDifficulty.NORMAL || worldIn.getDifficulty() == EnumDifficulty.HARD) && worldIn.isAreaLoaded(blockpos, 10)) {
+        if (!worldIn.isRemote && worldIn.getGameRules().getBoolean("doFireTick") && (EnumDifficulty.NORMAL == worldIn.getDifficulty() || EnumDifficulty.HARD == worldIn.getDifficulty()) && worldIn.isAreaLoaded(blockpos, 10)) {
             if (worldIn.getBlockState(blockpos).getBlock().getMaterial() == Material.air && Blocks.fire.canPlaceBlockAt(worldIn, blockpos)) {
                 worldIn.setBlockState(blockpos, Blocks.fire.getDefaultState());
             }
 
-            for (int i = 0; i < 4; ++i) {
+            for (int i = 0; 4 > i; ++i) {
                 BlockPos blockpos1 = blockpos.add(this.rand.nextInt(3) - 1, this.rand.nextInt(3) - 1, this.rand.nextInt(3) - 1);
 
                 if (worldIn.getBlockState(blockpos1).getBlock().getMaterial() == Material.air && Blocks.fire.canPlaceBlockAt(worldIn, blockpos1)) {
@@ -56,15 +56,15 @@ public class EntityLightningBolt extends EntityWeatherEffect {
     public void onUpdate() {
         super.onUpdate();
 
-        if (this.lightningState == 2) {
+        if (2 == lightningState) {
             this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
             this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 2.0F, 0.5F + this.rand.nextFloat() * 0.2F);
         }
 
         --this.lightningState;
 
-        if (this.lightningState < 0) {
-            if (this.boltLivingTime == 0) {
+        if (0 > lightningState) {
+            if (0 == boltLivingTime) {
                 this.setDead();
             } else if (this.lightningState < -this.rand.nextInt(10)) {
                 --this.boltLivingTime;
@@ -78,15 +78,15 @@ public class EntityLightningBolt extends EntityWeatherEffect {
             }
         }
 
-        if (this.lightningState >= 0) {
+        if (0 <= lightningState) {
             if (this.worldObj.isRemote) {
                 this.worldObj.setLastLightningBolt(2);
             } else {
-                double d0 = 3.0D;
+                final double d0 = 3.0D;
                 List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, new AxisAlignedBB(this.posX - d0, this.posY - d0, this.posZ - d0, this.posX + d0, this.posY + 6.0D + d0, this.posZ + d0));
 
                 for (int i = 0; i < list.size(); ++i) {
-                    Entity entity = (Entity) list.get(i);
+                    Entity entity = list.get(i);
                     entity.onStruckByLightning(this);
                 }
             }

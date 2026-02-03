@@ -2,15 +2,14 @@ package net.minecraft.client.gui.spectator;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
-
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiSpectator;
 import net.minecraft.client.gui.spectator.categories.SpectatorDetails;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+
+import java.util.List;
 
 public class SpectatorMenu {
     private static final ISpectatorMenuObject field_178655_b = new SpectatorMenu.EndSpectatorObject();
@@ -33,7 +32,7 @@ public class SpectatorMenu {
         }
     };
     private final ISpectatorMenuRecipient field_178651_f;
-    private final List<SpectatorDetails> field_178652_g = Lists.<SpectatorDetails>newArrayList();
+    private final List<SpectatorDetails> field_178652_g = Lists.newArrayList();
     private ISpectatorMenuView field_178659_h = new BaseSpectatorGroup();
     private int field_178660_i = -1;
     private int field_178658_j;
@@ -44,14 +43,14 @@ public class SpectatorMenu {
 
     public ISpectatorMenuObject func_178643_a(int p_178643_1_) {
         int i = p_178643_1_ + this.field_178658_j * 6;
-        // FUCKING CHANGE
-        return this.field_178658_j > 0 && p_178643_1_ == 0 ? field_178656_c : (p_178643_1_ == 7 ? (i < this.field_178659_h.func_178669_a().size() ? field_178653_d : field_178654_e) : (p_178643_1_ == 8 ? field_178655_b : (i >= 0 && i < this.field_178659_h.func_178669_a().size() ? (ISpectatorMenuObject) MoreObjects.firstNonNull(this.field_178659_h.func_178669_a().get(i), field_178657_a) : field_178657_a)));
+        // STARFLOW-CHANGE
+        return 0 < field_178658_j && 0 == p_178643_1_ ? field_178656_c : (7 == p_178643_1_ ? (i < this.field_178659_h.func_178669_a().size() ? field_178653_d : field_178654_e) : (8 == p_178643_1_ ? field_178655_b : (0 <= i && i < this.field_178659_h.func_178669_a().size() ? MoreObjects.firstNonNull(this.field_178659_h.func_178669_a().get(i), field_178657_a) : field_178657_a)));
     }
 
     public List<ISpectatorMenuObject> func_178642_a() {
-        List<ISpectatorMenuObject> list = Lists.<ISpectatorMenuObject>newArrayList();
+        List<ISpectatorMenuObject> list = Lists.newArrayList();
 
-        for (int i = 0; i <= 8; ++i) {
+        for (int i = 0; 8 >= i; ++i) {
             list.add(this.func_178643_a(i));
         }
 
@@ -133,13 +132,13 @@ public class SpectatorMenu {
         }
 
         public IChatComponent getSpectatorName() {
-            return this.field_178666_a < 0 ? new ChatComponentText("Previous Page") : new ChatComponentText("Next Page");
+            return 0 > field_178666_a ? new ChatComponentText("Previous Page") : new ChatComponentText("Next Page");
         }
 
         public void func_178663_a(float p_178663_1_, int alpha) {
             Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.field_175269_a);
 
-            if (this.field_178666_a < 0) {
+            if (0 > field_178666_a) {
                 Gui.drawModalRectWithCustomSizedTexture(0, 0, 144.0F, 0.0F, 16, 16, 256.0F, 256.0F);
             } else {
                 Gui.drawModalRectWithCustomSizedTexture(0, 0, 160.0F, 0.0F, 16, 16, 256.0F, 256.0F);

@@ -70,10 +70,10 @@ public class Timer {
         long k = System.nanoTime() / 1000000L;
         double d0 = (double) k / 1000.0D;
 
-        if (j <= 1000L && j >= 0L) {
+        if (1000L >= j && 0L <= j) {
             this.counter += j;
 
-            if (this.counter > 1000L) {
+            if (1000L < counter) {
                 long l = k - this.lastSyncHRClock;
                 double d1 = (double) this.counter / (double) l;
                 this.timeSyncAdjustment += (d1 - this.timeSyncAdjustment) * 0.20000000298023224D;
@@ -81,7 +81,7 @@ public class Timer {
                 this.counter = 0L;
             }
 
-            if (this.counter < 0L) {
+            if (0L > counter) {
                 this.lastSyncHRClock = k;
             }
         } else {
@@ -96,7 +96,7 @@ public class Timer {
         this.elapsedTicks = (int) this.elapsedPartialTicks;
         this.elapsedPartialTicks -= (float) this.elapsedTicks;
 
-        if (this.elapsedTicks > 10) {
+        if (10 < elapsedTicks) {
             this.elapsedTicks = 10;
         }
 

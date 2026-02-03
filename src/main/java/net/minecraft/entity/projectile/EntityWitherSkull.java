@@ -62,8 +62,8 @@ public class EntityWitherSkull extends EntityFireball {
      */
     protected void onImpact(MovingObjectPosition movingObject) {
         if (!this.worldObj.isRemote) {
-            if (movingObject.entityHit != null) {
-                if (this.shootingEntity != null) {
+            if (null != movingObject.entityHit) {
+                if (null != shootingEntity) {
                     if (movingObject.entityHit.attackEntityFrom(DamageSource.causeMobDamage(this.shootingEntity), 8.0F)) {
                         if (!movingObject.entityHit.isEntityAlive()) {
                             this.shootingEntity.heal(5.0F);
@@ -78,13 +78,13 @@ public class EntityWitherSkull extends EntityFireball {
                 if (movingObject.entityHit instanceof EntityLivingBase) {
                     int i = 0;
 
-                    if (this.worldObj.getDifficulty() == EnumDifficulty.NORMAL) {
+                    if (EnumDifficulty.NORMAL == worldObj.getDifficulty()) {
                         i = 10;
-                    } else if (this.worldObj.getDifficulty() == EnumDifficulty.HARD) {
+                    } else if (EnumDifficulty.HARD == worldObj.getDifficulty()) {
                         i = 40;
                     }
 
-                    if (i > 0) {
+                    if (0 < i) {
                         ((EntityLivingBase) movingObject.entityHit).addPotionEffect(new PotionEffect(Potion.wither.id, 20 * i, 1));
                     }
                 }
@@ -117,7 +117,7 @@ public class EntityWitherSkull extends EntityFireball {
      * Return whether this skull comes from an invulnerable (aura) wither boss.
      */
     public boolean isInvulnerable() {
-        return this.dataWatcher.getWatchableObjectByte(10) == 1;
+        return 1 == dataWatcher.getWatchableObjectByte(10);
     }
 
     /**

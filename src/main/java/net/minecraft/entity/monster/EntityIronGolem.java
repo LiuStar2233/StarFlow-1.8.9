@@ -5,22 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIDefendVillage;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookAtVillager;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveThroughVillage;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -56,7 +42,7 @@ public class EntityIronGolem extends EntityGolem {
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIDefendVillage(this));
-        this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
+        this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(3, new EntityIronGolem.AINearestAttackableTargetNonCreeper(this, EntityLiving.class, 10, false, true, IMob.VISIBLE_MOB_SELECTOR));
     }
 
@@ -66,11 +52,11 @@ public class EntityIronGolem extends EntityGolem {
     }
 
     protected void updateAITasks() {
-        if (--this.homeCheckTimer <= 0) {
+        if (0 >= --homeCheckTimer) {
             this.homeCheckTimer = 70 + this.rand.nextInt(50);
             this.villageObj = this.worldObj.getVillageCollection().getNearestVillage(new BlockPos(this), 32);
 
-            if (this.villageObj == null) {
+            if (null == villageObj) {
                 this.detachHome();
             } else {
                 BlockPos blockpos = this.villageObj.getCenter();
@@ -95,7 +81,7 @@ public class EntityIronGolem extends EntityGolem {
     }
 
     protected void collideWithEntity(Entity entityIn) {
-        if (entityIn instanceof IMob && !(entityIn instanceof EntityCreeper) && this.getRNG().nextInt(20) == 0) {
+        if (entityIn instanceof IMob && !(entityIn instanceof EntityCreeper) && 0 == getRNG().nextInt(20)) {
             this.setAttackTarget((EntityLivingBase) entityIn);
         }
 
@@ -109,15 +95,15 @@ public class EntityIronGolem extends EntityGolem {
     public void onLivingUpdate() {
         super.onLivingUpdate();
 
-        if (this.attackTimer > 0) {
+        if (0 < attackTimer) {
             --this.attackTimer;
         }
 
-        if (this.holdRoseTick > 0) {
+        if (0 < holdRoseTick) {
             --this.holdRoseTick;
         }
 
-        if (this.motionX * this.motionX + this.motionZ * this.motionZ > 2.500000277905201E-7D && this.rand.nextInt(5) == 0) {
+        if (2.500000277905201E-7D < motionX * motionX + motionZ * motionZ && 0 == rand.nextInt(5)) {
             int i = MathHelper.floor_double(this.posX);
             int j = MathHelper.floor_double(this.posY - 0.20000000298023224D);
             int k = MathHelper.floor_double(this.posZ);
@@ -125,7 +111,7 @@ public class EntityIronGolem extends EntityGolem {
             Block block = iblockstate.getBlock();
 
             if (block.getMaterial() != Material.air) {
-                this.worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, 4.0D * ((double) this.rand.nextFloat() - 0.5D), 0.5D, ((double) this.rand.nextFloat() - 0.5D) * 4.0D, new int[]{Block.getStateId(iblockstate)});
+                this.worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, 4.0D * ((double) this.rand.nextFloat() - 0.5D), 0.5D, ((double) this.rand.nextFloat() - 0.5D) * 4.0D, Block.getStateId(iblockstate));
             }
         }
     }
@@ -134,7 +120,7 @@ public class EntityIronGolem extends EntityGolem {
      * Returns true if this entity can attack entities of the specified class.
      */
     public boolean canAttackClass(Class<? extends EntityLivingBase> cls) {
-        return this.isPlayerCreated() && EntityPlayer.class.isAssignableFrom(cls) ? false : (cls == EntityCreeper.class ? false : super.canAttackClass(cls));
+        return (!this.isPlayerCreated() || !EntityPlayer.class.isAssignableFrom(cls)) && (EntityCreeper.class != cls && super.canAttackClass(cls));
     }
 
     /**
@@ -168,10 +154,10 @@ public class EntityIronGolem extends EntityGolem {
     }
 
     public void handleStatusUpdate(byte id) {
-        if (id == 4) {
+        if (4 == id) {
             this.attackTimer = 10;
             this.playSound("mob.irongolem.throw", 1.0F, 1.0F);
-        } else if (id == 11) {
+        } else if (11 == id) {
             this.holdRoseTick = 400;
         } else {
             super.handleStatusUpdate(id);
@@ -235,7 +221,7 @@ public class EntityIronGolem extends EntityGolem {
     }
 
     public boolean isPlayerCreated() {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+        return 0 != (dataWatcher.getWatchableObjectByte(16) & 1);
     }
 
     public void setPlayerCreated(boolean p_70849_1_) {
@@ -252,7 +238,7 @@ public class EntityIronGolem extends EntityGolem {
      * Called when the mob's health reaches 0.
      */
     public void onDeath(DamageSource cause) {
-        if (!this.isPlayerCreated() && this.attackingPlayer != null && this.villageObj != null) {
+        if (!this.isPlayerCreated() && null != attackingPlayer && null != villageObj) {
             this.villageObj.setReputationForPlayer(this.attackingPlayer.getName(), -5);
         }
 
@@ -264,7 +250,7 @@ public class EntityIronGolem extends EntityGolem {
             super(creature, classTarget, chance, p_i45858_4_, p_i45858_5_, p_i45858_6_);
             this.targetEntitySelector = new Predicate<T>() {
                 public boolean apply(T p_apply_1_) {
-                    if (p_i45858_6_ != null && !p_i45858_6_.apply(p_apply_1_)) {
+                    if (null != p_i45858_6_ && !p_i45858_6_.apply(p_apply_1_)) {
                         return false;
                     } else if (p_apply_1_ instanceof EntityCreeper) {
                         return false;
@@ -279,11 +265,11 @@ public class EntityIronGolem extends EntityGolem {
                             if (p_apply_1_.isInvisible()) {
                                 float f = ((EntityPlayer) p_apply_1_).getArmorVisibility();
 
-                                if (f < 0.1F) {
+                                if (0.1F > f) {
                                     f = 0.1F;
                                 }
 
-                                d0 *= (double) (0.7F * f);
+                                d0 *= 0.7F * f;
                             }
 
                             if ((double) p_apply_1_.getDistanceToEntity(creature) > d0) {

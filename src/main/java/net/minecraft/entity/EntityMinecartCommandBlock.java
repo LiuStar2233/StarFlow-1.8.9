@@ -47,7 +47,7 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
     /**
      * Cooldown before command block logic runs again in ticks
      */
-    private int activatorRailCooldown = 0;
+    private int activatorRailCooldown;
 
     public EntityMinecartCommandBlock(World worldIn) {
         super(worldIn);
@@ -97,7 +97,7 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
      * Called every tick the minecart is on an activator rail. Args: x, y, z, is the rail receiving power
      */
     public void onActivatorRailPass(int x, int y, int z, boolean receivingPower) {
-        if (receivingPower && this.ticksExisted - this.activatorRailCooldown >= 4) {
+        if (receivingPower && 4 <= ticksExisted - activatorRailCooldown) {
             this.getCommandBlockLogic().trigger(this.worldObj);
             this.activatorRailCooldown = this.ticksExisted;
         }
@@ -114,13 +114,12 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
     public void onDataWatcherUpdate(int dataID) {
         super.onDataWatcherUpdate(dataID);
 
-        if (dataID == 24) {
+        if (24 == dataID) {
             try {
                 this.commandBlockLogic.setLastOutput(IChatComponent.Serializer.jsonToComponent(this.getDataWatcher().getWatchableObjectString(24)));
             } catch (Throwable var3) {
-                ;
             }
-        } else if (dataID == 23) {
+        } else if (23 == dataID) {
             this.commandBlockLogic.setCommand(this.getDataWatcher().getWatchableObjectString(23));
         }
     }

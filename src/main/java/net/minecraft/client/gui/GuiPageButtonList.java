@@ -4,19 +4,18 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
-
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.IntHashMap;
 
+import java.util.List;
+
 public class GuiPageButtonList extends GuiListExtended {
-    private final List<GuiPageButtonList.GuiEntry> field_178074_u = Lists.<GuiPageButtonList.GuiEntry>newArrayList();
+    private final List<GuiPageButtonList.GuiEntry> field_178074_u = Lists.newArrayList();
     private final IntHashMap<Gui> field_178073_v = new IntHashMap();
-    private final List<GuiTextField> field_178072_w = Lists.<GuiTextField>newArrayList();
+    private final List<GuiTextField> field_178072_w = Lists.newArrayList();
     private final GuiPageButtonList.GuiListEntry[][] field_178078_x;
     private int field_178077_y;
-    private GuiPageButtonList.GuiResponder field_178076_z;
+    private final GuiPageButtonList.GuiResponder field_178076_z;
     private Gui field_178075_A;
 
     public GuiPageButtonList(Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn, GuiPageButtonList.GuiResponder p_i45536_7_, GuiPageButtonList.GuiListEntry[]... p_i45536_8_) {
@@ -33,12 +32,12 @@ public class GuiPageButtonList extends GuiListExtended {
             for (int i = 0; i < aguipagebuttonlist$guilistentry.length; i += 2) {
                 GuiPageButtonList.GuiListEntry guipagebuttonlist$guilistentry = aguipagebuttonlist$guilistentry[i];
                 GuiPageButtonList.GuiListEntry guipagebuttonlist$guilistentry1 = i < aguipagebuttonlist$guilistentry.length - 1 ? aguipagebuttonlist$guilistentry[i + 1] : null;
-                Gui gui = this.func_178058_a(guipagebuttonlist$guilistentry, 0, guipagebuttonlist$guilistentry1 == null);
-                Gui gui1 = this.func_178058_a(guipagebuttonlist$guilistentry1, 160, guipagebuttonlist$guilistentry == null);
+                Gui gui = this.func_178058_a(guipagebuttonlist$guilistentry, 0, null == guipagebuttonlist$guilistentry1);
+                Gui gui1 = this.func_178058_a(guipagebuttonlist$guilistentry1, 160, null == guipagebuttonlist$guilistentry);
                 GuiPageButtonList.GuiEntry guipagebuttonlist$guientry = new GuiPageButtonList.GuiEntry(gui, gui1);
                 this.field_178074_u.add(guipagebuttonlist$guientry);
 
-                if (guipagebuttonlist$guilistentry != null && gui != null) {
+                if (null != guipagebuttonlist$guilistentry && null != gui) {
                     this.field_178073_v.addKey(guipagebuttonlist$guilistentry.func_178935_b(), gui);
 
                     if (gui instanceof GuiTextField) {
@@ -46,7 +45,7 @@ public class GuiPageButtonList extends GuiListExtended {
                     }
                 }
 
-                if (guipagebuttonlist$guilistentry1 != null && gui1 != null) {
+                if (null != guipagebuttonlist$guilistentry1 && null != gui1) {
                     this.field_178073_v.addKey(guipagebuttonlist$guilistentry1.func_178935_b(), gui1);
 
                     if (gui1 instanceof GuiTextField) {
@@ -63,8 +62,8 @@ public class GuiPageButtonList extends GuiListExtended {
         for (int i = 0; i < this.field_178078_x[this.field_178077_y].length; i += 2) {
             GuiPageButtonList.GuiListEntry guipagebuttonlist$guilistentry = this.field_178078_x[this.field_178077_y][i];
             GuiPageButtonList.GuiListEntry guipagebuttonlist$guilistentry1 = i < this.field_178078_x[this.field_178077_y].length - 1 ? this.field_178078_x[this.field_178077_y][i + 1] : null;
-            Gui gui = (Gui) this.field_178073_v.lookup(guipagebuttonlist$guilistentry.func_178935_b());
-            Gui gui1 = guipagebuttonlist$guilistentry1 != null ? (Gui) this.field_178073_v.lookup(guipagebuttonlist$guilistentry1.func_178935_b()) : null;
+            Gui gui = this.field_178073_v.lookup(guipagebuttonlist$guilistentry.func_178935_b());
+            Gui gui1 = null != guipagebuttonlist$guilistentry1 ? this.field_178073_v.lookup(guipagebuttonlist$guilistentry1.func_178935_b()) : null;
             GuiPageButtonList.GuiEntry guipagebuttonlist$guientry = new GuiPageButtonList.GuiEntry(gui, gui1);
             this.field_178074_u.add(guipagebuttonlist$guientry);
         }
@@ -93,7 +92,7 @@ public class GuiPageButtonList extends GuiListExtended {
     }
 
     public void func_178071_h() {
-        if (this.field_178077_y > 0) {
+        if (0 < field_178077_y) {
             this.func_181156_c(this.field_178077_y - 1);
         }
     }
@@ -105,19 +104,19 @@ public class GuiPageButtonList extends GuiListExtended {
     }
 
     public Gui func_178061_c(int p_178061_1_) {
-        return (Gui) this.field_178073_v.lookup(p_178061_1_);
+        return this.field_178073_v.lookup(p_178061_1_);
     }
 
     private void func_178060_e(int p_178060_1_, int p_178060_2_) {
         for (GuiPageButtonList.GuiListEntry guipagebuttonlist$guilistentry : this.field_178078_x[p_178060_1_]) {
-            if (guipagebuttonlist$guilistentry != null) {
-                this.func_178066_a((Gui) this.field_178073_v.lookup(guipagebuttonlist$guilistentry.func_178935_b()), false);
+            if (null != guipagebuttonlist$guilistentry) {
+                this.func_178066_a(this.field_178073_v.lookup(guipagebuttonlist$guilistentry.func_178935_b()), false);
             }
         }
 
         for (GuiPageButtonList.GuiListEntry guipagebuttonlist$guilistentry1 : this.field_178078_x[p_178060_2_]) {
-            if (guipagebuttonlist$guilistentry1 != null) {
-                this.func_178066_a((Gui) this.field_178073_v.lookup(guipagebuttonlist$guilistentry1.func_178935_b()), true);
+            if (null != guipagebuttonlist$guilistentry1) {
+                this.func_178066_a(this.field_178073_v.lookup(guipagebuttonlist$guilistentry1.func_178935_b()), true);
             }
         }
     }
@@ -133,7 +132,7 @@ public class GuiPageButtonList extends GuiListExtended {
     }
 
     private Gui func_178058_a(GuiPageButtonList.GuiListEntry p_178058_1_, int p_178058_2_, boolean p_178058_3_) {
-        return (Gui) (p_178058_1_ instanceof GuiPageButtonList.GuiSlideEntry ? this.func_178067_a(this.width / 2 - 155 + p_178058_2_, 0, (GuiPageButtonList.GuiSlideEntry) p_178058_1_) : (p_178058_1_ instanceof GuiPageButtonList.GuiButtonEntry ? this.func_178065_a(this.width / 2 - 155 + p_178058_2_, 0, (GuiPageButtonList.GuiButtonEntry) p_178058_1_) : (p_178058_1_ instanceof GuiPageButtonList.EditBoxEntry ? this.func_178068_a(this.width / 2 - 155 + p_178058_2_, 0, (GuiPageButtonList.EditBoxEntry) p_178058_1_) : (p_178058_1_ instanceof GuiPageButtonList.GuiLabelEntry ? this.func_178063_a(this.width / 2 - 155 + p_178058_2_, 0, (GuiPageButtonList.GuiLabelEntry) p_178058_1_, p_178058_3_) : null))));
+        return p_178058_1_ instanceof GuiSlideEntry ? this.func_178067_a(this.width / 2 - 155 + p_178058_2_, 0, (GuiSlideEntry) p_178058_1_) : (p_178058_1_ instanceof GuiButtonEntry ? this.func_178065_a(this.width / 2 - 155 + p_178058_2_, 0, (GuiButtonEntry) p_178058_1_) : (p_178058_1_ instanceof EditBoxEntry ? this.func_178068_a(this.width / 2 - 155 + p_178058_2_, 0, (EditBoxEntry) p_178058_1_) : (p_178058_1_ instanceof GuiLabelEntry ? this.func_178063_a(this.width / 2 - 155 + p_178058_2_, 0, (GuiLabelEntry) p_178058_1_, p_178058_3_) : null)));
     }
 
     public void func_181155_a(boolean p_181155_1_) {
@@ -152,10 +151,10 @@ public class GuiPageButtonList extends GuiListExtended {
         boolean flag = super.mouseClicked(mouseX, mouseY, mouseEvent);
         int i = this.getSlotIndexFromScreenCoords(mouseX, mouseY);
 
-        if (i >= 0) {
+        if (0 <= i) {
             GuiPageButtonList.GuiEntry guipagebuttonlist$guientry = this.getListEntry(i);
 
-            if (this.field_178075_A != guipagebuttonlist$guientry.field_178028_d && this.field_178075_A != null && this.field_178075_A instanceof GuiTextField) {
+            if (this.field_178075_A != guipagebuttonlist$guientry.field_178028_d && null != field_178075_A && this.field_178075_A instanceof GuiTextField) {
                 ((GuiTextField) this.field_178075_A).setFocused(false);
             }
 
@@ -206,12 +205,12 @@ public class GuiPageButtonList extends GuiListExtended {
             GuiTextField guitextfield = (GuiTextField) this.field_178075_A;
 
             if (!GuiScreen.isKeyComboCtrlV(p_178062_2_)) {
-                if (p_178062_2_ == 15) {
+                if (15 == p_178062_2_) {
                     guitextfield.setFocused(false);
                     int k = this.field_178072_w.indexOf(this.field_178075_A);
 
                     if (GuiScreen.isShiftKeyDown()) {
-                        if (k == 0) {
+                        if (0 == k) {
                             k = this.field_178072_w.size() - 1;
                         } else {
                             --k;
@@ -222,7 +221,7 @@ public class GuiPageButtonList extends GuiListExtended {
                         ++k;
                     }
 
-                    this.field_178075_A = (Gui) this.field_178072_w.get(k);
+                    this.field_178075_A = this.field_178072_w.get(k);
                     guitextfield = (GuiTextField) this.field_178075_A;
                     guitextfield.setFocused(true);
                     int l = guitextfield.yPosition + this.slotHeight;
@@ -243,7 +242,7 @@ public class GuiPageButtonList extends GuiListExtended {
                 int j = i;
 
                 for (String s1 : astring) {
-                    ((GuiTextField) this.field_178072_w.get(j)).setText(s1);
+                    this.field_178072_w.get(j).setText(s1);
 
                     if (j == this.field_178072_w.size() - 1) {
                         j = 0;
@@ -263,7 +262,7 @@ public class GuiPageButtonList extends GuiListExtended {
      * Gets the IGuiListEntry object for the given index
      */
     public GuiPageButtonList.GuiEntry getListEntry(int index) {
-        return (GuiPageButtonList.GuiEntry) this.field_178074_u.get(index);
+        return this.field_178074_u.get(index);
     }
 
     public int getSize() {
@@ -286,8 +285,8 @@ public class GuiPageButtonList extends GuiListExtended {
 
         public EditBoxEntry(int p_i45534_1_, String p_i45534_2_, boolean p_i45534_3_, Predicate<String> p_i45534_4_) {
             super(p_i45534_1_, p_i45534_2_, p_i45534_3_);
-            // FUCKING CHANGE
-            this.field_178951_a = (Predicate) MoreObjects.firstNonNull(p_i45534_4_, Predicates.alwaysTrue());
+            // STARFLOW-CHANGE
+            this.field_178951_a = MoreObjects.firstNonNull(p_i45534_4_, Predicates.alwaysTrue());
         }
 
         public Predicate<String> func_178950_a() {
@@ -333,7 +332,7 @@ public class GuiPageButtonList extends GuiListExtended {
         }
 
         private void func_178017_a(Gui p_178017_1_, int p_178017_2_, int p_178017_3_, int p_178017_4_, boolean p_178017_5_) {
-            if (p_178017_1_ != null) {
+            if (null != p_178017_1_) {
                 if (p_178017_1_ instanceof GuiButton) {
                     this.func_178024_a((GuiButton) p_178017_1_, p_178017_2_, p_178017_3_, p_178017_4_, p_178017_5_);
                 } else if (p_178017_1_ instanceof GuiTextField) {
@@ -380,7 +379,7 @@ public class GuiPageButtonList extends GuiListExtended {
         }
 
         private boolean func_178026_a(Gui p_178026_1_, int p_178026_2_, int p_178026_3_, int p_178026_4_) {
-            if (p_178026_1_ == null) {
+            if (null == p_178026_1_) {
                 return false;
             } else if (p_178026_1_ instanceof GuiButton) {
                 return this.func_178023_a((GuiButton) p_178026_1_, p_178026_2_, p_178026_3_, p_178026_4_);
@@ -417,7 +416,7 @@ public class GuiPageButtonList extends GuiListExtended {
         }
 
         private void func_178016_b(Gui p_178016_1_, int p_178016_2_, int p_178016_3_, int p_178016_4_) {
-            if (p_178016_1_ != null) {
+            if (null != p_178016_1_) {
                 if (p_178016_1_ instanceof GuiButton) {
                     this.func_178019_b((GuiButton) p_178016_1_, p_178016_2_, p_178016_3_, p_178016_4_);
                 }

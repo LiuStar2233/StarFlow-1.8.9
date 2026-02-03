@@ -58,25 +58,25 @@ public class EntityEnderEye extends Entity {
     }
 
     public void moveTowards(BlockPos p_180465_1_) {
-        double d0 = (double) p_180465_1_.getX();
+        double d0 = p_180465_1_.getX();
         int i = p_180465_1_.getY();
-        double d1 = (double) p_180465_1_.getZ();
+        double d1 = p_180465_1_.getZ();
         double d2 = d0 - this.posX;
         double d3 = d1 - this.posZ;
         float f = MathHelper.sqrt_double(d2 * d2 + d3 * d3);
 
-        if (f > 12.0F) {
+        if (12.0F < f) {
             this.targetX = this.posX + d2 / (double) f * 12.0D;
             this.targetZ = this.posZ + d3 / (double) f * 12.0D;
             this.targetY = this.posY + 8.0D;
         } else {
             this.targetX = d0;
-            this.targetY = (double) i;
+            this.targetY = i;
             this.targetZ = d1;
         }
 
         this.despawnTimer = 0;
-        this.shatterOrDrop = this.rand.nextInt(5) > 0;
+        this.shatterOrDrop = 0 < rand.nextInt(5);
     }
 
     /**
@@ -87,10 +87,10 @@ public class EntityEnderEye extends Entity {
         this.motionY = y;
         this.motionZ = z;
 
-        if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
+        if (0.0F == prevRotationPitch && 0.0F == prevRotationYaw) {
             float f = MathHelper.sqrt_double(x * x + z * z);
             this.prevRotationYaw = this.rotationYaw = (float) (MathHelper.atan2(x, z) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float) (MathHelper.atan2(y, (double) f) * 180.0D / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float) (MathHelper.atan2(y, f) * 180.0D / Math.PI);
         }
     }
 
@@ -108,19 +108,18 @@ public class EntityEnderEye extends Entity {
         float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
         this.rotationYaw = (float) (MathHelper.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-        for (this.rotationPitch = (float) (MathHelper.atan2(this.motionY, (double) f) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
-            ;
+        for (this.rotationPitch = (float) (MathHelper.atan2(this.motionY, f) * 180.0D / Math.PI); -180.0F > rotationPitch - prevRotationPitch; this.prevRotationPitch -= 360.0F) {
         }
 
-        while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
+        while (180.0F <= rotationPitch - prevRotationPitch) {
             this.prevRotationPitch += 360.0F;
         }
 
-        while (this.rotationYaw - this.prevRotationYaw < -180.0F) {
+        while (-180.0F > rotationYaw - prevRotationYaw) {
             this.prevRotationYaw -= 360.0F;
         }
 
-        while (this.rotationYaw - this.prevRotationYaw >= 180.0F) {
+        while (180.0F <= rotationYaw - prevRotationYaw) {
             this.prevRotationYaw += 360.0F;
         }
 
@@ -134,13 +133,13 @@ public class EntityEnderEye extends Entity {
             float f2 = (float) MathHelper.atan2(d1, d0);
             double d2 = (double) f + (double) (f1 - f) * 0.0025D;
 
-            if (f1 < 1.0F) {
+            if (1.0F > f1) {
                 d2 *= 0.8D;
                 this.motionY *= 0.8D;
             }
 
-            this.motionX = Math.cos((double) f2) * d2;
-            this.motionZ = Math.sin((double) f2) * d2;
+            this.motionX = Math.cos(f2) * d2;
+            this.motionZ = Math.sin(f2) * d2;
 
             if (this.posY < this.targetY) {
                 this.motionY += (1.0D - this.motionY) * 0.014999999664723873D;
@@ -149,21 +148,21 @@ public class EntityEnderEye extends Entity {
             }
         }
 
-        float f3 = 0.25F;
+        final float f3 = 0.25F;
 
         if (this.isInWater()) {
-            for (int i = 0; i < 4; ++i) {
-                this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double) f3, this.posY - this.motionY * (double) f3, this.posZ - this.motionZ * (double) f3, this.motionX, this.motionY, this.motionZ, new int[0]);
+            for (int i = 0; 4 > i; ++i) {
+                this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double) f3, this.posY - this.motionY * (double) f3, this.posZ - this.motionZ * (double) f3, this.motionX, this.motionY, this.motionZ);
             }
         } else {
-            this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX - this.motionX * (double) f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double) f3 - 0.5D, this.posZ - this.motionZ * (double) f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ, new int[0]);
+            this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX - this.motionX * (double) f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double) f3 - 0.5D, this.posZ - this.motionZ * (double) f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ);
         }
 
         if (!this.worldObj.isRemote) {
             this.setPosition(this.posX, this.posY, this.posZ);
             ++this.despawnTimer;
 
-            if (this.despawnTimer > 80 && !this.worldObj.isRemote) {
+            if (80 < despawnTimer && !this.worldObj.isRemote) {
                 this.setDead();
 
                 if (this.shatterOrDrop) {

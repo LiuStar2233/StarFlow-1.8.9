@@ -46,9 +46,9 @@ public class EntityXPOrb extends Entity {
         this.setSize(0.5F, 0.5F);
         this.setPosition(x, y, z);
         this.rotationYaw = (float) (Math.random() * 360.0D);
-        this.motionX = (double) ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
-        this.motionY = (double) ((float) (Math.random() * 0.2D) * 2.0F);
-        this.motionZ = (double) ((float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F);
+        this.motionX = (float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F;
+        this.motionY = (float) (Math.random() * 0.2D) * 2.0F;
+        this.motionZ = (float) (Math.random() * 0.20000000298023224D - 0.10000000149011612D) * 2.0F;
         this.xpValue = expValue;
     }
 
@@ -76,7 +76,7 @@ public class EntityXPOrb extends Entity {
         int k = i >> 16 & 255;
         j = j + (int) (f * 15.0F * 16.0F);
 
-        if (j > 240) {
+        if (240 < j) {
             j = 240;
         }
 
@@ -89,7 +89,7 @@ public class EntityXPOrb extends Entity {
     public void onUpdate() {
         super.onUpdate();
 
-        if (this.delayBeforeCanPickup > 0) {
+        if (0 < delayBeforeCanPickup) {
             --this.delayBeforeCanPickup;
         }
 
@@ -100,34 +100,34 @@ public class EntityXPOrb extends Entity {
 
         if (this.worldObj.getBlockState(new BlockPos(this)).getBlock().getMaterial() == Material.lava) {
             this.motionY = 0.20000000298023224D;
-            this.motionX = (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-            this.motionZ = (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+            this.motionX = (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F;
+            this.motionZ = (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F;
             this.playSound("random.fizz", 0.4F, 2.0F + this.rand.nextFloat() * 0.4F);
         }
 
         this.pushOutOfBlocks(this.posX, (this.getEntityBoundingBox().minY + this.getEntityBoundingBox().maxY) / 2.0D, this.posZ);
-        double d0 = 8.0D;
+        final double d0 = 8.0D;
 
         if (this.xpTargetColor < this.xpColor - 20 + this.getEntityId() % 100) {
-            if (this.closestPlayer == null || this.closestPlayer.getDistanceSqToEntity(this) > d0 * d0) {
+            if (null == closestPlayer || d0 * d0 < closestPlayer.getDistanceSqToEntity(this)) {
                 this.closestPlayer = this.worldObj.getClosestPlayerToEntity(this, d0);
             }
 
             this.xpTargetColor = this.xpColor;
         }
 
-        if (this.closestPlayer != null && this.closestPlayer.isSpectator()) {
+        if (null != closestPlayer && this.closestPlayer.isSpectator()) {
             this.closestPlayer = null;
         }
 
-        if (this.closestPlayer != null) {
+        if (null != closestPlayer) {
             double d1 = (this.closestPlayer.posX - this.posX) / d0;
             double d2 = (this.closestPlayer.posY + (double) this.closestPlayer.getEyeHeight() - this.posY) / d0;
             double d3 = (this.closestPlayer.posZ - this.posZ) / d0;
             double d4 = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3);
             double d5 = 1.0D - d4;
 
-            if (d5 > 0.0D) {
+            if (0.0D < d5) {
                 d5 = d5 * d5;
                 this.motionX += d1 / d4 * d5 * 0.1D;
                 this.motionY += d2 / d4 * d5 * 0.1D;
@@ -142,9 +142,9 @@ public class EntityXPOrb extends Entity {
             f = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1, MathHelper.floor_double(this.posZ))).getBlock().slipperiness * 0.98F;
         }
 
-        this.motionX *= (double) f;
+        this.motionX *= f;
         this.motionY *= 0.9800000190734863D;
-        this.motionZ *= (double) f;
+        this.motionZ *= f;
 
         if (this.onGround) {
             this.motionY *= -0.8999999761581421D;
@@ -153,7 +153,7 @@ public class EntityXPOrb extends Entity {
         ++this.xpColor;
         ++this.xpOrbAge;
 
-        if (this.xpOrbAge >= 6000) {
+        if (6000 <= xpOrbAge) {
             this.setDead();
         }
     }
@@ -183,7 +183,7 @@ public class EntityXPOrb extends Entity {
             this.setBeenAttacked();
             this.xpOrbHealth = (int) ((float) this.xpOrbHealth - amount);
 
-            if (this.xpOrbHealth <= 0) {
+            if (0 >= xpOrbHealth) {
                 this.setDead();
             }
 
@@ -195,7 +195,7 @@ public class EntityXPOrb extends Entity {
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
     public void writeEntityToNBT(NBTTagCompound tagCompound) {
-        tagCompound.setShort("Health", (short) ((byte) this.xpOrbHealth));
+        tagCompound.setShort("Health", (byte) this.xpOrbHealth);
         tagCompound.setShort("Age", (short) this.xpOrbAge);
         tagCompound.setShort("Value", (short) this.xpValue);
     }
@@ -214,7 +214,7 @@ public class EntityXPOrb extends Entity {
      */
     public void onCollideWithPlayer(EntityPlayer entityIn) {
         if (!this.worldObj.isRemote) {
-            if (this.delayBeforeCanPickup == 0 && entityIn.xpCooldown == 0) {
+            if (0 == delayBeforeCanPickup && 0 == entityIn.xpCooldown) {
                 entityIn.xpCooldown = 2;
                 this.worldObj.playSoundAtEntity(entityIn, "random.orb", 0.1F, 0.5F * ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.8F));
                 entityIn.onItemPickup(this, 1);
@@ -236,14 +236,14 @@ public class EntityXPOrb extends Entity {
      * what texture to use.
      */
     public int getTextureByXP() {
-        return this.xpValue >= 2477 ? 10 : (this.xpValue >= 1237 ? 9 : (this.xpValue >= 617 ? 8 : (this.xpValue >= 307 ? 7 : (this.xpValue >= 149 ? 6 : (this.xpValue >= 73 ? 5 : (this.xpValue >= 37 ? 4 : (this.xpValue >= 17 ? 3 : (this.xpValue >= 7 ? 2 : (this.xpValue >= 3 ? 1 : 0)))))))));
+        return 2477 <= xpValue ? 10 : (1237 <= xpValue ? 9 : (617 <= xpValue ? 8 : (307 <= xpValue ? 7 : (149 <= xpValue ? 6 : (73 <= xpValue ? 5 : (37 <= xpValue ? 4 : (17 <= xpValue ? 3 : (7 <= xpValue ? 2 : (3 <= xpValue ? 1 : 0)))))))));
     }
 
     /**
      * Get a fragment of the maximum experience points value for the supplied value of experience points value.
      */
     public static int getXPSplit(int expValue) {
-        return expValue >= 2477 ? 2477 : (expValue >= 1237 ? 1237 : (expValue >= 617 ? 617 : (expValue >= 307 ? 307 : (expValue >= 149 ? 149 : (expValue >= 73 ? 73 : (expValue >= 37 ? 37 : (expValue >= 17 ? 17 : (expValue >= 7 ? 7 : (expValue >= 3 ? 3 : 1)))))))));
+        return 2477 <= expValue ? 2477 : (1237 <= expValue ? 1237 : (617 <= expValue ? 617 : (307 <= expValue ? 307 : (149 <= expValue ? 149 : (73 <= expValue ? 73 : (37 <= expValue ? 37 : (17 <= expValue ? 17 : (7 <= expValue ? 7 : (3 <= expValue ? 3 : 1)))))))));
     }
 
     /**

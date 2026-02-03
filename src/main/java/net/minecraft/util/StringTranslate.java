@@ -3,14 +3,13 @@ package net.minecraft.util;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
 
 import java.io.InputStream;
 import java.util.IllegalFormatException;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
 
 public class StringTranslate {
     /**
@@ -26,8 +25,8 @@ public class StringTranslate {
     /**
      * Is the private singleton instance of StringTranslate.
      */
-    private static StringTranslate instance = new StringTranslate();
-    private final Map<String, String> languageList = Maps.<String, String>newHashMap();
+    private static final StringTranslate instance = new StringTranslate();
+    private final Map<String, String> languageList = Maps.newHashMap();
 
     /**
      * The time, in milliseconds since epoch, that this instance was last updated
@@ -39,10 +38,10 @@ public class StringTranslate {
             InputStream inputstream = StringTranslate.class.getResourceAsStream("/assets/minecraft/lang/en_US.lang");
 
             for (String s : IOUtils.readLines(inputstream, Charsets.UTF_8)) {
-                if (!s.isEmpty() && s.charAt(0) != 35) {
-                    String[] astring = (String[]) Iterables.toArray(equalSignSplitter.split(s), String.class);
+                if (!s.isEmpty() && 35 != s.charAt(0)) {
+                    String[] astring = Iterables.toArray(equalSignSplitter.split(s), String.class);
 
-                    if (astring != null && astring.length == 2) {
+                    if (null != astring && 2 == astring.length) {
                         String s1 = astring[0];
                         String s2 = numericVariablePattern.matcher(astring[1]).replaceAll("%$1s");
                         this.languageList.put(s1, s2);
@@ -52,7 +51,6 @@ public class StringTranslate {
 
             this.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
         } catch (RuntimeException var7) {
-            ;
         }
     }
 
@@ -96,8 +94,8 @@ public class StringTranslate {
      * Tries to look up a translation for the given key; spits back the key if no result was found.
      */
     private String tryTranslateKey(String key) {
-        String s = (String) this.languageList.get(key);
-        return s == null ? key : s;
+        String s = this.languageList.get(key);
+        return null == s ? key : s;
     }
 
     /**

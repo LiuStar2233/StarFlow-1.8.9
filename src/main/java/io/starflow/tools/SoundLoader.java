@@ -38,7 +38,7 @@ public class SoundLoader {
         }
 
         public void free() {
-            if (pcmData != null) {
+            if (null != this.pcmData) {
                 MemoryUtil.memFree(pcmData);
             }
         }
@@ -52,11 +52,11 @@ public class SoundLoader {
         fileBuffer.put(bytes).flip();
 
         try {
-            if (fileBuffer.remaining() >= 4) {
+            if (4 <= fileBuffer.remaining()) {
                 int magic = fileBuffer.getInt(0);
-                if (magic == 0x4F676753) {
+                if (0x4F676753 == magic) {
                     return decodeOgg(fileBuffer);
-                } else if (magic == 0x52494646) {
+                } else if (0x52494646 == magic) {
                     return decodeWav(fileBuffer);
                 }
             }
@@ -79,18 +79,18 @@ public class SoundLoader {
             IntBuffer sampleRate = stack.mallocInt(1);
 
             ShortBuffer rawAudio = STBVorbis.stb_vorbis_decode_memory(encodedBuffer, channels, sampleRate);
-            if (rawAudio == null) {
+            if (null == rawAudio) {
                 return null;
             }
 
             int channelCount = channels.get(0);
 
-            if (channelCount > 2) {
+            if (2 < channelCount) {
                 logger.warn("不支持多声道音频 ({} channels)，目前仅支持单声道或双声道。", channelCount);
                 return null;
             }
 
-            int format = (channelCount == 1) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
+            int format = (1 == channelCount) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
 
             int byteSize = rawAudio.remaining() * 2;
             ByteBuffer pcmBuffer = MemoryUtil.memAlloc(byteSize);
@@ -102,29 +102,29 @@ public class SoundLoader {
     }
 
     private static AudioData decodeWav(ByteBuffer buffer) {
-        if (Integer.reverseBytes(buffer.getInt()) != 0x52494646) return null;
+        if (0x52494646 != Integer.reverseBytes(buffer.getInt())) return null;
         buffer.getInt();
-        if (Integer.reverseBytes(buffer.getInt()) != 0x57415645) return null;
+        if (0x57415645 != Integer.reverseBytes(buffer.getInt())) return null;
 
         int format = -1;
         int sampleRate = -1;
         ByteBuffer pcmData = null;
 
         while (buffer.hasRemaining()) {
-            if (buffer.remaining() < 8) break;
+            if (8 > buffer.remaining()) break;
 
             int chunkId = Integer.reverseBytes(buffer.getInt());
             int chunkSize = Integer.reverseBytes(buffer.getInt());
 
             int nextPosition = buffer.position() + chunkSize;
-            if (nextPosition > buffer.limit() || nextPosition < 0) {
+            if (nextPosition > buffer.limit() || 0 > nextPosition) {
                 logger.error("WAV 数据损坏或恶意 Chunk: pos={} + size={} > limit={}",
                         buffer.position(), chunkSize, buffer.limit());
-                if (pcmData != null) MemoryUtil.memFree(pcmData);
+                if (null != pcmData) MemoryUtil.memFree(pcmData);
                 return null;
             }
 
-            if (chunkId == 0x666d7420) {
+            if (0x666d7420 == chunkId) {
                 short audioFormat = Short.reverseBytes(buffer.getShort());
                 short numChannels = Short.reverseBytes(buffer.getShort());
                 sampleRate = Integer.reverseBytes(buffer.getInt());
@@ -132,16 +132,16 @@ public class SoundLoader {
                 buffer.getShort();
                 short bitsPerSample = Short.reverseBytes(buffer.getShort());
 
-                if (audioFormat == 1) {
-                    if (numChannels == 1) {
-                        format = (bitsPerSample == 8) ? AL_FORMAT_MONO8 : AL_FORMAT_MONO16;
-                    } else if (numChannels == 2) {
-                        format = (bitsPerSample == 8) ? AL_FORMAT_STEREO8 : AL_FORMAT_STEREO16;
+                if (1 == audioFormat) {
+                    if (1 == numChannels) {
+                        format = (8 == bitsPerSample) ? AL_FORMAT_MONO8 : AL_FORMAT_MONO16;
+                    } else if (2 == numChannels) {
+                        format = (8 == bitsPerSample) ? AL_FORMAT_STEREO8 : AL_FORMAT_STEREO16;
                     }
                 }
 
                 buffer.position(nextPosition);
-            } else if (chunkId == 0x64617461) {
+            } else if (0x64617461 == chunkId) {
                 pcmData = MemoryUtil.memAlloc(chunkSize);
                 int oldLimit = buffer.limit();
                 buffer.limit(nextPosition);
@@ -154,8 +154,8 @@ public class SoundLoader {
             }
         }
 
-        if (pcmData == null || format == -1) {
-            if (pcmData != null) MemoryUtil.memFree(pcmData);
+        if (null == pcmData || -1 == format) {
+            if (null != pcmData) MemoryUtil.memFree(pcmData);
             return null;
         }
 

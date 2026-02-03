@@ -3,7 +3,6 @@ package net.minecraft.client.network;
 import com.google.common.base.MoreObjects;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.SkinManager;
@@ -24,7 +23,7 @@ public class NetworkPlayerInfo {
      * Player response time to server in milliseconds
      */
     private int responseTime;
-    private boolean playerTexturesLoaded = false;
+    private boolean playerTexturesLoaded;
     private ResourceLocation locationSkin;
     private ResourceLocation locationCape;
     private String skinType;
@@ -33,11 +32,11 @@ public class NetworkPlayerInfo {
      * When this is non-null, it is displayed instead of the player's real name
      */
     private IChatComponent displayName;
-    private int field_178873_i = 0;
-    private int field_178870_j = 0;
-    private long field_178871_k = 0L;
-    private long field_178868_l = 0L;
-    private long field_178869_m = 0L;
+    private int field_178873_i;
+    private int field_178870_j;
+    private long field_178871_k;
+    private long field_178868_l;
+    private long field_178869_m;
 
     public NetworkPlayerInfo(GameProfile p_i46294_1_) {
         this.gameProfile = p_i46294_1_;
@@ -74,24 +73,24 @@ public class NetworkPlayerInfo {
     }
 
     public boolean hasLocationSkin() {
-        return this.locationSkin != null;
+        return null != locationSkin;
     }
 
     public String getSkinType() {
-        return this.skinType == null ? DefaultPlayerSkin.getSkinType(this.gameProfile.getId()) : this.skinType;
+        return null == skinType ? DefaultPlayerSkin.getSkinType(this.gameProfile.getId()) : this.skinType;
     }
 
     public ResourceLocation getLocationSkin() {
-        if (this.locationSkin == null) {
+        if (null == locationSkin) {
             this.loadPlayerTextures();
         }
 
-        // FUCKING CHANGE
-        return (ResourceLocation) MoreObjects.firstNonNull(this.locationSkin, DefaultPlayerSkin.getDefaultSkin(this.gameProfile.getId()));
+        // STARFLOW-CHANGE
+        return MoreObjects.firstNonNull(this.locationSkin, DefaultPlayerSkin.getDefaultSkin(this.gameProfile.getId()));
     }
 
     public ResourceLocation getLocationCape() {
-        if (this.locationCape == null) {
+        if (null == locationCape) {
             this.loadPlayerTextures();
         }
 
@@ -107,13 +106,13 @@ public class NetworkPlayerInfo {
             if (!this.playerTexturesLoaded) {
                 this.playerTexturesLoaded = true;
                 Minecraft.getMinecraft().getSkinManager().loadProfileTextures(this.gameProfile, new SkinManager.SkinAvailableCallback() {
-                    public void skinAvailable(Type p_180521_1_, ResourceLocation location, MinecraftProfileTexture profileTexture) {
+                    public void skinAvailable(MinecraftProfileTexture.Type p_180521_1_, ResourceLocation location, MinecraftProfileTexture profileTexture) {
                         switch (p_180521_1_) {
                             case SKIN:
                                 NetworkPlayerInfo.this.locationSkin = location;
                                 NetworkPlayerInfo.this.skinType = profileTexture.getMetadata("model");
 
-                                if (NetworkPlayerInfo.this.skinType == null) {
+                                if (null == skinType) {
                                     NetworkPlayerInfo.this.skinType = "default";
                                 }
 

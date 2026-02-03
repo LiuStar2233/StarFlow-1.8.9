@@ -20,14 +20,14 @@ public abstract class PropertyHelper<T extends Comparable<T>> implements IProper
     }
 
     public String toString() {
-        // FUCKING CHANGE
+        // STARFLOW-CHANGE
         return MoreObjects.toStringHelper(this).add("name", this.name).add("clazz", this.valueClass).add("values", this.getAllowedValues()).toString();
     }
 
     public boolean equals(Object p_equals_1_) {
         if (this == p_equals_1_) {
             return true;
-        } else if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass()) {
+        } else if (null != p_equals_1_ && this.getClass() == p_equals_1_.getClass()) {
             PropertyHelper propertyhelper = (PropertyHelper) p_equals_1_;
             return this.valueClass.equals(propertyhelper.valueClass) && this.name.equals(propertyhelper.name);
         } else {

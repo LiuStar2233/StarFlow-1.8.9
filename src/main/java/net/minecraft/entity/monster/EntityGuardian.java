@@ -5,14 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.EntityLookHelper;
-import net.minecraft.entity.ai.EntityMoveHelper;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -27,13 +20,7 @@ import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateSwimmer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
-import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.WeightedRandomFishable;
+import net.minecraft.util.*;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
@@ -46,7 +33,7 @@ public class EntityGuardian extends EntityMob {
     private EntityLivingBase targetedEntity;
     private int field_175479_bo;
     private boolean field_175480_bp;
-    private EntityAIWander wander;
+    private final EntityAIWander wander;
 
     public EntityGuardian(World worldIn) {
         super(worldIn);
@@ -107,7 +94,7 @@ public class EntityGuardian extends EntityMob {
      * Returns true if given flag is set
      */
     private boolean isSyncedFlagSet(int flagId) {
-        return (this.dataWatcher.getWatchableObjectInt(16) & flagId) != 0;
+        return 0 != (dataWatcher.getWatchableObjectInt(16) & flagId);
     }
 
     /**
@@ -165,14 +152,14 @@ public class EntityGuardian extends EntityMob {
     }
 
     public boolean hasTargetedEntity() {
-        return this.dataWatcher.getWatchableObjectInt(17) != 0;
+        return 0 != dataWatcher.getWatchableObjectInt(17);
     }
 
     public EntityLivingBase getTargetedEntity() {
         if (!this.hasTargetedEntity()) {
             return null;
         } else if (this.worldObj.isRemote) {
-            if (this.targetedEntity != null) {
+            if (null != targetedEntity) {
                 return this.targetedEntity;
             } else {
                 Entity entity = this.worldObj.getEntityByID(this.dataWatcher.getWatchableObjectInt(17));
@@ -192,11 +179,11 @@ public class EntityGuardian extends EntityMob {
     public void onDataWatcherUpdate(int dataID) {
         super.onDataWatcherUpdate(dataID);
 
-        if (dataID == 16) {
-            if (this.isElder() && this.width < 1.0F) {
+        if (16 == dataID) {
+            if (this.isElder() && 1.0F > width) {
                 this.setSize(1.9975F, 1.9975F);
             }
-        } else if (dataID == 17) {
+        } else if (17 == dataID) {
             this.field_175479_bo = 0;
             this.targetedEntity = null;
         }
@@ -257,13 +244,13 @@ public class EntityGuardian extends EntityMob {
             if (!this.isInWater()) {
                 this.field_175483_bk = 2.0F;
 
-                if (this.motionY > 0.0D && this.field_175480_bp && !this.isSilent()) {
+                if (0.0D < motionY && this.field_175480_bp && !this.isSilent()) {
                     this.worldObj.playSound(this.posX, this.posY, this.posZ, "mob.guardian.flop", 1.0F, 1.0F, false);
                 }
 
-                this.field_175480_bp = this.motionY < 0.0D && this.worldObj.isBlockNormalCube((new BlockPos(this)).down(), false);
+                this.field_175480_bp = 0.0D > motionY && this.worldObj.isBlockNormalCube((new BlockPos(this)).down(), false);
             } else if (this.func_175472_n()) {
-                if (this.field_175483_bk < 0.5F) {
+                if (0.5F > field_175483_bk) {
                     this.field_175483_bk = 4.0F;
                 } else {
                     this.field_175483_bk += (0.5F - this.field_175483_bk) * 0.1F;
@@ -286,8 +273,8 @@ public class EntityGuardian extends EntityMob {
             if (this.func_175472_n() && this.isInWater()) {
                 Vec3 vec3 = this.getLook(0.0F);
 
-                for (int i = 0; i < 2; ++i) {
-                    this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width - vec3.xCoord * 1.5D, this.posY + this.rand.nextDouble() * (double) this.height - vec3.yCoord * 1.5D, this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width - vec3.zCoord * 1.5D, 0.0D, 0.0D, 0.0D, new int[0]);
+                for (int i = 0; 2 > i; ++i) {
+                    this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width - vec3.xCoord * 1.5D, this.posY + this.rand.nextDouble() * (double) this.height - vec3.yCoord * 1.5D, this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width - vec3.zCoord * 1.5D, 0.0D, 0.0D, 0.0D);
                 }
             }
 
@@ -298,10 +285,10 @@ public class EntityGuardian extends EntityMob {
 
                 EntityLivingBase entitylivingbase = this.getTargetedEntity();
 
-                if (entitylivingbase != null) {
+                if (null != entitylivingbase) {
                     this.getLookHelper().setLookPositionWithEntity(entitylivingbase, 90.0F, 90.0F);
                     this.getLookHelper().onUpdateLook();
-                    double d5 = (double) this.func_175477_p(0.0F);
+                    double d5 = this.func_175477_p(0.0F);
                     double d0 = entitylivingbase.posX - this.posX;
                     double d1 = entitylivingbase.posY + (double) (entitylivingbase.height * 0.5F) - (this.posY + (double) this.getEyeHeight());
                     double d2 = entitylivingbase.posZ - this.posZ;
@@ -313,7 +300,7 @@ public class EntityGuardian extends EntityMob {
 
                     while (d4 < d3) {
                         d4 += 1.8D - d5 + this.rand.nextDouble() * (1.7D - d5);
-                        this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + d0 * d4, this.posY + d1 * d4 + (double) this.getEyeHeight(), this.posZ + d2 * d4, 0.0D, 0.0D, 0.0D, new int[0]);
+                        this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX + d0 * d4, this.posY + d1 * d4 + (double) this.getEyeHeight(), this.posZ + d2 * d4, 0.0D, 0.0D, 0.0D);
                     }
                 }
             }
@@ -323,8 +310,8 @@ public class EntityGuardian extends EntityMob {
             this.setAir(300);
         } else if (this.onGround) {
             this.motionY += 0.5D;
-            this.motionX += (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 0.4F);
-            this.motionZ += (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 0.4F);
+            this.motionX += (this.rand.nextFloat() * 2.0F - 1.0F) * 0.4F;
+            this.motionZ += (this.rand.nextFloat() * 2.0F - 1.0F) * 0.4F;
             this.rotationYaw = this.rand.nextFloat() * 360.0F;
             this.onGround = false;
             this.isAirBorne = true;
@@ -353,20 +340,20 @@ public class EntityGuardian extends EntityMob {
         super.updateAITasks();
 
         if (this.isElder()) {
-            int i = 1200;
-            int j = 1200;
-            int k = 6000;
-            int l = 2;
+            final int i = 1200;
+            final int j = 1200;
+            final int k = 6000;
+            final int l = 2;
 
-            if ((this.ticksExisted + this.getEntityId()) % 1200 == 0) {
+            if (0 == (ticksExisted + getEntityId()) % 1200) {
                 Potion potion = Potion.digSlowdown;
 
                 for (EntityPlayerMP entityplayermp : this.worldObj.getPlayers(EntityPlayerMP.class, new Predicate<EntityPlayerMP>() {
                     public boolean apply(EntityPlayerMP p_apply_1_) {
-                        return EntityGuardian.this.getDistanceSqToEntity(p_apply_1_) < 2500.0D && p_apply_1_.theItemInWorldManager.survivalOrAdventure();
+                        return 2500.0D > getDistanceSqToEntity(p_apply_1_) && p_apply_1_.theItemInWorldManager.survivalOrAdventure();
                     }
                 })) {
-                    if (!entityplayermp.isPotionActive(potion) || entityplayermp.getActivePotionEffect(potion).getAmplifier() < 2 || entityplayermp.getActivePotionEffect(potion).getDuration() < 1200) {
+                    if (!entityplayermp.isPotionActive(potion) || 2 > entityplayermp.getActivePotionEffect(potion).getAmplifier() || 1200 > entityplayermp.getActivePotionEffect(potion).getDuration()) {
                         entityplayermp.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(10, 0.0F));
                         entityplayermp.addPotionEffect(new PotionEffect(potion.id, 6000, 2));
                     }
@@ -389,13 +376,13 @@ public class EntityGuardian extends EntityMob {
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
         int i = this.rand.nextInt(3) + this.rand.nextInt(lootingModifier + 1);
 
-        if (i > 0) {
+        if (0 < i) {
             this.entityDropItem(new ItemStack(Items.prismarine_shard, i, 0), 1.0F);
         }
 
-        if (this.rand.nextInt(3 + lootingModifier) > 1) {
+        if (1 < rand.nextInt(3 + lootingModifier)) {
             this.entityDropItem(new ItemStack(Items.fish, 1, ItemFishFood.FishType.COD.getMetadata()), 1.0F);
-        } else if (this.rand.nextInt(3 + lootingModifier) > 1) {
+        } else if (1 < rand.nextInt(3 + lootingModifier)) {
             this.entityDropItem(new ItemStack(Items.prismarine_crystals, 1, 0), 1.0F);
         }
 
@@ -408,7 +395,7 @@ public class EntityGuardian extends EntityMob {
      * Causes this Entity to drop a random item.
      */
     protected void addRandomDrop() {
-        ItemStack itemstack = ((WeightedRandomFishable) WeightedRandom.getRandomItem(this.rand, EntityFishHook.func_174855_j())).getItemStack(this.rand);
+        ItemStack itemstack = WeightedRandom.getRandomItem(this.rand, EntityFishHook.func_174855_j()).getItemStack(this.rand);
         this.entityDropItem(itemstack, 1.0F);
     }
 
@@ -430,7 +417,7 @@ public class EntityGuardian extends EntityMob {
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
     public boolean getCanSpawnHere() {
-        return (this.rand.nextInt(20) == 0 || !this.worldObj.canBlockSeeSky(new BlockPos(this))) && super.getCanSpawnHere();
+        return (0 == rand.nextInt(20) || !this.worldObj.canBlockSeeSky(new BlockPos(this))) && super.getCanSpawnHere();
     }
 
     /**
@@ -470,7 +457,7 @@ public class EntityGuardian extends EntityMob {
                 this.motionY *= 0.8999999761581421D;
                 this.motionZ *= 0.8999999761581421D;
 
-                if (!this.func_175472_n() && this.getAttackTarget() == null) {
+                if (!this.func_175472_n() && null == getAttackTarget()) {
                     this.motionY -= 0.005D;
                 }
             } else {
@@ -482,7 +469,7 @@ public class EntityGuardian extends EntityMob {
     }
 
     static class AIGuardianAttack extends EntityAIBase {
-        private EntityGuardian theEntity;
+        private final EntityGuardian theEntity;
         private int tickCounter;
 
         public AIGuardianAttack(EntityGuardian guardian) {
@@ -492,11 +479,11 @@ public class EntityGuardian extends EntityMob {
 
         public boolean shouldExecute() {
             EntityLivingBase entitylivingbase = this.theEntity.getAttackTarget();
-            return entitylivingbase != null && entitylivingbase.isEntityAlive();
+            return null != entitylivingbase && entitylivingbase.isEntityAlive();
         }
 
         public boolean continueExecuting() {
-            return super.continueExecuting() && (this.theEntity.isElder() || this.theEntity.getDistanceSqToEntity(this.theEntity.getAttackTarget()) > 9.0D);
+            return super.continueExecuting() && (this.theEntity.isElder() || 9.0D < theEntity.getDistanceSqToEntity(theEntity.getAttackTarget()));
         }
 
         public void startExecuting() {
@@ -508,7 +495,7 @@ public class EntityGuardian extends EntityMob {
 
         public void resetTask() {
             this.theEntity.setTargetedEntity(0);
-            this.theEntity.setAttackTarget((EntityLivingBase) null);
+            this.theEntity.setAttackTarget(null);
             this.theEntity.wander.makeUpdate();
         }
 
@@ -518,17 +505,17 @@ public class EntityGuardian extends EntityMob {
             this.theEntity.getLookHelper().setLookPositionWithEntity(entitylivingbase, 90.0F, 90.0F);
 
             if (!this.theEntity.canEntityBeSeen(entitylivingbase)) {
-                this.theEntity.setAttackTarget((EntityLivingBase) null);
+                this.theEntity.setAttackTarget(null);
             } else {
                 ++this.tickCounter;
 
-                if (this.tickCounter == 0) {
+                if (0 == tickCounter) {
                     this.theEntity.setTargetedEntity(this.theEntity.getAttackTarget().getEntityId());
                     this.theEntity.worldObj.setEntityState(this.theEntity, (byte) 21);
                 } else if (this.tickCounter >= this.theEntity.func_175464_ck()) {
                     float f = 1.0F;
 
-                    if (this.theEntity.worldObj.getDifficulty() == EnumDifficulty.HARD) {
+                    if (EnumDifficulty.HARD == theEntity.worldObj.getDifficulty()) {
                         f += 2.0F;
                     }
 
@@ -538,9 +525,8 @@ public class EntityGuardian extends EntityMob {
 
                     entitylivingbase.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this.theEntity, this.theEntity), f);
                     entitylivingbase.attackEntityFrom(DamageSource.causeMobDamage(this.theEntity), (float) this.theEntity.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue());
-                    this.theEntity.setAttackTarget((EntityLivingBase) null);
-                } else if (this.tickCounter >= 60 && this.tickCounter % 20 == 0) {
-                    ;
+                    this.theEntity.setAttackTarget(null);
+                } else if (60 <= tickCounter && 0 == tickCounter % 20) {
                 }
 
                 super.updateTask();
@@ -549,7 +535,7 @@ public class EntityGuardian extends EntityMob {
     }
 
     static class GuardianMoveHelper extends EntityMoveHelper {
-        private EntityGuardian entityGuardian;
+        private final EntityGuardian entityGuardian;
 
         public GuardianMoveHelper(EntityGuardian guardian) {
             super(guardian);
@@ -562,7 +548,7 @@ public class EntityGuardian extends EntityMob {
                 double d1 = this.posY - this.entityGuardian.posY;
                 double d2 = this.posZ - this.entityGuardian.posZ;
                 double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-                d3 = (double) MathHelper.sqrt_double(d3);
+                d3 = MathHelper.sqrt_double(d3);
                 d1 = d1 / d3;
                 float f = (float) (MathHelper.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
                 this.entityGuardian.rotationYaw = this.limitAngle(this.entityGuardian.rotationYaw, f, 30.0F);
@@ -570,8 +556,8 @@ public class EntityGuardian extends EntityMob {
                 float f1 = (float) (this.speed * this.entityGuardian.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
                 this.entityGuardian.setAIMoveSpeed(this.entityGuardian.getAIMoveSpeed() + (f1 - this.entityGuardian.getAIMoveSpeed()) * 0.125F);
                 double d4 = Math.sin((double) (this.entityGuardian.ticksExisted + this.entityGuardian.getEntityId()) * 0.5D) * 0.05D;
-                double d5 = Math.cos((double) (this.entityGuardian.rotationYaw * (float) Math.PI / 180.0F));
-                double d6 = Math.sin((double) (this.entityGuardian.rotationYaw * (float) Math.PI / 180.0F));
+                double d5 = Math.cos(this.entityGuardian.rotationYaw * (float) Math.PI / 180.0F);
+                double d6 = Math.sin(this.entityGuardian.rotationYaw * (float) Math.PI / 180.0F);
                 this.entityGuardian.motionX += d4 * d5;
                 this.entityGuardian.motionZ += d4 * d6;
                 d4 = Math.sin((double) (this.entityGuardian.ticksExisted + this.entityGuardian.getEntityId()) * 0.75D) * 0.05D;
@@ -579,7 +565,7 @@ public class EntityGuardian extends EntityMob {
                 this.entityGuardian.motionY += (double) this.entityGuardian.getAIMoveSpeed() * d1 * 0.1D;
                 EntityLookHelper entitylookhelper = this.entityGuardian.getLookHelper();
                 double d7 = this.entityGuardian.posX + d0 / d3 * 2.0D;
-                double d8 = (double) this.entityGuardian.getEyeHeight() + this.entityGuardian.posY + d1 / d3 * 1.0D;
+                double d8 = (double) this.entityGuardian.getEyeHeight() + this.entityGuardian.posY + d1 / d3;
                 double d9 = this.entityGuardian.posZ + d2 / d3 * 2.0D;
                 double d10 = entitylookhelper.getLookPosX();
                 double d11 = entitylookhelper.getLookPosY();
@@ -601,14 +587,14 @@ public class EntityGuardian extends EntityMob {
     }
 
     static class GuardianTargetSelector implements Predicate<EntityLivingBase> {
-        private EntityGuardian parentEntity;
+        private final EntityGuardian parentEntity;
 
         public GuardianTargetSelector(EntityGuardian guardian) {
             this.parentEntity = guardian;
         }
 
         public boolean apply(EntityLivingBase p_apply_1_) {
-            return (p_apply_1_ instanceof EntityPlayer || p_apply_1_ instanceof EntitySquid) && p_apply_1_.getDistanceSqToEntity(this.parentEntity) > 9.0D;
+            return (p_apply_1_ instanceof EntityPlayer || p_apply_1_ instanceof EntitySquid) && 9.0D < p_apply_1_.getDistanceSqToEntity(parentEntity);
         }
     }
 }

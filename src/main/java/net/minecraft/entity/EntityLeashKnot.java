@@ -18,9 +18,9 @@ public class EntityLeashKnot extends EntityHanging {
     public EntityLeashKnot(World worldIn, BlockPos hangingPositionIn) {
         super(worldIn, hangingPositionIn);
         this.setPosition((double) hangingPositionIn.getX() + 0.5D, (double) hangingPositionIn.getY() + 0.5D, (double) hangingPositionIn.getZ() + 0.5D);
-        float f = 0.125F;
-        float f1 = 0.1875F;
-        float f2 = 0.25F;
+        final float f = 0.125F;
+        final float f1 = 0.1875F;
+        final float f2 = 0.25F;
         this.setEntityBoundingBox(new AxisAlignedBB(this.posX - 0.1875D, this.posY - 0.25D + 0.125D, this.posZ - 0.1875D, this.posX + 0.1875D, this.posY + 0.25D + 0.125D, this.posZ + 0.1875D));
     }
 
@@ -51,7 +51,7 @@ public class EntityLeashKnot extends EntityHanging {
      * length * 64 * renderDistanceWeight Args: distance
      */
     public boolean isInRangeToRenderDist(double distance) {
-        return distance < 1024.0D;
+        return 1024.0D > distance;
     }
 
     /**
@@ -88,8 +88,8 @@ public class EntityLeashKnot extends EntityHanging {
         ItemStack itemstack = playerIn.getHeldItem();
         boolean flag = false;
 
-        if (itemstack != null && itemstack.getItem() == Items.lead && !this.worldObj.isRemote) {
-            double d0 = 7.0D;
+        if (null != itemstack && itemstack.getItem() == Items.lead && !this.worldObj.isRemote) {
+            final double d0 = 7.0D;
 
             for (EntityLiving entityliving : this.worldObj.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(this.posX - d0, this.posY - d0, this.posZ - d0, this.posX + d0, this.posY + d0, this.posZ + d0))) {
                 if (entityliving.getLeashed() && entityliving.getLeashedToEntity() == playerIn) {
@@ -103,7 +103,7 @@ public class EntityLeashKnot extends EntityHanging {
             this.setDead();
 
             if (playerIn.capabilities.isCreativeMode) {
-                double d1 = 7.0D;
+                final double d1 = 7.0D;
 
                 for (EntityLiving entityliving1 : this.worldObj.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(this.posX - d1, this.posY - d1, this.posZ - d1, this.posX + d1, this.posY + d1, this.posZ + d1))) {
                     if (entityliving1.getLeashed() && entityliving1.getLeashedToEntity() == this) {

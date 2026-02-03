@@ -1,3 +1,5 @@
+/pyScripts/
+
 # 构建产物
 /build/
 .gradle/
