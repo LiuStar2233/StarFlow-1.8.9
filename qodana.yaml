@@ -1,8 +1,5 @@
 version: "1.0"
 
-report:
-  path: "./build/qodana-report"
-
 # 基础配置
 profile:
   name: qodana.recommended
